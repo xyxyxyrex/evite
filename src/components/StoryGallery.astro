@@ -1,0 +1,1378 @@
+---
+import { Image, getImage } from "astro:assets";
+
+// Import Purple Photos (6 Landscape + 1 Portrait)
+import PL1 from "../assets/PL1.jpg";
+import PL2 from "../assets/PL2.jpg";
+import PL3 from "../assets/PL3.jpg";
+import PL4 from "../assets/PL4.jpg";
+import PL5 from "../assets/PL5.jpg";
+import PL6 from "../assets/PL6.jpg";
+import PP1 from "../assets/PP1.jpg";
+
+// Import Red Photos (2 Landscape + 5 Unique Portrait)
+import RL1 from "../assets/RL1.jpg";
+import RL3 from "../assets/RL3.jpg";
+
+import RP1 from "../assets/RP1.jpg";
+import RP2 from "../assets/RP2.jpg";
+import RP3 from "../assets/RP3.jpg";
+import RP4 from "../assets/RP4.jpg";
+import RP6 from "../assets/RP6.jpg";
+import RP8 from "../assets/RP8.jpg";
+
+// Generate High-Definition WebP Lightbox Images (~120KB)
+const PL1_hd = await getImage({ src: PL1, width: 1400, quality: 84, format: 'webp' });
+const PL2_hd = await getImage({ src: PL2, width: 1400, quality: 84, format: 'webp' });
+const PL3_hd = await getImage({ src: PL3, width: 1400, quality: 84, format: 'webp' });
+const PL4_hd = await getImage({ src: PL4, width: 1400, quality: 84, format: 'webp' });
+const PL5_hd = await getImage({ src: PL5, width: 1400, quality: 84, format: 'webp' });
+const PL6_hd = await getImage({ src: PL6, width: 1400, quality: 84, format: 'webp' });
+const PP1_hd = await getImage({ src: PP1, width: 1400, quality: 84, format: 'webp' });
+
+const RL1_hd = await getImage({ src: RL1, width: 1400, quality: 84, format: 'webp' });
+const RL3_hd = await getImage({ src: RL3, width: 1400, quality: 84, format: 'webp' });
+
+const RP1_hd = await getImage({ src: RP1, width: 1400, quality: 84, format: 'webp' });
+const RP2_hd = await getImage({ src: RP2, width: 1400, quality: 84, format: 'webp' });
+const RP3_hd = await getImage({ src: RP3, width: 1400, quality: 84, format: 'webp' });
+const RP4_hd = await getImage({ src: RP4, width: 1400, quality: 84, format: 'webp' });
+const RP6_hd = await getImage({ src: RP6, width: 1400, quality: 84, format: 'webp' });
+const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'webp' });
+---
+
+<section class="story-gallery-section section-padding" id="photoshoot">
+  <div class="container-custom">
+    <!-- Storybook Introduction Header -->
+    <div class="story-intro-header text-center reveal-on-scroll">
+      <span class="chapter-badge font-serif">✦ CHAPTER XVIII STORYBOOK ✦</span>
+      <h2 class="story-main-title font-cursive text-gold-gradient">
+        "A Tale Written in Stardust"
+      </h2>
+      <p class="story-quote font-serif-sub">
+        <span class="quote-mark">“</span>This night is sparkling, don't you let
+        it go... I'm wonderstruck, blushing all the way home.<span
+          class="quote-mark">”</span
+        >
+      </p>
+    </div>
+
+    <!-- Act I: Speak Now — Lavender Starlight (Purple Era) -->
+    <div class="story-act-block reveal-on-scroll">
+      <div class="act-header text-center">
+        <div class="act-number font-serif">ACT I</div>
+        <h3 class="act-title font-cursive text-purple-gradient">
+          "There I Was in an Enchanted Garden..."
+        </h3>
+        <p class="act-lyric font-serif-sub">
+          <span class="lyric-line"
+            >“Your eyes whispered 'Have we met?' across a crowded room...”</span
+          >
+        </p>
+      </div>
+
+      <!-- Grid for Act I (PL1, PL2, PL3, PL4) -->
+      <div class="story-grid grid-2col">
+        <!-- Photo 1: PL1 -->
+        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL1_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={PL1}
+              alt="Rysha Isabel Trovillas - The First Whispers of Tomorrow"
+              width={960}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                The First Whispers of Tomorrow
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Stepping into an enchanted new chapter
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 2: PL2 -->
+        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL2_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={PL2}
+              alt="Rysha Isabel Trovillas - A Sparkle in the Starlight"
+              width={960}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                A Sparkle in the Starlight
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Guided by dreams and golden wishes
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 3: PL3 -->
+        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL3_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={PL3}
+              alt="Rysha Isabel Trovillas - Wonderstruck Paths"
+              width={960}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Wandering Through Wonderstruck Paths
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Where every memory blooms into grace
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 4: PL4 -->
+        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL4_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={PL4}
+              alt="Rysha Isabel Trovillas - Dancing Toward XVIII"
+              width={960}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Dancing Toward the 18th Chapter
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Enchanted moments frozen in stardust
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STANDALONE HERO BANNER #1: PL5 (Half-Face Smile Portrait) -->
+    <div class="standalone-banner-container reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL5_hd.src}>
+      <div class="banner-aspect-wrapper">
+        <Image
+          src={PL5}
+          alt="Rysha Isabel Trovillas - Wonderstruck Smile Banner"
+          width={1200}
+          quality={86}
+          format="webp"
+          loading="lazy"
+          decoding="async"
+          class="banner-img"
+        />
+        <div class="banner-gradient-overlay"></div>
+        <div class="banner-gold-frame"></div>
+
+        <div class="banner-content-left">
+          <span class="banner-badge font-serif">✦ AN ENCHANTED MILESTONE ✦</span
+          >
+          <h3 class="banner-title font-cursive text-gold-gradient">
+            "This night is sparkling, don't you let it go..."
+          </h3>
+          <p class="banner-desc font-serif-sub">
+            As 18 years of laughter, family, and love align, Isabel steps
+            forward into a world where every dream becomes an extraordinary
+            journey.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STANDALONE SPOTLIGHT #2: PP1 (Serene Eyes-Closed Portrait & Story Feature) -->
+    <div class="spotlight-story-feature story-act-block reveal-on-scroll">
+      <div class="feature-split-layout">
+        <div class="feature-photo-col gallery-lightbox-trigger" data-lightbox-src={PP1_hd.src}>
+          <div
+            class="photo-card purple-card portrait-card feature-portrait-glow"
+          >
+            <div class="photo-aspect-box">
+              <Image
+                src={PP1}
+                alt="Rysha Isabel Trovillas - A Wish Upon a Star"
+                width={720}
+                quality={86}
+                format="webp"
+                loading="lazy"
+                decoding="async"
+                class="story-img"
+              />
+              <div class="photo-vignette"></div>
+              <div class="photo-gold-border"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-text-col glass-card">
+          <div class="crest-monogram-small">
+            <span class="monogram-num font-serif">XVIII</span>
+          </div>
+          <span class="feature-subtag font-serif">DREAMING BEYOND EIGHTEEN</span
+          >
+          <h3 class="feature-title font-cursive text-gold-gradient">
+            "A Quiet Wish Upon a Golden Star"
+          </h3>
+          <p class="feature-quote font-serif-sub">
+            <span class="quote-mark">“</span>Please don't be in love with
+            someone else, please don't have somebody waiting on you...<span
+              class="quote-mark">”</span
+            >
+          </p>
+          <div class="feature-body-text font-sans">
+            <p>
+              In a single peaceful breath between girlhood and womanhood, Isabel
+              reflects on 18 cherished years of love, growth, and warm
+              memories—ready to embrace the unwritten magic of tomorrow.
+            </p>
+          </div>
+          <div class="feature-footer-tag font-serif">
+            ✦ RYSHA ISABEL TROVILLAS • CHAPTER XVIII ✦
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Act II: The Enchanted Transition (Bridge Lyric with PL6 & RL1) -->
+    <div class="story-act-block reveal-on-scroll">
+      <div class="act-header text-center">
+        <div class="act-number font-serif">ACT II</div>
+        <h3 class="act-title font-cursive text-gold-gradient">
+          "My Thoughts Will Echo Your Name..."
+        </h3>
+        <p class="act-lyric font-serif-sub">
+          <span class="lyric-line"
+            >“This is me praying that this was the very first page, not where
+            the storyline ends.”</span
+          >
+        </p>
+      </div>
+
+      <div class="story-grid grid-2col">
+        <!-- Photo 7: PL6 -->
+        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL6_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={PL6}
+              alt="Rysha Isabel Trovillas - Reflections of Eighteen Years"
+              width={960}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Reflections of Eighteen Years
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Looking back with gratitude, stepping forward with grace
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 8: RL1 -->
+        <div class="photo-card red-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RL1_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={RL1}
+              alt="Rysha Isabel Trovillas - The Threshold of Womanhood"
+              width={960}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                The Threshold of Womanhood
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Unfolding the crimson magic of the future
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Act III: Loving Her Was Red — The Crimson Chapter -->
+    <div class="story-act-block reveal-on-scroll">
+      <div class="act-header text-center">
+        <div class="act-number font-serif">ACT III</div>
+        <h3 class="act-title font-cursive text-red-gradient">
+          "Passion, Grace & Crimson Silk..."
+        </h3>
+        <p class="act-lyric font-serif-sub">
+          <span class="lyric-line"
+            >“Like 18 years of memories spinning around... passionate, wild, and
+            bright.”</span
+          >
+        </p>
+      </div>
+
+      <!-- Top Feature Landscape Banner for Act III -->
+      <div class="act-iii-hero-banner reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RL3_hd.src}>
+        <div class="photo-card red-card landscape-card">
+          <div class="photo-aspect-box">
+            <Image
+              src={RL3}
+              alt="Rysha Isabel Trovillas - A Canvas of Endless Possibilities"
+              width={1200}
+              quality={85}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                A Canvas of Endless Possibilities
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Spreading wings toward brand new horizons
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Equal Height Portrait Cards Grid Below -->
+      <div class="story-grid grid-4col act-iii-portraits">
+        <!-- Photo 9: RP1 (Portrait) -->
+        <div class="photo-card red-card portrait-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RP1_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={RP1}
+              alt="Rysha Isabel Trovillas - Bold Dreams & Crimson Horizons"
+              width={720}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Bold Dreams & Crimson Horizons
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                With strength in her heart and passion in her path
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 10: RP2 (Portrait) -->
+        <div class="photo-card red-card portrait-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RP2_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={RP2}
+              alt="Rysha Isabel Trovillas - Crowned in Courage & Grace"
+              width={720}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Crowned in Courage & Grace
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Embracing the beauty of growing wiser every day
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 11: RP3 (Portrait) -->
+        <div class="photo-card red-card portrait-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RP3_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={RP3}
+              alt="Rysha Isabel Trovillas - Blooming into Her Own Light"
+              width={720}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Blooming into Her Own Light
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Where grace and strength blossom as one
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 12: RP4 (Portrait) -->
+        <div class="photo-card red-card portrait-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RP4_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={RP4}
+              alt="Rysha Isabel Trovillas - Radiance of Eighteen Years"
+              width={720}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Radiance of Eighteen Years
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                A heart full of hope for the road ahead
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Act IV: Fairytale Chapter XVIII (Symmetrical 2-Column Finale) -->
+    <div class="story-act-block reveal-on-scroll">
+      <div class="act-header text-center">
+        <div class="act-number font-serif">ACT IV</div>
+        <h3 class="act-title font-cursive text-gold-gradient">
+          "Please Don't Be in Love with Someone Else..."
+        </h3>
+        <p class="act-lyric font-serif-sub">
+          <span class="lyric-line"
+            >“All I know is I was enchanted to meet you... as Isabel steps into
+            her 18th chapter.”</span
+          >
+        </p>
+      </div>
+
+      <!-- Symmetrical 2-Column Grid for Act IV Finale (RP6 & RP8) -->
+      <div class="story-grid grid-2col act-iv-grid">
+        <!-- Photo 13: RP6 -->
+        <div class="photo-card red-card portrait-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RP6_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={RP6}
+              alt="Rysha Isabel Trovillas - Crowned for the Journey Ahead"
+              width={720}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                Crowned for the Journey Ahead
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Stepping into the light of her 18th chapter
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 14: RP8 -->
+        <div class="photo-card red-card portrait-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RP8_hd.src}>
+          <div class="photo-aspect-box">
+            <Image
+              src={RP8}
+              alt="Rysha Isabel Trovillas - The Beginning of Forever"
+              width={720}
+              quality={84}
+              format="webp"
+              loading="lazy"
+              decoding="async"
+              class="story-img"
+            />
+            <div class="photo-vignette"></div>
+            <div class="photo-gold-border"></div>
+            <div class="photo-caption">
+              <h4 class="caption-title font-cursive">
+                The Beginning of Forever
+              </h4>
+              <p class="caption-sub font-serif-sub">
+                Wonderstruck all the way home
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elegant Lightbox Overlay -->
+  <div id="gallery-lightbox" class="lightbox-overlay" aria-hidden="true">
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+    
+    <div class="lightbox-dialog glass-card">
+      <button class="lightbox-close-btn font-serif" id="lightbox-close-btn" aria-label="Close Lightbox">
+        <span>✦ CLOSE ✦</span>
+      </button>
+
+      <div class="lightbox-img-box">
+        <img id="lightbox-main-img" src="" alt="Enchanted Debut Photo" class="lightbox-main-img" />
+        <div class="lightbox-gold-frame"></div>
+      </div>
+
+      <div class="lightbox-caption-area text-center">
+        <h3 id="lightbox-title-text" class="lightbox-title-text font-cursive text-gold-gradient"></h3>
+        <p id="lightbox-sub-text" class="lightbox-sub-text font-serif-sub"></p>
+      </div>
+
+      <button class="lightbox-nav-btn prev-btn" id="lightbox-prev-btn" aria-label="Previous Photo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+
+      <button class="lightbox-nav-btn next-btn" id="lightbox-next-btn" aria-label="Next Photo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  // Intersection Observer & Lightbox Engine
+  document.addEventListener("DOMContentLoaded", () => {
+    // 1. Scroll Reveal Observer
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.12,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const revealElements = document.querySelectorAll(".reveal-on-scroll");
+    revealElements.forEach((el) => observer.observe(el));
+
+    // 2. Lightbox Engine with Mobile Drag Safety & Dynamic SRC Resolution
+    const triggers = Array.from(document.querySelectorAll('.gallery-lightbox-trigger'));
+    const modalEl = document.getElementById('gallery-lightbox') as HTMLElement | null;
+    const backdrop = document.getElementById('lightbox-backdrop');
+    const closeBtn = document.getElementById('lightbox-close-btn');
+    const mainImg = document.getElementById('lightbox-main-img') as HTMLImageElement | null;
+    const titleEl = document.getElementById('lightbox-title-text');
+    const subEl = document.getElementById('lightbox-sub-text');
+    const prevBtn = document.getElementById('lightbox-prev-btn');
+    const nextBtn = document.getElementById('lightbox-next-btn');
+
+    if (!modalEl || !mainImg || triggers.length === 0) return;
+    const modal = modalEl; // Non-null type assertion for closed-over callbacks
+
+    function getTriggerData(el: Element) {
+      const customSrc = el.getAttribute('data-lightbox-src');
+      const img = el.querySelector('img');
+      const title = el.querySelector('.caption-title, .banner-title, .feature-title');
+      const sub = el.querySelector('.caption-sub, .banner-desc, .feature-quote');
+
+      let src = customSrc || '';
+      if (!src && img) {
+        src = img.getAttribute('src') || img.currentSrc || img.src || '';
+        if ((!src || src.includes('data:image')) && img.srcset) {
+          const parts = img.srcset.split(',');
+          const lastPart = parts[parts.length - 1].trim().split(' ')[0];
+          if (lastPart) src = lastPart;
+        }
+      }
+
+      return {
+        src,
+        title: title ? title.textContent?.trim() || '' : 'Isabel | XVIII',
+        sub: sub ? sub.textContent?.trim() || '' : 'Chapter XVIII Debut Celebration'
+      };
+    }
+
+    let currentIndex = 0;
+
+    function openLightbox(index: number) {
+      if (index < 0 || index >= triggers.length) return;
+      currentIndex = index;
+      const data = getTriggerData(triggers[currentIndex]);
+
+      // Move modal to body to break out of any parent CSS transform containers
+      if (modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+      }
+
+      if (mainImg && data.src) {
+        mainImg.style.opacity = '0';
+        mainImg.src = data.src;
+        mainImg.onload = () => {
+          mainImg.style.opacity = '1';
+        };
+        // Fallback opacity if already cached
+        if (mainImg.complete) {
+          mainImg.style.opacity = '1';
+        }
+      }
+
+      if (titleEl) {
+        const formattedTitle = data.title.replace(/XVIII/g, '<span class="font-serif regular-xviii">XVIII</span>');
+        titleEl.innerHTML = formattedTitle;
+      }
+      if (subEl) subEl.textContent = data.sub;
+
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function showNext() {
+      openLightbox((currentIndex + 1) % triggers.length);
+    }
+
+    function showPrev() {
+      openLightbox((currentIndex - 1 + triggers.length) % triggers.length);
+    }
+
+    // Attach Mobile Drag Safe Event Handlers
+    triggers.forEach((trigger, index) => {
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let isTouchDrag = false;
+
+      trigger.addEventListener('touchstart', (e) => {
+        const touch = (e as TouchEvent).touches[0];
+        if (touch) {
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+        }
+        isTouchDrag = false;
+      }, { passive: true });
+
+      trigger.addEventListener('touchmove', (e) => {
+        const touch = (e as TouchEvent).touches[0];
+        if (touch) {
+          const moveX = Math.abs(touch.clientX - touchStartX);
+          const moveY = Math.abs(touch.clientY - touchStartY);
+          if (moveX > 10 || moveY > 10) {
+            isTouchDrag = true;
+          }
+        }
+      }, { passive: true });
+
+      trigger.addEventListener('click', () => {
+        if (!isTouchDrag) {
+          openLightbox(index);
+        }
+      });
+    });
+
+    // Close & Nav Event Listeners
+    closeBtn?.addEventListener('click', closeLightbox);
+    backdrop?.addEventListener('click', closeLightbox);
+    prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+    });
+  });
+</script>
+
+<style>
+  .story-gallery-section {
+    position: relative;
+    z-index: 2;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+  }
+
+  .text-purple-gradient {
+    background: linear-gradient(
+      135deg,
+      #FFFFFF 0%,
+      #F5D77F 25%,
+      #E9D5FF 55%,
+      #D8B4FE 80%,
+      #FFFDF0 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(192, 132, 252, 0.3));
+  }
+
+  .text-red-gradient {
+    background: linear-gradient(
+      135deg,
+      #FFFFFF 0%,
+      #FFF6D5 25%,
+      #FCA5A5 55%,
+      #F87171 80%, #FFE4E6 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(248, 113, 113, 0.3));
+  }
+
+  .story-intro-header {
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+    text-align: center !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chapter-badge {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-300);
+    display: block;
+    margin-bottom: 0.5rem;
+    text-align: center !important;
+  }
+
+  .story-main-title {
+    font-size: 3.25rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-align: center !important;
+  }
+
+  .story-quote {
+    font-size: 1.35rem;
+    color: var(--starlight);
+    max-width: 750px;
+    margin: 0 auto;
+    font-style: italic;
+    text-align: center !important;
+  }
+
+  .quote-mark {
+    color: var(--gold-400);
+    font-size: 1.6rem;
+  }
+
+  /* Story Act Block Styling */
+  .story-act-block {
+    margin-bottom: 4rem;
+    background: rgba(6, 11, 25, 0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+  }
+
+  .act-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .act-number {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-400);
+    margin-bottom: 0.25rem;
+  }
+
+  .act-title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .act-lyric {
+    font-size: 1.15rem;
+    color: var(--starlight-dim);
+    font-style: italic;
+  }
+
+  /* Act III Editorial Structure */
+  .act-iii-hero-banner {
+    margin-bottom: 1.75rem;
+  }
+
+  /* Story Grid Layouts */
+  .story-grid {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .grid-2col {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .grid-4col {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media (min-width: 640px) {
+    .grid-2col {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .grid-4col {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-4col {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Photo Cards Triggering Lightbox */
+  .gallery-lightbox-trigger {
+    cursor: pointer;
+  }
+
+  .photo-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s ease;
+  }
+
+  .photo-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.8),
+      0 0 25px rgba(212, 175, 55, 0.35);
+  }
+
+  .purple-card {
+    border: 1px solid rgba(192, 132, 252, 0.3);
+  }
+
+  .red-card {
+    border: 1px solid rgba(248, 113, 113, 0.3);
+  }
+
+  .photo-aspect-box {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #060b19;
+  }
+
+  .landscape-card .photo-aspect-box {
+    aspect-ratio: 16 / 9;
+  }
+
+  .portrait-card .photo-aspect-box {
+    aspect-ratio: 2 / 3;
+  }
+
+  .story-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .photo-card:hover .story-img {
+    transform: scale(1.06);
+  }
+
+  .photo-vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(3, 6, 17, 0.88) 0%,
+      rgba(3, 6, 17, 0.25) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .photo-gold-border {
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 12px;
+    pointer-events: none;
+    transition: border-color 0.4s ease;
+  }
+
+  .photo-card:hover .photo-gold-border {
+    border-color: rgba(212, 175, 55, 0.7);
+  }
+
+  .photo-caption {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    z-index: 2;
+  }
+
+  .caption-title {
+    font-size: 1.6rem;
+    color: var(--gold-200);
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  }
+
+  .caption-sub {
+    font-size: 0.95rem;
+    color: var(--starlight);
+    opacity: 0.9;
+    font-style: italic;
+  }
+
+  /* Standalone Hero Banner #1 (PL5) */
+  .standalone-banner-container {
+    margin-bottom: 4rem;
+  }
+
+  .banner-aspect-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 380px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--gold-500);
+    box-shadow:
+      0 15px 50px rgba(0, 0, 0, 0.85),
+      0 0 35px rgba(212, 175, 55, 0.25);
+  }
+
+  @media (max-width: 767px) {
+    .banner-aspect-wrapper {
+      aspect-ratio: 4 / 3;
+      min-height: 340px;
+    }
+  }
+
+  .banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 85% 20%;
+    transition: transform 0.8s ease;
+  }
+
+  .banner-aspect-wrapper:hover .banner-img {
+    transform: scale(1.03);
+  }
+
+  .banner-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(6, 11, 25, 0.92) 0%,
+      rgba(6, 11, 25, 0.6) 45%,
+      transparent 100%
+    );
+  }
+
+  @media (max-width: 767px) {
+    .banner-gradient-overlay {
+      background: linear-gradient(
+        to top,
+        rgba(6, 11, 25, 0.95) 0%,
+        rgba(6, 11, 25, 0.65) 60%,
+        transparent 100%
+      );
+    }
+  }
+
+  .banner-gold-frame {
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    border-radius: 16px;
+    pointer-events: none;
+  }
+
+  .banner-content-left {
+    position: absolute;
+    left: 2.5rem;
+    bottom: 2.5rem;
+    max-width: 580px;
+    z-index: 3;
+  }
+
+  @media (max-width: 767px) {
+    .banner-content-left {
+      left: 1.5rem;
+      right: 1.5rem;
+      bottom: 1.5rem;
+    }
+  }
+
+  .banner-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    color: var(--gold-300);
+    background: rgba(11, 19, 43, 0.85);
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    border: 1px solid var(--gold-500);
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
+
+  .banner-title {
+    font-size: 2.75rem;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 767px) {
+    .banner-title {
+      font-size: 2rem;
+    }
+  }
+
+  .banner-desc {
+    font-size: 1.15rem;
+    color: var(--starlight);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* Standalone Spotlight Feature #2 (PP1) */
+  .spotlight-story-feature {
+    margin-bottom: 4rem;
+  }
+
+  .feature-split-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .feature-split-layout {
+      grid-template-columns: 1fr 1.15fr;
+      gap: 3rem;
+    }
+  }
+
+  .feature-photo-col {
+    width: 100%;
+  }
+
+  .feature-portrait-glow {
+    box-shadow:
+      0 15px 45px rgba(0, 0, 0, 0.9),
+      0 0 35px rgba(168, 85, 247, 0.3);
+  }
+
+  .feature-text-col {
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .crest-monogram-small {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--gold-500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 19, 43, 0.8);
+    margin-bottom: 0.75rem;
+  }
+
+  .monogram-num {
+    font-size: 0.9rem;
+    color: var(--gold-300);
+    font-weight: 700;
+  }
+
+  .feature-subtag {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-400);
+    margin-bottom: 0.35rem;
+  }
+
+  .feature-title {
+    font-size: 2.6rem;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .feature-quote {
+    font-size: 1.2rem;
+    color: var(--starlight);
+    font-style: italic;
+    margin-bottom: 1.25rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--gold-400);
+  }
+
+  .feature-body-text {
+    font-size: 1rem;
+    color: var(--starlight-dim);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-footer-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    color: var(--gold-300);
+    opacity: 0.9;
+  }
+
+  /* Elegant Lightbox Modal Styling (Dead-Center Viewport Fixed) */
+  .lightbox-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1.5rem !important;
+    margin: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lightbox-overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 6, 17, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .lightbox-dialog {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.25rem 1.75rem 1.5rem 1.75rem;
+    border: 1px solid var(--gold-500);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(212, 175, 55, 0.3);
+    transform: scale(0.92);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lightbox-overlay.is-open .lightbox-dialog {
+    transform: scale(1);
+  }
+
+  .lightbox-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    z-index: 10;
+    background: rgba(6, 11, 25, 0.85);
+    border: 1px solid var(--gold-500);
+    color: var(--gold-300);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .lightbox-close-btn:hover {
+    background: var(--gold-500);
+    color: #060B19;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+  }
+
+  .lightbox-img-box {
+    position: relative;
+    max-height: 65vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #060b19;
+  }
+
+  .lightbox-main-img {
+    max-width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  }
+
+  .lightbox-gold-frame {
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 10px;
+    pointer-events: none;
+  }
+
+  .lightbox-caption-area {
+    margin-top: 1.25rem;
+    max-width: 700px;
+  }
+
+  .lightbox-title-text {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+
+  .regular-xviii {
+    font-family: var(--font-serif) !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    padding: 0 0.15em;
+  }
+
+  .lightbox-sub-text {
+    font-size: 1.15rem;
+    color: var(--starlight);
+    font-style: italic;
+    opacity: 0.9;
+  }
+
+  /* Nav Buttons */
+  .lightbox-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(6, 11, 25, 0.85);
+    border: 1px solid var(--gold-500);
+    color: var(--gold-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  }
+
+  .lightbox-nav-btn:hover {
+    background: var(--gold-500);
+    color: #060B19;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .prev-btn { left: 1rem; }
+  .next-btn { right: 1rem; }
+
+  @media (max-width: 640px) {
+    .lightbox-dialog {
+      padding: 2.25rem 1rem 1.25rem 1rem;
+    }
+
+    .prev-btn { left: 0.4rem; }
+    .next-btn { right: 0.4rem; }
+
+    .lightbox-nav-btn {
+      width: 38px;
+      height: 38px;
+    }
+
+    .lightbox-title-text {
+      font-size: 1.75rem;
+    }
+
+    .lightbox-sub-text {
+      font-size: 0.95rem;
+    }
+  }
+</style>

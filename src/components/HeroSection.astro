@@ -1,0 +1,1037 @@
+---
+import { Image } from 'astro:assets';
+import landingImg from '../assets/LandingPage.jpg';
+import type { GuestInfo } from '../utils/guests';
+
+export interface Props {
+  guestInfo: GuestInfo;
+  debutanteName?: string;
+  debutDate?: string;
+  venueName?: string;
+}
+
+const {
+  guestInfo,
+  debutanteName = "Rysha Isabel Trovillas"
+} = Astro.props;
+---
+
+<!-- Fixed Fullscreen Splash Screen Overlay (Zero Scroll, Mobile Viewport Optimized) -->
+<div id="splash-screen" class="splash-overlay">
+  
+  <div class="splash-split-container container-custom">
+    
+    <!-- Left Column (Desktop) / Bottom Column (Mobile): Debutante Portrait Photo Frame -->
+    <div class="splash-photo-col glass-card">
+      <div class="photo-frame-wrapper">
+        <Image 
+          src={landingImg} 
+          alt="Rysha Isabel Trovillas 18th Debut" 
+          width={720}
+          quality={82}
+          format="webp"
+          loading="eager"
+          fetchpriority="high"
+          class="splash-portrait-img"
+        />
+        <div class="photo-vignette-overlay"></div>
+        <div class="photo-gold-border"></div>
+        <div class="photo-tag-badge font-serif">✦ Isabel | XVIII ✦</div>
+      </div>
+    </div>
+
+    <!-- Right Column (Desktop) / Top Column (Mobile): Personalized Invitation Details (Ornate Gilded Frame) -->
+    <div class="splash-info-col glass-card ornate-gilded-card">
+      
+      <!-- Inner Gold Border Frame -->
+      <div class="card-gold-border-frame"></div>
+
+      <!-- 4 Corner Pure Diamond Stars -->
+      <div class="corner-star top-left">✦</div>
+      <div class="corner-star top-right">✦</div>
+      <div class="corner-star bottom-left">✦</div>
+      <div class="corner-star bottom-right">✦</div>
+
+      <svg class="corner-filigree top-left-filigree" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 33V10C2 5.57868 5.57868 2 10 2H33" stroke="url(#goldGradFiligree)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      
+      <svg class="corner-filigree top-right-filigree" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M33 33V10C33 5.57868 29.4213 2 25 2H2" stroke="url(#goldGradFiligree)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+
+      <svg class="corner-filigree bottom-left-filigree" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 2V25C2 29.4213 5.57868 33 10 33H33" stroke="url(#goldGradFiligree)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+
+      <svg class="corner-filigree bottom-right-filigree" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M33 2V25C33 29.4213 29.4213 33 25 33H2" stroke="url(#goldGradFiligree)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+
+      <svg style="width:0;height:0;position:absolute;">
+        <defs>
+          <linearGradient id="goldGradFiligree" x1="0" y1="0" x2="35" y2="35" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FBF3CB"/>
+            <stop offset="0.5" stop-color="#D4AF37"/>
+            <stop offset="1" stop-color="#B38E22"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Botanical Top Ornament -->
+      <div class="botanical-top">
+        <svg class="botanical-svg" viewBox="0 0 200 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 30C120 30 140 16 180 16M100 30C80 30 60 16 20 16" stroke="url(#goldGradSplash)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="100" cy="30" r="3.5" fill="url(#goldGradSplash)"/>
+          <circle cx="140" cy="20" r="2" fill="#D4AF37"/>
+          <circle cx="60" cy="20" r="2" fill="#D4AF37"/>
+          <path d="M100 10 L103 18 L112 18 L105 23 L108 32 L100 27 L92 32 L95 23 L88 18 L97 18 Z" fill="url(#goldGradSplash)" opacity="0.9"/>
+          <defs>
+            <linearGradient id="goldGradSplash" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBF3CB"/>
+              <stop offset="0.5" stop-color="#D4AF37"/>
+              <stop offset="1" stop-color="#B38E22"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- 18th Crest Monogram -->
+      <div class="monogram-wrapper animate-float">
+        <div class="crest-ring">
+          <span class="monogram-number font-serif">18</span>
+        </div>
+      </div>
+
+      <!-- Personalized VIP Greeting (Feathered Soft Blur Edge Reveal + Leading Sparkles) -->
+      <div class="greeting-box">
+        <h1 class="guest-greeting text-gold-gradient font-serif">
+          Hi,&nbsp;<span class="guest-sparkle-wrapper inline-reveal-wrapper" id="guest-wrapper">
+            <span class="guest-name-text font-cursive text-gold-gradient inline-reveal-text" id="guest-name-reveal">
+              {guestInfo.rawName}
+            </span>
+            <canvas class="sparkle-leading-canvas" id="guest-sparkle-canvas"></canvas>
+          </span>!
+        </h1>
+      </div>
+
+      <!-- Golden Line Divider Top -->
+      <div class="ornate-line-divider">
+        <span class="divider-line"></span>
+        <span class="divider-diamond font-serif">✦</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <div class="invitation-text-block">
+        <p class="invitation-subtitle font-serif">An 18th Birthday Debut Celebration</p>
+
+        <!-- Debutante Name -->
+        <div class="debutante-title-wrapper">
+          <h2 class="debutante-name font-cursive text-gold-gradient" id="debutante-name-display">
+            {debutanteName}
+          </h2>
+        </div>
+
+        <p class="invitation-lead font-serif-sub">is turning 18 & cordially requests your presence at her debut celebration</p>
+        
+        <div class="cursive-announcement-wrapper">
+          <h3 class="cursive-invitation font-cursive text-gold-gradient">
+            You are invited to my 18th Birthday Debut!
+          </h3>
+        </div>
+
+        <!-- Accept Invitation CTA Button -->
+        <div class="hero-actions">
+          <button 
+            class="btn-gold btn-reveal" 
+            id="accept-invitation-btn"
+            data-guest-name={guestInfo.rawName}
+            data-guest-role={guestInfo.role}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Accept Invitation & Open ✦</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  import confetti from 'canvas-confetti';
+
+  // --- FEATHERED SOFT BLUR EDGE & LEADING SPARKLE REVEAL ENGINE ---
+  function initFeatheredHandwritingSparkleReveal() {
+    const sequences = [
+      {
+        wrapper: document.getElementById('guest-wrapper'),
+        textEl: document.getElementById('guest-name-reveal'),
+        canvas: document.getElementById('guest-sparkle-canvas') as HTMLCanvasElement | null,
+        delay: 350,
+        duration: 1200
+      }
+    ];
+
+    sequences.forEach(({ wrapper, textEl, canvas, delay, duration }) => {
+      if (!wrapper || !textEl || !canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function startSequence() {
+        if (!textEl || !canvas || !ctx || !wrapper) return;
+
+        textEl.style.width = 'auto';
+        textEl.style.opacity = '1';
+        const fullW = Math.ceil(textEl.getBoundingClientRect().width || textEl.scrollWidth);
+        const fullH = Math.ceil(textEl.getBoundingClientRect().height || textEl.scrollHeight);
+
+        // Fallback for mobile if measurement fails
+        if (fullW <= 0) {
+          textEl.style.width = 'auto';
+          textEl.classList.add('is-complete');
+          return;
+        }
+
+        // Size canvas overlay
+        const padX = 30;
+        const padY = 20;
+        canvas.width = (fullW + padX * 2) * dpr;
+        canvas.height = (fullH + padY * 2) * dpr;
+        canvas.style.width = `${fullW + padX * 2}px`;
+        canvas.style.height = `${fullH + padY * 2}px`;
+        canvas.style.left = `-${padX}px`;
+        canvas.style.top = `-${padY}px`;
+        ctx.scale(dpr, dpr);
+
+        textEl.style.width = '0px';
+
+        interface Particle {
+          x: number;
+          y: number;
+          size: number;
+          maxSize: number;
+          alpha: number;
+          life: number;
+          maxLife: number;
+          rot: number;
+          rotSpeed: number;
+          color: string;
+        }
+
+        const particles: Particle[] = [];
+        const colors = ['#FFF6D5', '#F6E597', '#D4AF37', '#FFFFFF', '#EECE5A'];
+
+        function spawnEdgeSparkle(edgeX: number) {
+          const p: Particle = {
+            x: edgeX + padX + (Math.random() * 16 - 8),
+            y: padY + (fullH * 0.4) + (Math.random() * (fullH * 0.5) - (fullH * 0.25)),
+            size: 0,
+            maxSize: Math.random() * 4.5 + 2.5,
+            alpha: 0,
+            life: 0,
+            maxLife: Math.floor(Math.random() * 18 + 10),
+            rot: Math.random() * Math.PI,
+            rotSpeed: (Math.random() - 0.5) * 0.08,
+            color: colors[Math.floor(Math.random() * colors.length)]
+          };
+          particles.push(p);
+        }
+
+        function drawDiamondStar(x: number, y: number, r: number, rot: number, color: string, alpha: number) {
+          if (!ctx) return;
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(rot);
+          ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+          ctx.fillStyle = color;
+
+          ctx.beginPath();
+          for (let i = 0; i < 4; i++) {
+            ctx.lineTo(Math.cos((i * Math.PI) / 2) * r, Math.sin((i * Math.PI) / 2) * r);
+            ctx.lineTo(
+              Math.cos((i * Math.PI) / 2 + Math.PI / 4) * (r * 0.22),
+              Math.sin((i * Math.PI) / 2 + Math.PI / 4) * (r * 0.22)
+            );
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+
+        textEl.classList.add('is-revealing');
+        const startTime = performance.now();
+
+        function renderFrame(now: number) {
+          if (!textEl || !canvas || !ctx) return;
+
+          ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+
+          const elapsed = now - startTime;
+          const progress = Math.min(1, elapsed / duration);
+
+          // Smooth width write-out
+          const currentW = fullW * progress;
+          textEl.style.width = `${currentW}px`;
+
+          // Stream sparkles directly at the feathered soft edge
+          if (progress < 1) {
+            spawnEdgeSparkle(currentW);
+            if (Math.random() > 0.3) {
+              spawnEdgeSparkle(currentW);
+            }
+          }
+
+          // Update vector sparkles
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.life++;
+            p.rot += p.rotSpeed;
+
+            const halfLife = p.maxLife / 2;
+            if (p.life < halfLife) {
+              p.alpha = p.life / halfLife;
+              p.size = (p.life / halfLife) * p.maxSize;
+            } else {
+              p.alpha = (p.maxLife - p.life) / halfLife;
+              p.size = (1 - (p.life - halfLife) / halfLife) * p.maxSize;
+            }
+
+            drawDiamondStar(p.x, p.y, Math.max(0, p.size), p.rot, p.color, p.alpha);
+
+            if (p.life >= p.maxLife) {
+              particles.splice(i, 1);
+            }
+          }
+
+          if (progress < 1 || particles.length > 0) {
+            requestAnimationFrame(renderFrame);
+          } else {
+            // Sequence completed cleanly
+            textEl.style.width = 'auto';
+            textEl.classList.remove('is-revealing');
+            textEl.classList.add('is-complete');
+            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+            canvas.style.display = 'none';
+          }
+        }
+
+        requestAnimationFrame(renderFrame);
+      }
+
+      // Failsafe timeout to force text visibility on slow mobile connections
+      setTimeout(() => {
+        if (textEl && textEl.style.width === '0px') {
+          textEl.style.width = 'auto';
+          textEl.style.opacity = '1';
+        }
+      }, duration + delay + 400);
+
+      setTimeout(startSequence, delay);
+    });
+  }
+
+  const GOOGLE_SHEETS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwPB4mXKlNyNUIKocRuNXLbReyl71p00_-rFNv2oQ1s9lh4kXwjTIYTJ09H37nJ_U6/exec";
+
+  function resolveLiveGuestInfo() {
+    const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+    if (!path || path === 'index' || path === 'index.html') return null;
+
+    const compact = path.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (compact === 'johndoe' || compact === 'john-doe') return null;
+
+    const GUESTS_MAP: Record<string, string[]> = {
+      "18 Roses": [
+        "Helmar Returan", "Lenmar Returan", "Martin Returan Jr.", "Julius Salazar",
+        "Abraham Salazar", "Gabriel Cainglet", "Romar Returan", "Kyle Urbanozo",
+        "Wacky Loumar Solomon", "Sandy Carl Templo", "Philip Abdon", "Kelly Abdon",
+        "Jeros Andre Salazar", "Andrew Trovillas", "Leo Trovillas", "Loccio Miguel Trovillas",
+        "Jemar Gabriel Trovillas", "Jerry Trovillas"
+      ],
+      "18 Candles": [
+        "Marichu Gonzales", "Sharon Templo", "Lara Española", "Cris Joy Sencil",
+        "Zendy Shar Templo", "Stiffany Dyann Templo", "Patricia Lacson", "Valerie Ruiz",
+        "Samantha Rose Rico", "Janelle Marie Magsino", "Ashleigh Gwyneth Rodriguez",
+        "Kenichi Metchell Gaudia", "Alyzza Faith Mojana", "Luxlyn Lei Badajos",
+        "Johnezza Veronic Tolentino", "Marvi Aiah Solomon", "Nicole Grace Recaido", "Jamila Kate Degala"
+      ],
+      "18 Treasures": [
+        "Michelle Dla Paz", "Arne Jane Gonzales", "Ma. Roxanne Eniceno", "Judelyn Solidarios",
+        "Suelin Villanueva", "Reynalyn Estoquia", "Kate Andrea Salazar", "Diana Elizabeth Elarmo",
+        "Rona Returan", "Arlene Trovillas", "Diosa Trovillas", "Melmia Cyann Noguid",
+        "Danilo Bacolod", "JV Esoy", "Lee Villaflor", "Bing Campo", "Anabrenda Gierza", "Evelyn Gerongani"
+      ],
+      "18 Blue Bills": [
+        "Lenev Sorrosa", "Lenie Mospa", "Ma. Socorro Veloso", "Josephine Angolo",
+        "Freda Recaido", "Lou Martha Solomon", "Jennifer Gallego", "Jessa Gallego",
+        "Cherry Mae Millan", "Terrence Granada", "Roselle Returan", "Marjolan Returan",
+        "Aurelio Baluran Jr.", "Andrew Gallego", "Angel Baluran", "Susana Delfin",
+        "Amalia Dioman", "Brenda Talaman"
+      ]
+    };
+
+    for (const [role, names] of Object.entries(GUESTS_MAP)) {
+      for (const name of names) {
+        if (name.toLowerCase().replace(/[^a-z0-9]/g, '') === compact) {
+          return { name, role };
+        }
+      }
+    }
+
+    for (const [role, names] of Object.entries(GUESTS_MAP)) {
+      for (const name of names) {
+        const cName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (Math.abs(cName.length - compact.length) <= 2) {
+          let diff = 0, i = 0, j = 0;
+          while (i < cName.length && j < compact.length) {
+            if (cName[i] !== compact[j]) {
+              diff++;
+              if (cName.length > compact.length) i++;
+              else if (compact.length > cName.length) j++;
+              else { i++; j++; }
+            } else { i++; j++; }
+          }
+          diff += (cName.length - i) + (compact.length - j);
+          if (diff <= 2) return { name, role };
+        }
+      }
+    }
+
+    const formatted = path
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/[-_]/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+
+    return { name: formatted, role: 'Honored Guest' };
+  }
+
+  function syncLiveGuestData() {
+    const live = resolveLiveGuestInfo();
+    if (!live) return;
+
+    const btn = document.getElementById('accept-invitation-btn');
+    if (btn) {
+      btn.setAttribute('data-guest-name', live.name);
+      btn.setAttribute('data-guest-role', live.role);
+    }
+
+    const guestText = document.getElementById('guest-name-reveal');
+    if (guestText) {
+      guestText.textContent = live.name;
+    }
+
+    const guestBadge = document.querySelector('.guest-invitation-badge');
+    if (guestBadge) {
+      guestBadge.textContent = `✦ ${live.role.toUpperCase()} ✦`;
+    }
+  }
+
+  function initOpeningTransition() {
+    syncLiveGuestData();
+    const btn = document.getElementById('accept-invitation-btn');
+    const splash = document.getElementById('splash-screen');
+    const mainContent = document.getElementById('main-revealed-content');
+
+    if (!btn || !splash) return;
+
+    btn.addEventListener('click', () => {
+      // 0. Log Splash Invitation Acceptance to Google Sheets
+      const guestName = btn.getAttribute('data-guest-name') || 'Honored Guest';
+      const guestRole = btn.getAttribute('data-guest-role') || 'Honored Guest';
+
+      if (GOOGLE_SHEETS_SCRIPT_URL) {
+        try {
+          fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              guestName: guestName,
+              role: guestRole,
+              action: 'accept_splash',
+              attendance: 'Opened Splash (Accepted)',
+              timestamp: new Date().toISOString()
+            })
+          }).catch(err => console.warn('Splash tracking note:', err));
+        } catch(e) {}
+      }
+
+      // 1. Play processed background music continuously in a loop upon accepting invitation
+      try {
+        const bgm = new Audio('/audio/bgm.mp3');
+        bgm.loop = true;
+        bgm.volume = 0;
+        bgm.play().then(() => {
+          let vol = 0;
+          const fadeTimer = setInterval(() => {
+            vol += 0.03;
+            if (vol >= 0.35) {
+              bgm.volume = 0.35;
+              clearInterval(fadeTimer);
+            } else {
+              bgm.volume = vol;
+            }
+          }, 80);
+        }).catch(err => {
+          console.log('Audio playback initialized:', err);
+        });
+      } catch(e) {}
+
+      // 2. Confetti explosion (scaled for mobile performance)
+      const isMobile = window.innerWidth < 768;
+      confetti({
+        particleCount: isMobile ? 85 : 180,
+        spread: isMobile ? 75 : 100,
+        origin: { y: 0.5 },
+        colors: ['#D4AF37', '#F6E597', '#0B132B', '#FFFFFF', '#EECE5A']
+      });
+
+      // 3. Splash curtain transition
+      splash.classList.add('opening-transition');
+
+      if (mainContent) {
+        mainContent.classList.remove('hidden-main');
+        mainContent.classList.add('revealed-active');
+      }
+
+      window.scrollTo(0, 0);
+      document.body.classList.remove('splash-locked');
+
+      setTimeout(() => {
+        splash.classList.add('splash-dismissed');
+        splash.style.display = 'none';
+      }, 1100);
+    });
+  }
+
+  function onReady(fn: () => void) {
+    if (document.readyState !== 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  // Instant execution for immediate mobile DOM sync
+  syncLiveGuestData();
+
+  onReady(() => {
+    initFeatheredHandwritingSparkleReveal();
+    initOpeningTransition();
+  });
+
+  window.addEventListener('pageshow', () => {
+    syncLiveGuestData();
+  });
+</script>
+
+<style>
+  /* Ornate Gilded Frame & Corner Stars */
+  .ornate-gilded-card {
+    position: relative;
+  }
+
+  .card-gold-border-frame {
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .corner-star {
+    position: absolute;
+    color: var(--gold-300);
+    font-size: 0.95rem;
+    line-height: 1;
+    z-index: 5;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.7));
+  }
+
+  .corner-star.top-left { top: 12px; left: 14px; }
+  .corner-star.top-right { top: 12px; right: 14px; }
+  .corner-star.bottom-left { bottom: 12px; left: 14px; }
+  .corner-star.bottom-right { bottom: 12px; right: 14px; }
+
+  .corner-filigree {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0.85;
+  }
+
+  .top-left-filigree { top: 5px; left: 5px; }
+  .top-right-filigree { top: 5px; right: 5px; }
+  .bottom-left-filigree { bottom: 5px; left: 5px; }
+  .bottom-right-filigree { bottom: 5px; right: 5px; }
+
+  .ornate-line-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 80%;
+    margin: 0.25rem 0 0.35rem 0;
+    opacity: 0.85;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-500), transparent);
+  }
+
+  .divider-diamond {
+    color: var(--gold-300);
+    font-size: 0.75rem;
+  }
+
+  /* Inline Handwriting Reveal with Soft Feathered Edge Masking */
+  .inline-reveal-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    vertical-align: baseline;
+  }
+
+  .inline-reveal-text {
+    display: inline-block;
+    vertical-align: baseline;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0px;
+    opacity: 0;
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 25px), rgba(0, 0, 0, 0.15) 92%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 25px), rgba(0, 0, 0, 0.15) 92%, transparent 100%);
+    filter: blur(1.5px);
+    -webkit-filter: blur(1.5px);
+    will-change: width, filter, opacity;
+  }
+
+  .inline-reveal-text.is-revealing {
+    opacity: 1;
+  }
+
+  .inline-reveal-text.is-complete {
+    width: auto !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+
+  .sparkle-leading-canvas {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Fixed Fullscreen Splash Overlay - Dynamic Viewport (100dvh) */
+  .splash-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    z-index: 9999;
+    background: radial-gradient(circle at 50% 40%, #0b132b 0%, #060b19 60%, #030611 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.5rem calc(0.5rem + env(safe-area-inset-bottom)) 0.5rem;
+    overflow: hidden;
+    transition: transform 1.1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.9s ease;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+  }
+
+  .splash-overlay.opening-transition {
+    transform: translateY(-100%) scale(1.03);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .splash-overlay.splash-dismissed {
+    display: none !important;
+  }
+
+  /* 2-Column Split Container */
+  .splash-split-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    align-items: center;
+    max-width: 1050px;
+    width: 100%;
+    max-height: 98dvh;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 900px) {
+    .splash-split-container {
+      grid-template-columns: 1fr 1.15fr;
+      gap: 1.75rem;
+      max-height: 94vh;
+    }
+
+    .splash-photo-col { order: 1; }
+    .splash-info-col { order: 2; }
+  }
+
+  /* Photo Column */
+  .splash-photo-col {
+    position: relative;
+    height: 100%;
+    max-height: 82vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    overflow: hidden;
+  }
+
+  .photo-frame-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    max-height: 78vh;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #060b19;
+  }
+
+  .splash-portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.6s ease;
+  }
+
+  .photo-frame-wrapper:hover .splash-portrait-img {
+    transform: scale(1.03);
+  }
+
+  .photo-vignette-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(6, 11, 25, 0.75) 0%, transparent 50%, rgba(6, 11, 25, 0.3) 100%);
+    pointer-events: none;
+  }
+
+  .photo-gold-border {
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 10px;
+    pointer-events: none;
+  }
+
+  .photo-tag-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(11, 19, 43, 0.85);
+    backdrop-filter: blur(8px);
+    color: var(--gold-300);
+    border: 1px solid var(--gold-500);
+    padding: 0.25rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Info Column */
+  .splash-info-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.25rem 1.25rem;
+    max-height: 82vh;
+    overflow-y: auto;
+  }
+
+  .splash-info-col::-webkit-scrollbar { display: none; }
+  .splash-info-col { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .botanical-top {
+    width: 150px;
+    margin-bottom: 0.25rem;
+    opacity: 0.9;
+  }
+
+  .botanical-svg { width: 100%; height: auto; }
+
+  .monogram-wrapper { margin-bottom: 0.4rem; }
+
+  .crest-ring {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--gold-500);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 19, 43, 0.85);
+    position: relative;
+  }
+
+  .crest-ring::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px dashed var(--gold-300);
+    animation: spinSlow 35s linear infinite;
+  }
+
+  .monogram-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--gold-300);
+    letter-spacing: 0.05em;
+  }
+
+  .greeting-box { margin-bottom: 0.35rem; }
+
+  .guest-greeting {
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .guest-name-text {
+    font-weight: 700;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFFDF0 25%, #FDE68A 55%, #F59E0B 85%, #FFFFFF 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 10px rgba(254, 240, 138, 0.95)) drop-shadow(0 0 20px rgba(245, 158, 11, 0.7)) !important;
+  }
+
+  .invitation-text-block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .invitation-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--starlight-dim);
+    margin-top: 0.25rem;
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+  }
+
+  .debutante-title-wrapper {
+    margin-top: 0.15rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .debutante-name {
+    font-size: 2.75rem;
+    line-height: 1.3;
+    padding: 0.1rem 0;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFFDF0 25%, #FDE68A 55%, #F59E0B 85%, #FFFFFF 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 12px rgba(254, 240, 138, 0.95)) drop-shadow(0 0 25px rgba(245, 158, 11, 0.75)) !important;
+  }
+
+  .invitation-lead {
+    font-size: 0.9rem;
+    color: var(--starlight);
+    font-style: italic;
+    opacity: 0.9;
+    line-height: 1.4;
+    margin-top: 0.25rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .cursive-announcement-wrapper {
+    margin: 0.35rem 0 0.75rem 0;
+    position: relative;
+    padding: 0.2rem 0;
+  }
+
+  .cursive-invitation {
+    font-size: 2.15rem;
+    line-height: 1.3;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFFDF0 25%, #FDE68A 55%, #F59E0B 85%, #FFFFFF 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 0 12px rgba(254, 240, 138, 0.95)) drop-shadow(0 0 25px rgba(245, 158, 11, 0.75)) !important;
+  }
+
+  .btn-reveal {
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+
+  /* Mobile Layout Swapped Order & Ornate Framework */
+  @media (max-width: 899px) {
+    .splash-overlay {
+      align-items: stretch !important;
+      justify-content: flex-start !important;
+      padding: 0.4rem 0.4rem calc(0.4rem + env(safe-area-inset-bottom)) 0.4rem !important;
+    }
+
+    .splash-split-container {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-start !important;
+      gap: 0.4rem !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 98dvh !important;
+    }
+
+    /* TOP CONTAINER: Personalized Text Box */
+    .splash-info-col {
+      order: 1 !important;
+      flex: 0 0 auto !important;
+      width: 100% !important;
+      padding: 0.85rem 1.1rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      gap: 0.25rem !important;
+      border-radius: 16px !important;
+      overflow: visible !important;
+      max-height: none !important;
+    }
+
+    /* BOTTOM CONTAINER: Debutante Photo Box */
+    .splash-photo-col {
+      order: 2 !important;
+      flex: 1 1 auto !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-height: none !important;
+      padding: 0 !important;
+      border-radius: 16px !important;
+      overflow: hidden !important;
+    }
+
+    .photo-frame-wrapper {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 140px !important;
+      max-height: none !important;
+      border-radius: 16px !important;
+    }
+
+    .splash-portrait-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center top !important;
+    }
+
+    .botanical-top { display: none; }
+    .monogram-wrapper { display: none; }
+
+    .greeting-box {
+      margin-top: 0.15rem !important;
+      margin-bottom: 0.15rem !important;
+    }
+
+    .guest-greeting {
+      font-size: 1.45rem !important;
+      line-height: 1.3 !important;
+    }
+
+    .guest-name-text {
+      display: inline-block;
+      font-size: 1.5rem !important;
+      line-height: 1.3 !important;
+    }
+
+    .invitation-subtitle {
+      font-size: 0.68rem !important;
+      letter-spacing: 0.15em !important;
+      margin-top: 0.1rem !important;
+      margin-bottom: 0.1rem !important;
+      line-height: 1.25 !important;
+    }
+
+    .debutante-title-wrapper {
+      margin-top: 0.05rem !important;
+      margin-bottom: 0.1rem !important;
+    }
+
+    .debutante-name {
+      font-size: 2.1rem !important;
+      line-height: 1.25 !important;
+      padding: 0.05rem 0 !important;
+    }
+
+    .invitation-lead {
+      font-size: 0.78rem !important;
+      line-height: 1.35 !important;
+      margin-top: 0.1rem !important;
+      margin-bottom: 0.15rem !important;
+    }
+
+    .cursive-announcement-wrapper {
+      margin: 0.15rem 0 0.3rem 0 !important;
+    }
+
+    .cursive-invitation {
+      font-size: 1.55rem !important;
+      line-height: 1.3 !important;
+    }
+
+    .btn-gold {
+      padding: 0.65rem 1.4rem !important;
+      font-size: 0.8rem !important;
+    }
+
+    .hero-actions {
+      margin-top: 0.2rem !important;
+      margin-bottom: 0.1rem !important;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .guest-greeting { font-size: 2.35rem; }
+    .debutante-name { font-size: 3.5rem; }
+    .cursive-invitation { font-size: 2.85rem; }
+  }
+</style>

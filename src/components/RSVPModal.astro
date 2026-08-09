@@ -1,0 +1,670 @@
+---
+export interface Props {
+  guestName?: string;
+  role?: string;
+}
+
+const { guestName = "Honored Guest", role = "Honored Guest" } = Astro.props;
+---
+
+<section class="section-padding rsvp-section" id="rsvp-section">
+  <div class="container-custom">
+    <div class="section-header text-center">
+      <span class="section-badge font-serif">Kindly Respond</span>
+      <h2 class="section-title text-gold-gradient font-serif">
+        RSVP Invitation
+      </h2>
+      <p class="section-desc font-serif-sub">
+        Please confirm your attendance for Isabel's 18th Debut.
+      </p>
+    </div>
+
+    <div class="rsvp-card-wrapper max-w-xl mx-auto">
+      <!-- Unsubmitted State (Simplified RSVP Form) -->
+      <div class="glass-card rsvp-form-card" id="rsvp-form-card">
+        <div class="rsvp-header text-center">
+          <span class="guest-tag font-serif">✦ {role.toUpperCase()} ✦</span>
+          <h3 class="rsvp-greeting-title font-serif">
+            Welcome, <span class="text-gold-gradient font-cursive"
+              >{guestName}</span
+            >
+          </h3>
+          <p class="rsvp-hint font-serif-sub">
+            We look forward to celebrating with you!
+          </p>
+        </div>
+
+        <form id="wedding-rsvp-form" class="rsvp-form">
+          <input type="hidden" name="role" value={role} />
+
+          <!-- 1. Guest Name Field -->
+          <div class="form-group">
+            <label class="form-label font-serif" for="guestNameInput"
+              >Your Name</label
+            >
+            <input
+              type="text"
+              id="guestNameInput"
+              name="guestName"
+              value={guestName}
+              required
+              class="form-input font-sans"
+            />
+          </div>
+
+          <!-- 2. Yes / No Attendance Question -->
+          <div class="form-group">
+            <label class="form-label font-serif"
+              >Will you be attending Isabel's 18th Birthday Debut?</label
+            >
+            <div class="attendance-options">
+              <label class="radio-card active" id="option-yes">
+                <input
+                  type="radio"
+                  name="attendance"
+                  value="attending"
+                  checked
+                />
+                <div class="radio-content">
+                  <span class="radio-icon">✦</span>
+                  <span class="radio-title font-serif"
+                    >Yes, I will be there!</span
+                  >
+                  <span class="radio-subtitle">Joyfully Accept</span>
+                </div>
+              </label>
+
+              <label class="radio-card" id="option-no">
+                <input type="radio" name="attendance" value="declining" />
+                <div class="radio-content">
+                  <span class="radio-icon">◇</span>
+                  <span class="radio-title font-serif">Regretfully Decline</span
+                  >
+                  <span class="radio-subtitle">Will celebrate in spirit</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 3. Personal Message (Optional) -->
+          <div class="form-group">
+            <label class="form-label font-serif" for="message">
+              Personal Message for Isabel <span class="optional-tag font-sans"
+                >(Optional)</span
+              >
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows="3"
+              placeholder="Leave a birthday wish or message for Isabel..."
+              class="form-input font-sans"></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-gold btn-full-width"
+            id="submit-rsvp-btn"
+          >
+            <svg
+              class="submit-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M22 2L11 13"></path>
+              <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+            </svg>
+            <span id="submit-btn-text">Submit RSVP Response ✦</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Submitted Confirmation Pass Card -->
+      <div class="glass-card rsvp-pass-card hidden" id="rsvp-pass-card">
+        <div class="pass-header text-center">
+          <div class="pass-stamp font-serif">VIP CONFIRMED</div>
+          <span class="pass-sub font-serif-sub"
+            >Official Digital Debutante Pass</span
+          >
+          <h3
+            class="pass-guest-name font-cursive text-gold-gradient"
+            id="pass-guest-name"
+          >
+            {guestName}
+          </h3>
+        </div>
+
+        <div class="pass-body">
+          <div class="pass-row">
+            <div class="pass-cell">
+              <span class="cell-label font-serif">Status</span>
+              <span class="cell-value text-gold-300 font-serif" id="pass-status"
+                >Attending</span
+              >
+            </div>
+            <div class="pass-cell">
+              <span class="cell-label font-serif">Event</span>
+              <span class="cell-value font-serif">Isabel | XVIII</span>
+            </div>
+          </div>
+
+          <div class="pass-row">
+            <div class="pass-cell">
+              <span class="cell-label font-serif">Date</span>
+              <span class="cell-value font-serif">Sun, Aug 30, 2026</span>
+            </div>
+            <div class="pass-cell">
+              <span class="cell-label font-serif">Venue</span>
+              <span class="cell-value font-serif">Alton Bar & Restaurant</span>
+            </div>
+          </div>
+
+          <div class="pass-qr-box text-center">
+            <div class="qr-placeholder font-serif">
+              ✦ RYSHA ISABEL TROVILLAS • XVIII ✦
+            </div>
+            <p class="qr-sub font-sans">Present this pass upon entry</p>
+          </div>
+        </div>
+
+        <button class="btn-outline-gold btn-full-width" id="edit-rsvp-btn"
+          >Edit RSVP Details</button
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Google Sheets Apps Script Deployment Endpoint URL (Paste your Web App URL below!)
+  const GOOGLE_SHEETS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbwwPB4mXKlNyNUIKocRuNXLbReyl71p00_-rFNv2oQ1s9lh4kXwjTIYTJ09H37nJ_U6/exec";
+
+  function resolveLiveGuestInfo() {
+    const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+    if (!path || path === 'index' || path === 'index.html') return null;
+
+    const compact = path.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (compact === 'johndoe' || compact === 'john-doe') return null;
+
+    const GUESTS_MAP: Record<string, string[]> = {
+      "18 Roses": [
+        "Helmar Returan", "Lenmar Returan", "Martin Returan Jr.", "Julius Salazar",
+        "Abraham Salazar", "Gabriel Cainglet", "Romar Returan", "Kyle Urbanozo",
+        "Wacky Loumar Solomon", "Sandy Carl Templo", "Philip Abdon", "Kelly Abdon",
+        "Jeros Andre Salazar", "Andrew Trovillas", "Leo Trovillas", "Loccio Miguel Trovillas",
+        "Jemar Gabriel Trovillas", "Jerry Trovillas"
+      ],
+      "18 Candles": [
+        "Marichu Gonzales", "Sharon Templo", "Lara Española", "Cris Joy Sencil",
+        "Zendy Shar Templo", "Stiffany Dyann Templo", "Patricia Lacson", "Valerie Ruiz",
+        "Samantha Rose Rico", "Janelle Marie Magsino", "Ashleigh Gwyneth Rodriguez",
+        "Kenichi Metchell Gaudia", "Alyzza Faith Mojana", "Luxlyn Lei Badajos",
+        "Johnezza Veronic Tolentino", "Marvi Aiah Solomon", "Nicole Grace Recaido", "Jamila Kate Degala"
+      ],
+      "18 Treasures": [
+        "Michelle Dla Paz", "Arne Jane Gonzales", "Ma. Roxanne Eniceno", "Judelyn Solidarios",
+        "Suelin Villanueva", "Reynalyn Estoquia", "Kate Andrea Salazar", "Diana Elizabeth Elarmo",
+        "Rona Returan", "Arlene Trovillas", "Diosa Trovillas", "Melmia Cyann Noguid",
+        "Danilo Bacolod", "JV Esoy", "Lee Villaflor", "Bing Campo", "Anabrenda Gierza", "Evelyn Gerongani"
+      ],
+      "18 Blue Bills": [
+        "Lenev Sorrosa", "Lenie Mospa", "Ma. Socorro Veloso", "Josephine Angolo",
+        "Freda Recaido", "Lou Martha Solomon", "Jennifer Gallego", "Jessa Gallego",
+        "Cherry Mae Millan", "Terrence Granada", "Roselle Returan", "Marjolan Returan",
+        "Aurelio Baluran Jr.", "Andrew Gallego", "Angel Baluran", "Susana Delfin",
+        "Amalia Dioman", "Brenda Talaman"
+      ]
+    };
+
+    for (const [role, names] of Object.entries(GUESTS_MAP)) {
+      for (const name of names) {
+        if (name.toLowerCase().replace(/[^a-z0-9]/g, '') === compact) {
+          return { name, role };
+        }
+      }
+    }
+
+    for (const [role, names] of Object.entries(GUESTS_MAP)) {
+      for (const name of names) {
+        const cName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (Math.abs(cName.length - compact.length) <= 2) {
+          let diff = 0, i = 0, j = 0;
+          while (i < cName.length && j < compact.length) {
+            if (cName[i] !== compact[j]) {
+              diff++;
+              if (cName.length > compact.length) i++;
+              else if (compact.length > cName.length) j++;
+              else { i++; j++; }
+            } else { i++; j++; }
+          }
+          diff += (cName.length - i) + (compact.length - j);
+          if (diff <= 2) return { name, role };
+        }
+      }
+    }
+
+    const formatted = path
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/[-_]/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+
+    return { name: formatted, role: 'Honored Guest' };
+  }
+
+  function syncLiveRSVPData() {
+    const live = resolveLiveGuestInfo();
+    if (live) {
+      const nameInput = document.getElementById("guestNameInput") as HTMLInputElement | null;
+      if (nameInput) nameInput.value = live.name;
+
+      const roleInput = document.querySelector('input[name="role"]') as HTMLInputElement | null;
+      if (roleInput) roleInput.value = live.role;
+
+      const rsvpGuestTag = document.querySelector('.guest-tag');
+      if (rsvpGuestTag) rsvpGuestTag.textContent = `✦ ${live.role.toUpperCase()} ✦`;
+
+      const greetingSpan = document.querySelector('.rsvp-greeting-title .text-gold-gradient');
+      if (greetingSpan) greetingSpan.textContent = live.name;
+    }
+  }
+
+  function onReady(fn: () => void) {
+    if (document.readyState !== 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  // Instant execution for immediate mobile DOM sync
+  syncLiveRSVPData();
+
+  window.addEventListener('pageshow', () => {
+    syncLiveRSVPData();
+  });
+
+  onReady(() => {
+    syncLiveRSVPData();
+
+    const form = document.getElementById(
+      "wedding-rsvp-form",
+    ) as HTMLFormElement | null;
+    const formCard = document.getElementById("rsvp-form-card");
+    const passCard = document.getElementById("rsvp-pass-card");
+    const passName = document.getElementById("pass-guest-name");
+    const passStatus = document.getElementById("pass-status");
+    const editBtn = document.getElementById("edit-rsvp-btn");
+    const submitBtn = document.getElementById(
+      "submit-rsvp-btn",
+    ) as HTMLButtonElement | null;
+    const submitBtnText = document.getElementById("submit-btn-text");
+    const optionYes = document.getElementById("option-yes");
+    const optionNo = document.getElementById("option-no");
+
+    // Radio Card Selection Handler
+    const radioInputs = document.querySelectorAll('input[name="attendance"]');
+    radioInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if ((input as HTMLInputElement).value === "attending") {
+          optionYes?.classList.add("active");
+          optionNo?.classList.remove("active");
+        } else {
+          optionNo?.classList.add("active");
+          optionYes?.classList.remove("active");
+        }
+      });
+    });
+
+    if (form && formCard && passCard) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const nameVal =
+          (formData.get("guestName") as string) || "Special Guest";
+        const attendance = formData.get("attendance") as string;
+        const message = formData.get("message") as string;
+        const role = (formData.get("role") as string) || "Honored Guest";
+
+        // Show Button Submission Loading State
+        if (submitBtn) submitBtn.disabled = true;
+        if (submitBtnText)
+          submitBtnText.textContent = "Submitting Response... ✦";
+
+        // 1. Send data to Google Sheets API (if Script URL is configured)
+        if (
+          GOOGLE_SHEETS_SCRIPT_URL &&
+          !GOOGLE_SHEETS_SCRIPT_URL.includes("YOUR_GOOGLE_APPS_SCRIPT_URL")
+        ) {
+          try {
+            const payload = {
+              guestName: nameVal,
+              action: "rsvp_submit",
+              attendance:
+                attendance === "attending"
+                  ? "Joyfully Accept"
+                  : "Regretfully Decline",
+              message: message,
+              role: role,
+              timestamp: new Date().toISOString(),
+            };
+
+            await fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+          } catch (err) {
+            console.warn("Google Sheets submission note:", err);
+          }
+        }
+
+        // 2. Update VIP Pass Card UI
+        if (passName) passName.textContent = nameVal;
+        if (passStatus) {
+          passStatus.textContent =
+            attendance === "attending"
+              ? "Joyfully Attending"
+              : "Regretfully Declining";
+        }
+
+        // 3. Reset Button State & Transition to VIP Pass Card
+        if (submitBtn) submitBtn.disabled = false;
+        if (submitBtnText) submitBtnText.textContent = "Submit RSVP Response ✦";
+
+        formCard.classList.add("hidden");
+        passCard.classList.remove("hidden");
+      });
+    }
+
+    if (editBtn && formCard && passCard) {
+      editBtn.addEventListener("click", () => {
+        passCard.classList.add("hidden");
+        formCard.classList.remove("hidden");
+      });
+    }
+  });
+</script>
+
+<style>
+  .rsvp-section {
+    position: relative;
+    z-index: 1;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  .section-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .section-desc {
+    font-size: 1.15rem;
+    color: var(--starlight-dim);
+  }
+
+  .rsvp-card-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .rsvp-form-card,
+  .rsvp-pass-card {
+    padding: 2.25rem 2rem;
+    border: 1px solid var(--gold-500);
+    box-shadow:
+      0 15px 45px rgba(0, 0, 0, 0.85),
+      0 0 30px rgba(212, 175, 55, 0.2);
+  }
+
+  .rsvp-header {
+    margin-bottom: 2rem;
+  }
+
+  .guest-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    color: var(--gold-300);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .rsvp-greeting-title {
+    font-size: 2.15rem;
+    line-height: 1.25;
+    margin-bottom: 0.35rem;
+  }
+
+  .rsvp-hint {
+    font-size: 1.05rem;
+    color: var(--starlight-dim);
+    font-style: italic;
+  }
+
+  .rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .form-label {
+    font-size: 0.95rem;
+    color: var(--gold-200);
+    letter-spacing: 0.05em;
+  }
+
+  .optional-tag {
+    font-size: 0.8rem;
+    color: var(--starlight-dim);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .form-input {
+    width: 100%;
+    background: rgba(6, 11, 25, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    color: var(--starlight);
+    font-size: 0.95rem;
+    outline: none;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .form-input:focus {
+    border-color: var(--gold-300);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Radio Attendance Option Cards */
+  .attendance-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 550px) {
+    .attendance-options {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .radio-card {
+    position: relative;
+    cursor: pointer;
+    background: rgba(16, 27, 59, 0.6);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 14px;
+    padding: 1.1rem 0.85rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .radio-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .radio-card.active,
+  .radio-card:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: var(--gold-300);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+
+  .radio-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .radio-icon {
+    color: var(--gold-300);
+    font-size: 1.2rem;
+  }
+
+  .radio-title {
+    font-size: 1rem;
+    color: var(--starlight);
+    font-weight: 600;
+  }
+
+  .radio-subtitle {
+    font-size: 0.78rem;
+    color: var(--starlight-dim);
+  }
+
+  .btn-full-width {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  /* VIP Pass Card Styling */
+  .pass-header {
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pass-stamp {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--navy-950);
+    background: linear-gradient(135deg, var(--gold-300), var(--gold-500));
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .pass-sub {
+    font-size: 0.9rem;
+    color: var(--starlight-dim);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .pass-guest-name {
+    font-size: 2.75rem;
+  }
+
+  .pass-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .pass-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .pass-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(16, 27, 59, 0.5);
+    padding: 0.85rem;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .cell-label {
+    font-size: 0.75rem;
+    color: var(--starlight-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .cell-value {
+    font-size: 1rem;
+    color: var(--starlight);
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+
+  .pass-qr-box {
+    background: rgba(11, 19, 43, 0.9);
+    border: 1px dashed var(--gold-400);
+    border-radius: 14px;
+    padding: 1.25rem;
+  }
+
+  .qr-placeholder {
+    font-size: 0.95rem;
+    color: var(--gold-300);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.25rem;
+  }
+
+  .qr-sub {
+    font-size: 0.8rem;
+    color: var(--starlight-dim);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>

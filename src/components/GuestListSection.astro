@@ -1,0 +1,517 @@
+---
+import { GUESTS_DATA, toHyphenatedSlug } from "../utils/guests";
+
+export interface Props {
+  currentGuestName?: string;
+}
+
+const { currentGuestName = "" } = Astro.props;
+
+// Category icons & metadata (Strictly NO emojis)
+const CATEGORY_META: Record<string, { title: string; subtitle: string; iconSvg: string }> = {
+  "18 Roses": {
+    title: "18 ROSES",
+    subtitle: "Gentlemen of the Debutante's Formal Dance",
+    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`
+  },
+  "18 Candles": {
+    title: "18 CANDLES",
+    subtitle: "Maidens of Light, Wishes, and Guidance",
+    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c.5 1 2 3 2 5a2 2 0 1 1-4 0c0-2 1.5-4 2-5z"/><path d="M7 11h10v11H7z"/><path d="M6 22h12"/></svg>`
+  },
+  "18 Treasures": {
+    title: "18 TREASURES",
+    subtitle: "Guardians of Wisdom, Tokens, and Life Lessons",
+    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+  },
+  "18 Blue Bills": {
+    title: "18 BLUE BILLS",
+    subtitle: "Patrons of Prosperity, Dreams, and Bright Futures",
+    iconSvg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg>`
+  }
+};
+
+const categories = Object.keys(GUESTS_DATA);
+---
+
+<section class="section-padding guest-list-standalone-section" id="guest-list-section">
+  <div class="container-custom">
+    
+    <!-- Section Header -->
+    <div class="section-header text-center">
+      <span class="section-badge font-serif">✦ GRAND ENTOURAGE ROSTER ✦</span>
+      <h2 class="section-title text-gold-gradient font-serif">The XVIII Entourage</h2>
+      <p class="section-desc font-serif-sub">
+        Honoring the 72 cherished individuals participating in Isabel's 18th Debut Celebration.
+      </p>
+      
+      <!-- Top Action Controls (Expand / Collapse All) -->
+      <div class="roster-controls-wrapper">
+        <button id="toggle-all-roster-btn" class="toggle-all-btn font-serif" type="button" aria-expanded="true">
+          <span class="toggle-icon">✦</span>
+          <span class="toggle-text">Collapse All Categories</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Accordion Category Cards Container -->
+    <div class="roster-accordion-container" id="roster-accordion">
+      {categories.map((catKey, index) => {
+        const meta = CATEGORY_META[catKey] || { title: catKey.toUpperCase(), subtitle: "", iconSvg: "" };
+        const guests = GUESTS_DATA[catKey] || [];
+        const isFirst = index === 0;
+
+        return (
+          <div class={`roster-category-card glass-card ${isFirst ? 'is-active' : ''}`} data-category={catKey}>
+            <!-- Accordion Header Button -->
+            <button 
+              type="button" 
+              class="roster-accordion-btn" 
+              aria-expanded={isFirst ? "true" : "false"}
+              aria-controls={`roster-content-${index}`}
+            >
+              <div class="btn-header-left">
+                <div class="cat-icon-badge" aria-hidden="true">
+                  <Fragment set:html={meta.iconSvg} />
+                </div>
+                <div class="cat-title-block text-left">
+                  <h3 class="cat-main-title font-serif text-gold-gradient">{meta.title}</h3>
+                  <p class="cat-subtitle font-sans">{meta.subtitle}</p>
+                </div>
+              </div>
+
+              <div class="btn-header-right">
+                <span class="guest-count-pill font-serif">{guests.length} Guests</span>
+                <div class="chevron-wrapper" aria-hidden="true">
+                  <svg class="chevron-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Collapsible Guest Grid Content -->
+            <div 
+              id={`roster-content-${index}`} 
+              class="roster-accordion-content" 
+              style={isFirst ? "max-height: 2000px; opacity: 1;" : "max-height: 0px; opacity: 0;"}
+            >
+              <div class="roster-guest-grid">
+                {guests.map((name, guestIdx) => {
+                  const numStr = String(guestIdx + 1).padStart(2, '0');
+                  const slug = toHyphenatedSlug(name);
+                  const isCurrent = currentGuestName && name.toLowerCase() === currentGuestName.toLowerCase();
+
+                  return (
+                    <div 
+                      class={`guest-roster-pill ${isCurrent ? 'is-current-guest' : ''}`}
+                      data-guest-name={name}
+                      data-guest-slug={slug}
+                    >
+                      <span class="guest-num font-serif">#{numStr}</span>
+                      <span class="guest-name font-sans">{name}</span>
+                      {isCurrent && (
+                        <span class="vip-badge font-serif">YOU</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .guest-list-standalone-section {
+    position: relative;
+    padding: 5rem 1.5rem;
+    background: radial-gradient(circle at 50% 20%, rgba(20, 32, 66, 0.6) 0%, rgba(8, 14, 30, 0.95) 100%);
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-badge {
+    display: inline-block;
+    letter-spacing: 0.25em;
+    font-size: 0.8rem;
+    color: #D4AF37;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 1rem;
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 9999px;
+  }
+
+  .section-title {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-desc {
+    color: rgba(245, 245, 240, 0.85);
+    font-size: 1.05rem;
+    max-width: 650px;
+    margin: 0 auto 1.5rem auto;
+  }
+
+  .roster-controls-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.25rem;
+  }
+
+  .toggle-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(11, 19, 43, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 9999px;
+    color: #F5F5F0;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .toggle-all-btn:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: #D4AF37;
+    color: #FFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+  }
+
+  .toggle-icon {
+    color: #D4AF37;
+    font-size: 0.75rem;
+  }
+
+  /* Accordion Container */
+  .roster-accordion-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .roster-category-card {
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    background: rgba(11, 19, 43, 0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .roster-category-card.is-active {
+    border-color: rgba(212, 175, 55, 0.55);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(212, 175, 55, 0.12);
+  }
+
+  .roster-accordion-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.25s ease;
+  }
+
+  .roster-accordion-btn:hover {
+    background: rgba(212, 175, 55, 0.05);
+  }
+
+  .btn-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cat-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.25) 0%, rgba(11, 19, 43, 0.9) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #D4AF37;
+    flex-shrink: 0;
+  }
+
+  .cat-main-title {
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+
+  .cat-subtitle {
+    font-size: 0.82rem;
+    color: rgba(245, 245, 240, 0.65);
+    margin: 0.15rem 0 0 0;
+  }
+
+  .btn-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .guest-count-pill {
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.75rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 9999px;
+    color: #F5F5F0;
+    white-space: nowrap;
+  }
+
+  .chevron-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #D4AF37;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+  }
+
+  .roster-category-card.is-active .chevron-wrapper {
+    transform: rotate(180deg);
+    background: rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.4);
+  }
+
+  /* Accordion Content Container */
+  .roster-accordion-content {
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+  }
+
+  .roster-guest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .roster-guest-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 580px) {
+    .roster-guest-grid {
+      grid-template-columns: 1fr;
+    }
+    .roster-accordion-btn {
+      padding: 1rem 1.1rem;
+    }
+    .cat-subtitle {
+      display: none;
+    }
+  }
+
+  /* Guest Card Pill */
+  .guest-roster-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    background: rgba(17, 28, 58, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+
+  .guest-roster-pill:hover {
+    background: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .guest-num {
+    font-size: 0.75rem;
+    color: #D4AF37;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+
+  .guest-name {
+    font-size: 0.92rem;
+    color: rgba(245, 245, 240, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* VIP Active Guest Highlight */
+  .guest-roster-pill.is-current-guest {
+    background: rgba(212, 175, 55, 0.18);
+    border: 1.5px solid #D4AF37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
+  }
+
+  .guest-roster-pill.is-current-guest .guest-name {
+    color: #FFF;
+    font-weight: 600;
+  }
+
+  .vip-badge {
+    margin-left: auto;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.45rem;
+    background: #D4AF37;
+    color: #0B132B;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+</style>
+
+<script>
+  import { getGuestInfo } from "../utils/guests";
+
+  function onReady(fn: () => void) {
+    if (document.readyState !== 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  onReady(() => {
+    const accordionContainer = document.getElementById('roster-accordion');
+    const toggleAllBtn = document.getElementById('toggle-all-roster-btn');
+    if (!accordionContainer) return;
+
+    const cards = accordionContainer.querySelectorAll('.roster-category-card');
+
+    // Helper: Toggle individual card
+    const toggleCard = (card: Element, forceOpen?: boolean) => {
+      const btn = card.querySelector('.roster-accordion-btn');
+      const content = card.querySelector('.roster-accordion-content') as HTMLElement;
+      if (!btn || !content) return;
+
+      const currentlyActive = card.classList.contains('is-active');
+      const shouldOpen = forceOpen !== undefined ? forceOpen : !currentlyActive;
+
+      if (shouldOpen) {
+        card.classList.add('is-active');
+        btn.setAttribute('aria-expanded', 'true');
+        content.style.maxHeight = content.scrollHeight + 100 + 'px';
+        content.style.opacity = '1';
+      } else {
+        card.classList.remove('is-active');
+        btn.setAttribute('aria-expanded', 'false');
+        content.style.maxHeight = '0px';
+        content.style.opacity = '0';
+      }
+    };
+
+    // Accordion click handlers
+    cards.forEach((card) => {
+      const btn = card.querySelector('.roster-accordion-btn');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          toggleCard(card);
+          updateToggleAllState();
+        });
+      }
+    });
+
+    // Toggle All button functionality
+    let allExpanded = false;
+    const updateToggleAllState = () => {
+      const activeCount = accordionContainer.querySelectorAll('.roster-category-card.is-active').length;
+      allExpanded = activeCount === cards.length;
+      if (toggleAllBtn) {
+        const icon = toggleAllBtn.querySelector('.toggle-icon');
+        const text = toggleAllBtn.querySelector('.toggle-text');
+        if (allExpanded) {
+          if (text) text.textContent = 'Collapse All Categories';
+          toggleAllBtn.setAttribute('aria-expanded', 'true');
+        } else {
+          if (text) text.textContent = 'Expand All Categories';
+          toggleAllBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+    };
+
+    if (toggleAllBtn) {
+      toggleAllBtn.addEventListener('click', () => {
+        const targetState = !allExpanded;
+        cards.forEach((card) => toggleCard(card, targetState));
+        updateToggleAllState();
+      });
+    }
+
+    // Live URL guest highlight & category auto-expansion
+    const currentSlug = window.location.pathname.replace(/^\/+|\/+$/g, '');
+    if (currentSlug) {
+      const info = getGuestInfo(currentSlug);
+      if (info && info.rawName) {
+        const compactTarget = info.rawName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        
+        cards.forEach((card) => {
+          const pills = card.querySelectorAll('.guest-roster-pill');
+          let cardHasGuest = false;
+
+          pills.forEach((pill) => {
+            const guestName = pill.getAttribute('data-guest-name') || '';
+            const compactGuest = guestName.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            if (compactGuest && compactGuest === compactTarget) {
+              pill.classList.add('is-current-guest');
+              cardHasGuest = true;
+
+              // Append VIP YOU badge if not present
+              if (!pill.querySelector('.vip-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'vip-badge font-serif';
+                badge.textContent = 'YOU';
+                pill.appendChild(badge);
+              }
+            }
+          });
+
+          // Expand category containing active guest
+          if (cardHasGuest) {
+            toggleCard(card, true);
+          }
+        });
+      }
+    }
+
+    // Initial state check
+    updateToggleAllState();
+  });
+</script>

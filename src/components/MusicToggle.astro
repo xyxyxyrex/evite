@@ -1,0 +1,200 @@
+---
+---
+
+<div class="music-toggle-container">
+  <button id="music-btn" class="music-btn" aria-label="Toggle enchanted ambient music">
+    <div class="music-icon-wrapper">
+      <svg id="music-note-icon" class="music-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+      <span class="sound-wave wave-1"></span>
+      <span class="sound-wave wave-2"></span>
+      <span class="sound-wave wave-3"></span>
+    </div>
+    <span class="music-label font-serif">Ambient Sound</span>
+  </button>
+</div>
+
+<script>
+  class CelestialAudioEngine {
+    audioCtx: AudioContext | null = null;
+    isPlaying: boolean = false;
+    intervalId: any = null;
+
+    // Arpeggio notes in D major / B minor pentatonic (warm, dreamy, enchanted)
+    frequencies: number[] = [
+      293.66, // D4
+      369.99, // F#4
+      440.00, // A4
+      554.37, // C#5
+      587.33, // D5
+      739.99, // F#5
+      880.00  // A5
+    ];
+
+    toggle() {
+      if (this.isPlaying) {
+        this.stop();
+      } else {
+        this.start();
+      }
+    }
+
+    start() {
+      if (!this.audioCtx) {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        this.audioCtx = new AudioContextClass();
+      }
+
+      if (this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+
+      this.isPlaying = true;
+      let noteIndex = 0;
+
+      // Play soft harp-like bell notes periodically
+      this.playNote(this.frequencies[0], 2.5);
+
+      this.intervalId = setInterval(() => {
+        if (!this.isPlaying) return;
+        const freq = this.frequencies[noteIndex % this.frequencies.length];
+        const duration = 2.0 + Math.random();
+        this.playNote(freq, duration);
+        noteIndex = Math.floor(Math.random() * this.frequencies.length);
+      }, 700);
+    }
+
+    stop() {
+      this.isPlaying = false;
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
+    }
+
+    playNote(freq: number, duration: number) {
+      if (!this.audioCtx) return;
+
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      osc.type = 'sine'; // Soft sine chime
+      osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+
+      // Envelope: soft attack, long gentle decay
+      gain.gain.setValueAtTime(0.001, this.audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, this.audioCtx.currentTime + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start();
+      osc.stop(this.audioCtx.currentTime + duration);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const audioEngine = new CelestialAudioEngine();
+    const btn = document.getElementById('music-btn');
+    const container = document.querySelector('.music-toggle-container');
+
+    if (btn && container) {
+      btn.addEventListener('click', () => {
+        audioEngine.toggle();
+        if (audioEngine.isPlaying) {
+          container.classList.add('playing');
+        } else {
+          container.classList.remove('playing');
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .music-toggle-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 99;
+  }
+
+  .music-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(11, 19, 43, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--gold-500);
+    padding: 0.6rem 1.1rem;
+    border-radius: 30px;
+    color: var(--gold-300);
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .music-btn:hover {
+    background: rgba(28, 37, 65, 0.95);
+    border-color: var(--gold-300);
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.35);
+  }
+
+  .music-icon-wrapper {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .music-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--gold-400);
+  }
+
+  .music-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Sound Waves Animation when Playing */
+  .sound-wave {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--gold-300);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .playing .wave-1 {
+    width: 24px;
+    height: 24px;
+    animation: wavePulse 1.8s ease-out infinite;
+  }
+
+  .playing .wave-2 {
+    width: 32px;
+    height: 32px;
+    animation: wavePulse 1.8s ease-out infinite 0.6s;
+  }
+
+  @keyframes wavePulse {
+    0% { transform: scale(0.6); opacity: 0.8; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .music-toggle-container {
+      bottom: 5.5rem;
+      left: 1rem;
+    }
+  }
+</style>

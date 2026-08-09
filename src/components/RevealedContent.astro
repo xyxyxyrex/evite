@@ -1,0 +1,428 @@
+---
+import StoryGallery from "./StoryGallery.astro";
+import CountdownTimer from "./CountdownTimer.astro";
+import VenueSection from "./VenueSection.astro";
+import DressCodeSection from "./DressCodeSection.astro";
+import GuestListSection from "./GuestListSection.astro";
+import RSVPModal from "./RSVPModal.astro";
+import Footer from "./Footer.astro";
+import type { GuestInfo } from "../utils/guests";
+
+export interface Props {
+  guestInfo: GuestInfo;
+  debutanteName?: string;
+  debutDate?: string;
+  venueName?: string;
+}
+
+const {
+  guestInfo,
+  debutanteName = "Rysha Isabel Trovillas",
+} = Astro.props;
+---
+
+<!-- Actual Page Content (Revealed after Splash Opening Transition) -->
+<div id="main-revealed-content" class="main-revealed-wrapper hidden-main">
+  
+  <!-- Royal Celebration Header (ISABEL | XVIII) -->
+  <header class="revealed-hero-header section-padding" id="main-top">
+    <div class="container-custom text-center">
+      
+      <!-- Top Royal Crest Badge -->
+      <div class="top-crest-badge font-serif reveal-on-scroll">
+        <span class="star-accent">✦</span>
+        <span class="badge-text">CHAPTER XVIII DEBUT CELEBRATION</span>
+        <span class="star-accent">✦</span>
+      </div>
+
+      <!-- Main Event Title Frame (ISABEL | XVIII) -->
+      <div class="main-title-frame-container reveal-on-scroll">
+        <div class="title-side-line left-line"></div>
+        <h1 class="main-event-title font-serif text-gold-gradient">
+          ISABEL <span class="divider-star">✦</span> XVIII
+        </h1>
+        <div class="title-side-line right-line"></div>
+      </div>
+
+      <!-- Debutante Formal Name -->
+      <div class="debutante-name-block reveal-on-scroll">
+        <div class="filigree-line-wrapper">
+          <span class="filigree-diamond">✦</span>
+          <span class="filigree-hairline"></span>
+          <h2 class="main-debutante-title font-cursive text-gold-gradient">{debutanteName}</h2>
+          <span class="filigree-hairline"></span>
+          <span class="filigree-diamond">✦</span>
+        </div>
+      </div>
+
+      <!-- Structured Luxury Event Details Card (Includes Venue!) -->
+      <div class="event-details-card glass-card reveal-on-scroll">
+        <div class="detail-badge-item">
+          <span class="detail-label font-serif">EVENT</span>
+          <span class="detail-val font-serif-sub">18th Birthday Debut Celebration</span>
+        </div>
+
+        <div class="detail-star-divider">✦</div>
+
+        <div class="detail-badge-item">
+          <span class="detail-label font-serif">DATE & TIME</span>
+          <span class="detail-val font-serif-sub">Sunday, August 30, 2026 • 5:00 PM</span>
+        </div>
+
+        <div class="detail-star-divider">✦</div>
+
+        <div class="detail-badge-item">
+          <span class="detail-label font-serif">VENUE</span>
+          <span class="detail-val font-serif-sub">Alton Bar and Restaurant, Kabankalan City</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Story Gallery Section -->
+  <StoryGallery />
+
+  <!-- Real-Time Countdown Clock -->
+  <CountdownTimer targetDate="2026-08-30T17:00:00" />
+
+  <!-- Standalone Venue Section (Custom Dark Map) -->
+  <VenueSection />
+
+  <!-- Standalone Dress Code & Theme Section -->
+  <DressCodeSection />
+
+  <!-- Full XVIII Entourage Guest List Roster -->
+  <GuestListSection currentGuestName={guestInfo.rawName} />
+
+  <!-- Simplified RSVP Form & VIP Pass Card -->
+  <RSVPModal guestName={guestInfo.rawName} role={guestInfo.role} />
+
+  <!-- Page Footer -->
+  <Footer guestName={guestInfo.rawName} />
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollBtn = document.getElementById('scroll-down-btn');
+    const stickyWrap = document.getElementById('sticky-scroll-wrap');
+
+    if (scrollBtn) {
+      scrollBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.getElementById('photoshoot');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Hide sticky scroll indicator near bottom of page
+    if (stickyWrap) {
+      window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY || window.pageYOffset;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        
+        if (scrollPos > totalHeight - 300) {
+          stickyWrap.classList.add('sticky-hidden');
+        } else {
+          stickyWrap.classList.remove('sticky-hidden');
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .main-revealed-wrapper {
+    position: relative;
+    z-index: 1;
+    transition:
+      opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .main-revealed-wrapper.hidden-main {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(30px);
+  }
+
+  .main-revealed-wrapper.revealed-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .revealed-hero-header {
+    padding-top: 4.5rem;
+    padding-bottom: 4rem;
+    position: relative;
+  }
+
+  /* Top Royal Crest Badge */
+  .top-crest-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1.25rem;
+    border-radius: 20px;
+    background: rgba(11, 19, 43, 0.75);
+    border: 1px solid var(--gold-500);
+    box-shadow:
+      0 4px 15px rgba(0, 0, 0, 0.6),
+      0 0 15px rgba(212, 175, 55, 0.2);
+    margin-bottom: 1.5rem;
+  }
+
+  .star-accent {
+    color: var(--gold-400);
+    font-size: 0.8rem;
+  }
+
+  .badge-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-300);
+    font-weight: 700;
+  }
+
+  /* Main Title Frame Container */
+  .main-title-frame-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .title-side-line {
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--gold-400),
+      transparent
+    );
+  }
+
+  @media (max-width: 600px) {
+    .title-side-line {
+      display: none;
+    }
+  }
+
+  .main-event-title {
+    font-size: clamp(2rem, 5.5vw, 4.25rem);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    white-space: nowrap;
+  }
+
+  .divider-star {
+    font-size: 0.6em;
+    color: var(--gold-400);
+    vertical-align: middle;
+  }
+
+  /* Debutante Name Block */
+  .debutante-name-block {
+    margin-bottom: 1.5rem;
+  }
+
+  .filigree-line-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 90%;
+  }
+
+  .filigree-hairline {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--gold-400),
+      transparent
+    );
+  }
+
+  @media (max-width: 600px) {
+    .filigree-hairline {
+      width: 25px;
+    }
+  }
+
+  .filigree-diamond {
+    color: var(--gold-400);
+    font-size: 0.85rem;
+  }
+
+  .main-debutante-title {
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  /* Structured Luxury Event Details Card */
+  .event-details-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem 2rem;
+    padding: 1.25rem 2rem;
+    max-width: 950px;
+    margin: 1.5rem auto 0 auto;
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.2);
+    border-radius: 20px;
+  }
+
+  .detail-badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detail-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    color: var(--gold-400);
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+  }
+
+  .detail-val {
+    font-size: 1.05rem;
+    color: var(--starlight);
+    white-space: nowrap;
+  }
+
+  .detail-star-divider {
+    color: var(--gold-400);
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 767px) {
+    .event-details-card {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.25rem 1.25rem;
+    }
+
+    .detail-star-divider {
+      display: none;
+    }
+
+    .detail-val {
+      white-space: normal;
+      text-align: center;
+    }
+  }
+
+  /* Sticky Flashing Animated Scroll Indicator */
+  .hero-scroll-indicator-wrap {
+    position: fixed;
+    bottom: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: auto;
+  }
+
+  .hero-scroll-indicator-wrap.sticky-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 20px);
+  }
+
+  .scroll-indicator-link {
+    background: rgba(6, 11, 25, 0.88) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--gold-500) !important;
+    border-radius: 24px;
+    padding: 0.4rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none !important;
+    color: var(--gold-300) !important;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .scroll-indicator-link:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 0 25px rgba(212, 175, 55, 0.5);
+    color: var(--gold-200) !important;
+  }
+
+  .scroll-label-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    font-weight: 700;
+    color: var(--gold-300) !important;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    white-space: nowrap;
+  }
+
+  .animated-chevron-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: -4px;
+  }
+
+  .chevron-svg {
+    color: var(--gold-300);
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+  }
+
+  .chevron-1 {
+    animation: chevronFlashPulse 1.8s ease-in-out infinite;
+  }
+
+  .chevron-2 {
+    margin-top: -6px;
+    animation: chevronFlashPulse 1.8s ease-in-out infinite 0.35s;
+    opacity: 0.6;
+  }
+
+  @keyframes chevronFlashPulse {
+    0% {
+      opacity: 0.2;
+      transform: translateY(-4px) scale(0.9);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(3px) scale(1.1);
+      filter: drop-shadow(0 0 14px rgba(255, 246, 213, 0.95)) drop-shadow(0 0 6px rgba(212, 175, 55, 1));
+    }
+    100% {
+      opacity: 0.2;
+      transform: translateY(8px) scale(0.9);
+    }
+  }
+</style>

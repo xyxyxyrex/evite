@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Monsieur+La+Doulaise&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --navy-950: #030611;
+  --navy-900: #060B19;
+  --navy-850: #0B132B;
+  --navy-800: #101B3B;
+  --navy-700: #1C2541;
+  --navy-600: #25335A;
+  
+  --gold-50: #FFFDF0;
+  --gold-100: #FBF3CB;
+  --gold-200: #F6E597;
+  --gold-300: #EECE5A;
+  --gold-400: #E5B82C;
+  --gold-500: #D4AF37;
+  --gold-600: #B38E22;
+  --gold-700: #8C6A15;
+
+  /* Taylor Swift Speak Now & RED Theme Accents */
+  --purple-speaknow-dark: #3B0764;
+  --purple-speaknow: #7E22CE;
+  --purple-speaknow-light: #C084FC;
+  --purple-glow: rgba(168, 85, 247, 0.35);
+
+  --red-era-dark: #450A0A;
+  --red-era: #B91C1C;
+  --red-era-light: #F87171;
+  --red-glow: rgba(239, 68, 68, 0.35);
+
+  --starlight: #EAEFFC;
+  --starlight-dim: #94A3B8;
+
+  --font-cursive: 'Great Vibes', cursive;
+  --font-cursive-alt: 'Monsieur La Doulaise', cursive;
+  --font-serif: 'Cinzel', serif;
+  --font-serif-sub: 'Cormorant Garamond', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+  --glass-bg: rgba(11, 19, 43, 0.88);
+  --glass-border: rgba(212, 175, 55, 0.35);
+  --glass-border-glow: rgba(212, 175, 55, 0.6);
+  --glass-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--navy-950);
+  color: var(--starlight);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Splash Locked Viewport Mode */
+body.splash-locked {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Typography Utility Classes */
+.font-cursive { font-family: var(--font-cursive); }
+.font-script { font-family: var(--font-cursive-alt); }
+.font-serif { font-family: var(--font-serif); letter-spacing: 0.05em; }
+.font-serif-sub { font-family: var(--font-serif-sub); }
+
+/* Radiant Gold Shimmer Gradient (Hardware Accelerated) */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDF3CB 30%, #EECE5A 60%, #D4AF37 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5)) !important;
+}
+
+.text-cursive-glow {
+  font-family: var(--font-cursive);
+  color: #FFEA9F;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 24px rgba(212, 175, 55, 0.6);
+}
+
+/* Glassmorphism Cards (Mobile GPU Optimized) */
+.glass-card {
+  background: rgba(8, 14, 30, 0.92);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 769px) {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-300), transparent);
+  opacity: 0.7;
+}
+
+/* Buttons */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #D97706 100%) !important;
+  color: var(--navy-950) !important;
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  border: 1.5px solid #FFFFFF !important;
+  cursor: pointer;
+  box-shadow: 0 4px 25px rgba(245, 158, 11, 0.5), 0 0 15px rgba(255, 255, 255, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold:hover {
+  transform: scale(1.04) translateY(-2px);
+  box-shadow: 0 8px 35px rgba(245, 158, 11, 0.75), 0 0 25px rgba(255, 255, 255, 0.8);
+}
+
+.btn-outline-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(11, 19, 43, 0.6);
+  color: var(--gold-200);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 1.8rem;
+  border-radius: 50px;
+  border: 1px solid var(--gold-300);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.btn-outline-gold:hover {
+  background: rgba(212, 175, 55, 0.18);
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(254, 240, 138, 0.4);
+}
+
+/* Animations */
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float { animation: floatSoft 5s ease-in-out infinite; }
+
+.container-custom {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Scroll Reveal Animation Utilities */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

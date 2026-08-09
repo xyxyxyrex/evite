@@ -1,0 +1,283 @@
+---
+---
+
+<!-- Floating Sticky "Scroll Down" Indicator above Navbar -->
+<div class="sticky-scroll-pill-wrap" id="sticky-scroll-pill-wrap">
+  <button id="global-scroll-down-btn" class="scroll-pill-btn font-serif" type="button" aria-label="Scroll down to explore page">
+    <span class="scroll-pill-text">SCROLL DOWN</span>
+    <div class="animated-chevron-stack">
+      <svg class="chevron-svg chevron-1" width="14" height="8" viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 2 12 10 20 2"></polyline>
+      </svg>
+      <svg class="chevron-svg chevron-2" width="14" height="8" viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 2 12 10 20 2"></polyline>
+      </svg>
+    </div>
+  </button>
+</div>
+
+<nav class="sticky-nav-bar" id="sticky-nav" aria-label="Quick Navigation">
+  <div class="sticky-nav-items">
+    
+    <!-- 1. Home -->
+    <a href="#main-top" class="nav-item" aria-label="Home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span class="nav-label font-serif">Home</span>
+    </a>
+
+    <!-- 2. Gallery -->
+    <a href="#photoshoot" class="nav-item" aria-label="Gallery">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </svg>
+      <span class="nav-label font-serif">Gallery</span>
+    </a>
+
+    <!-- 3. RSVP (Primary Center Button with Sparkling Star Icon) -->
+    <a href="#rsvp-section" class="nav-item nav-item-primary" aria-label="RSVP">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"/>
+      </svg>
+      <span class="nav-label font-serif">RSVP</span>
+    </a>
+
+    <!-- 4. Venue -->
+    <a href="#venue" class="nav-item" aria-label="Venue">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+      <span class="nav-label font-serif">Venue</span>
+    </a>
+
+    <!-- 5. Dress Code -->
+    <a href="#dresscode-section" class="nav-item" aria-label="Dress Code">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+        <path d="M2 12h20"/>
+      </svg>
+      <span class="nav-label font-serif">Dress Code</span>
+    </a>
+
+  </div>
+</nav>
+
+<script>
+  function onReady(fn: () => void) {
+    if (document.readyState !== 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  onReady(() => {
+    const navLinks = document.querySelectorAll('.sticky-nav-bar .nav-item');
+    const scrollPillWrap = document.getElementById('sticky-scroll-pill-wrap');
+    const scrollPillBtn = document.getElementById('global-scroll-down-btn');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    if (scrollPillBtn) {
+      scrollPillBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const galleryTarget = document.getElementById('photoshoot');
+        if (galleryTarget) {
+          galleryTarget.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollBy({ top: window.innerHeight * 0.75, behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Hide sticky scroll indicator near bottom of page
+    if (scrollPillWrap) {
+      window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY || window.pageYOffset;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        
+        if (scrollPos > totalHeight - 350) {
+          scrollPillWrap.classList.add('is-hidden');
+        } else {
+          scrollPillWrap.classList.remove('is-hidden');
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Sticky Scroll Pill Floating directly above Mobile Sticky Navbar */
+  .sticky-scroll-pill-wrap {
+    position: fixed !important;
+    bottom: 96px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 999998 !important;
+    pointer-events: auto !important;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  body.splash-locked .sticky-scroll-pill-wrap,
+  .sticky-scroll-pill-wrap.is-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translate(-50%, 15px) !important;
+  }
+
+  .scroll-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.4rem 1.15rem;
+    background: rgba(8, 14, 30, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(212, 175, 55, 0.55);
+    border-radius: 9999px;
+    color: #F5F5F0;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 16px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .scroll-pill-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #D4AF37;
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.9), 0 0 22px rgba(212, 175, 55, 0.5);
+  }
+
+  .scroll-pill-text {
+    font-weight: 700;
+    color: #FFEA9F;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+
+  .animated-chevron-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chevron-svg {
+    color: #FFEA9F;
+  }
+
+  .chevron-1 {
+    animation: pillChevronPulse 1.6s ease-in-out infinite;
+  }
+
+  .chevron-2 {
+    margin-top: -5px;
+    animation: pillChevronPulse 1.6s ease-in-out infinite 0.3s;
+    opacity: 0.5;
+  }
+
+  @keyframes pillChevronPulse {
+    0% { opacity: 0.2; transform: translateY(-2px); }
+    50% { opacity: 1; transform: translateY(2px); filter: drop-shadow(0 0 6px rgba(255, 234, 159, 0.9)); }
+    100% { opacity: 0.2; transform: translateY(4px); }
+  }
+
+  .sticky-nav-bar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
+    padding: 0.65rem 1rem 0.85rem 1rem;
+    background: rgba(6, 11, 25, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.2);
+    display: block !important;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  /* Completely hide navigation bar while splash screen is active */
+  body.splash-locked .sticky-nav-bar {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(100%) !important;
+  }
+
+  .sticky-nav-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--starlight-dim);
+    text-decoration: none;
+    font-size: 0.7rem;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    transition: all 0.25s ease;
+    padding: 0.2rem 0.4rem;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .nav-item:hover, .nav-item:focus {
+    color: var(--gold-300);
+    transform: translateY(-2px);
+  }
+
+  .nav-item-primary {
+    color: #FFEA9F !important;
+    background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.45) 0%, rgba(11, 19, 43, 0.95) 100%);
+    padding: 0.55rem 1.1rem;
+    border-radius: 24px;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
+    margin-top: -0.65rem;
+    border: 1.5px solid #D4AF37;
+  }
+
+  .nav-item-primary svg {
+    color: #FFEA9F !important;
+    fill: #FFEA9F !important;
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.8));
+  }
+
+  .nav-item-primary .nav-label {
+    color: #FFEA9F !important;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+
+  .nav-item-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.85);
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+export interface Props {
+  targetDate?: string;
+}
+
+const { targetDate = "2026-11-14T16:00:00" } = Astro.props;
+---
+
+<section class="section-padding countdown-section" id="countdown">
+  <div class="container-custom text-center">
+    <div class="section-header">
+      <span class="section-badge font-serif">Countdown to Joy</span>
+      <h2 class="section-title text-gold-gradient font-serif">
+        Counting Down to Our Special Day
+      </h2>
+      <p class="section-desc font-serif-sub">August 30, 2026 • 5:00 PM</p>
+    </div>
+
+    <div class="countdown-grid" id="timer-grid" data-target={targetDate}>
+      <div class="glass-card timer-card">
+        <span class="timer-value text-gold-gradient" id="days">00</span>
+        <span class="timer-label font-serif">Days</span>
+      </div>
+
+      <div class="glass-card timer-card">
+        <span class="timer-value text-gold-gradient" id="hours">00</span>
+        <span class="timer-label font-serif">Hours</span>
+      </div>
+
+      <div class="glass-card timer-card">
+        <span class="timer-value text-gold-gradient" id="minutes">00</span>
+        <span class="timer-label font-serif">Minutes</span>
+      </div>
+
+      <div class="glass-card timer-card">
+        <span class="timer-value text-gold-gradient" id="seconds">00</span>
+        <span class="timer-label font-serif">Seconds</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function updateCountdown() {
+    const timerGrid = document.getElementById("timer-grid");
+    if (!timerGrid) return;
+
+    const targetDateStr =
+      timerGrid.getAttribute("data-target") || "2026-11-14T16:00:00";
+    const targetDate = new Date(targetDateStr).getTime();
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance < 0) {
+      document.getElementById("days")!.innerText = "00";
+      document.getElementById("hours")!.innerText = "00";
+      document.getElementById("minutes")!.innerText = "00";
+      document.getElementById("seconds")!.innerText = "00";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+    );
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    const dEl = document.getElementById("days");
+    const hEl = document.getElementById("hours");
+    const mEl = document.getElementById("minutes");
+    const sEl = document.getElementById("seconds");
+
+    if (dEl) dEl.innerText = String(days).padStart(2, "0");
+    if (hEl) hEl.innerText = String(hours).padStart(2, "0");
+    if (mEl) mEl.innerText = String(minutes).padStart(2, "0");
+    if (sEl) sEl.innerText = String(seconds).padStart(2, "0");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  });
+</script>
+
+<style>
+  .countdown-section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-desc {
+    font-size: 1.1rem;
+    color: var(--starlight-dim);
+  }
+
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 640px) {
+    .countdown-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .timer-card {
+    padding: 1.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .timer-value {
+    font-family: var(--font-serif);
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .timer-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--starlight);
+    opacity: 0.8;
+  }
+</style>

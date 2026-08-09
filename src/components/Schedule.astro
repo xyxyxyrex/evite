@@ -1,0 +1,157 @@
+---
+const itinerary = [
+  {
+    time: "5:00 PM",
+    title: "Guest Arrival & Welcome Reception",
+    desc: "Red carpet arrival at Alton Bar and Restaurant, photo wall moments, and guest gathering.",
+    icon: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+  },
+  {
+    time: "6:00 PM",
+    title: "Birthday Program & Toasts",
+    desc: "Special debutante toasts, family tributes, and celebrating Rysha's 18th milestone.",
+    icon: "M12 2v4M12 10v12M8 22h8M10 6a2 2 0 0 1 4 0c0 2-2 4-2 4s-2-2-2-4z"
+  },
+  {
+    time: "7:00 PM",
+    title: "Gourmet Banquet & Celebration Toast",
+    desc: "Delicious dinner at Alton Bar and Restaurant, birthday cake cutting, and champagne toast.",
+    icon: "M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7M4 12V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5M12 5v16"
+  },
+  {
+    time: "8:30 PM",
+    title: "Social Hour & Afterparty Dancing",
+    desc: "Open dance floor, music, and celebrating the night away with loved ones.",
+    icon: "M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"
+  }
+];
+---
+
+<section class="section-padding schedule-section" id="details-section">
+  <div class="container-custom">
+    
+    <div class="section-header text-center">
+      <span class="section-badge font-serif">Order of Events</span>
+      <h2 class="section-title text-gold-gradient font-serif">Debut Celebration Program</h2>
+      <p class="section-desc font-serif-sub">A magical evening filled with honor, laughter, and unforgettable memories.</p>
+    </div>
+
+    <div class="itinerary-grid">
+      {itinerary.map((item) => (
+        <div class="glass-card itinerary-card">
+          <div class="itinerary-header">
+            <div class="time-pill font-serif">{item.time}</div>
+            <div class="itinerary-icon-box">
+              <svg class="itinerary-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d={item.icon}/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="itinerary-title font-serif">{item.title}</h3>
+          <p class="itinerary-desc">{item.desc}</p>
+          <div class="itinerary-decor font-serif">✦ ✦ ✦</div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .schedule-section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .text-center { text-align: center; }
+
+  .section-header { margin-bottom: 3.5rem; }
+  .section-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .section-title { font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .section-desc { font-size: 1.1rem; color: var(--starlight-dim); }
+
+  .itinerary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .itinerary-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .itinerary-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .itinerary-card {
+    padding: 1.75rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .itinerary-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .time-pill {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--gold-300);
+    border: 1px solid var(--gold-500);
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .itinerary-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(28, 37, 65, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-400);
+  }
+
+  .itinerary-svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .itinerary-title {
+    font-size: 1.2rem;
+    color: var(--starlight);
+    margin-bottom: 0.75rem;
+  }
+
+  .itinerary-desc {
+    font-size: 0.9rem;
+    color: var(--starlight-dim);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+  }
+
+  .itinerary-decor {
+    color: var(--gold-400);
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    opacity: 0.8;
+  }
+</style>

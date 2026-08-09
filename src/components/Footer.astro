@@ -1,0 +1,105 @@
+---
+export interface Props {
+  guestName?: string;
+}
+
+const { guestName = "Honored Guest" } = Astro.props;
+---
+
+<footer class="footer-section">
+  <div class="container-custom text-center">
+    
+    <!-- Top Filigree Crest -->
+    <div class="footer-crest font-serif">
+      <span class="crest-line"></span>
+      <span class="crest-star">✦</span>
+      <span class="crest-text text-gold-gradient">ISABEL | XVIII</span>
+      <span class="crest-star">✦</span>
+      <span class="crest-line"></span>
+    </div>
+
+    <h3 class="footer-message font-cursive text-gold-gradient">
+      We can't wait to celebrate with you!
+    </h3>
+
+    <p class="footer-tagline font-serif-sub">
+      Sunday, August 30, 2026 @ 5PM • Alton Bar and Restaurant, Kabankalan City
+    </p>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy font-sans">
+        Personal Debut Invitation for <strong class="text-gold-200">{guestName}</strong>. Crafted with love & stardust.
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .footer-section {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 1.25rem 5rem 1.25rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    background: linear-gradient(to top, rgba(3, 6, 17, 0.98), rgba(6, 11, 25, 0.8));
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+  }
+
+  .text-center { text-align: center; }
+
+  .footer-crest {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .crest-line {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
+  }
+
+  .crest-star {
+    color: var(--gold-400);
+    font-size: 0.9rem;
+  }
+
+  .crest-text {
+    font-size: 0.9rem;
+    letter-spacing: 0.25em;
+    font-weight: 700;
+  }
+
+  .footer-message {
+    font-size: 2.85rem;
+    line-height: 1.15;
+    margin-bottom: 0.6rem;
+  }
+
+  .footer-tagline {
+    font-size: 1.1rem;
+    color: var(--starlight-dim);
+    margin-bottom: 2rem;
+  }
+
+  .footer-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+    margin: 0 auto 2rem auto;
+  }
+
+  .footer-copy {
+    font-size: 0.85rem;
+    color: var(--starlight-dim);
+    opacity: 0.85;
+  }
+
+  .text-gold-200 {
+    color: var(--gold-200);
+  }
+</style>

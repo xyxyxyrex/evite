@@ -1,0 +1,205 @@
+---
+---
+
+<section class="section-padding dresscode-standalone-section" id="dresscode-section">
+  <div class="container-custom">
+    
+    <div class="section-header text-center">
+      <span class="section-badge font-serif">ATTIRE & THEME</span>
+      <h2 class="section-title text-gold-gradient font-serif">Dress Code Guidelines</h2>
+      <p class="section-desc font-serif-sub">Dressing for Isabel's Enchanted 18th Debut Celebration.</p>
+    </div>
+
+    <div class="glass-card dresscode-hero-card">
+      <div class="dresscode-content-layout">
+        
+        <div class="dresscode-header-box text-center">
+          <span class="theme-tag font-serif">✦ FORMAL ATTIRE ✦</span>
+          <h3 class="dresscode-title font-cursive text-gold-gradient">White, Shades of White & White Details</h3>
+          <p class="dresscode-lead font-serif-sub">
+            We kindly invite our honored guests to wear Formal Attire featuring <strong>White</strong>, <strong>Shades of White</strong>, or <strong>White Details</strong>.
+          </p>
+        </div>
+
+        <!-- Centered 3-Card Layout with Pure Vector Swatches (Zero Box Artifacts) -->
+        <div class="palette-swatches-container">
+          
+          <!-- Option 1: Solid Pure White -->
+          <div class="swatch-card glass-card">
+            <div class="swatch-circle-glow white-glow">
+              <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="34" cy="34" r="32" fill="#FFFFFF" stroke="#D4AF37" stroke-width="2.5"/>
+              </svg>
+            </div>
+            <h4 class="swatch-name font-serif">White Attire</h4>
+            <p class="swatch-desc font-sans">Full White Gowns, Suits, or Formal Dresses</p>
+          </div>
+
+          <!-- Option 2: Animated Moving Gradient of All White Shades -->
+          <div class="swatch-card glass-card">
+            <div class="swatch-circle-glow shades-glow">
+              <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="movingWhiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFFFF">
+                      <animate attributeName="stop-color" values="#FFFFFF; #FFFDF0; #F5F5E6; #FFF8E7; #FFFFFF" dur="6s" repeatCount="indefinite" />
+                    </stop>
+                    <stop offset="50%" stop-color="#FFFDF0">
+                      <animate attributeName="stop-color" values="#FFFDF0; #F5F5E6; #FFF8E7; #FFFFFF; #FFFDF0" dur="6s" repeatCount="indefinite" />
+                    </stop>
+                    <stop offset="100%" stop-color="#F5F5E6">
+                      <animate attributeName="stop-color" values="#F5F5E6; #FFF8E7; #FFFFFF; #FFFDF0; #F5F5E6" dur="6s" repeatCount="indefinite" />
+                    </stop>
+                  </linearGradient>
+                </defs>
+                <circle cx="34" cy="34" r="32" fill="url(#movingWhiteGrad)" stroke="#D4AF37" stroke-width="2.5"/>
+              </svg>
+            </div>
+            <h4 class="swatch-name font-serif">Shades of White</h4>
+            <p class="swatch-desc font-sans">Ivory, Cream, Off-White, or Alabaster Tones</p>
+          </div>
+
+          <!-- Option 3: With White Details -->
+          <div class="swatch-card glass-card">
+            <div class="swatch-circle-glow details-glow">
+              <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="detailsRadial" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFFFFF"/>
+                    <stop offset="55%" stop-color="#CBD5E1"/>
+                    <stop offset="100%" stop-color="#0B132B"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="34" cy="34" r="32" fill="url(#detailsRadial)" stroke="#FFFFFF" stroke-width="2.5"/>
+              </svg>
+            </div>
+            <h4 class="swatch-name font-serif">With White Details</h4>
+            <p class="swatch-desc font-sans">Attire featuring White Accents, Embroidery, or Patterns</p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .dresscode-standalone-section {
+    position: relative;
+    z-index: 1;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .text-center { text-align: center; }
+
+  .section-header { margin-bottom: 3rem; }
+  .section-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .section-desc { font-size: 1.15rem; color: var(--starlight-dim); }
+
+  .dresscode-hero-card {
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 255, 255, 0.15);
+  }
+
+  .theme-tag {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-300);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .dresscode-title {
+    font-size: 2.75rem;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .dresscode-lead {
+    font-size: 1.2rem;
+    color: var(--starlight);
+    max-width: 680px;
+    margin: 0 auto 2.5rem auto;
+    font-style: italic;
+  }
+
+  /* Centered Flex Layout for 3 Swatch Cards */
+  .palette-swatches-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .swatch-card {
+    flex: 1 1 260px;
+    max-width: 310px;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(11, 19, 43, 0.75) !important;
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .swatch-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Perfect Round Circle Glow Wrapper (Zero Square Filter Artifacts) */
+  .swatch-circle-glow {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    margin-bottom: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .white-glow {
+    box-shadow: 0 0 22px rgba(255, 255, 255, 0.9), 0 0 12px rgba(212, 175, 55, 0.8);
+  }
+
+  .shades-glow {
+    box-shadow: 0 0 22px rgba(255, 255, 240, 0.9), 0 0 12px rgba(212, 175, 55, 0.8);
+  }
+
+  .details-glow {
+    box-shadow: 0 0 22px rgba(255, 255, 255, 0.8), 0 0 12px rgba(212, 175, 55, 0.8);
+  }
+
+  .swatch-name {
+    font-size: 1.25rem;
+    color: var(--gold-200);
+    margin-bottom: 0.35rem;
+  }
+
+  .swatch-desc {
+    font-size: 0.9rem;
+    color: var(--starlight-dim);
+    line-height: 1.4;
+  }
+</style>

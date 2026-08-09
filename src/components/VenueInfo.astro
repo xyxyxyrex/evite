@@ -1,0 +1,284 @@
+---
+---
+
+<section class="section-padding venue-section" id="venue">
+  <div class="container-custom">
+    
+    <div class="section-header text-center">
+      <span class="section-badge font-serif">Destination & Attire</span>
+      <h2 class="section-title text-gold-gradient font-serif">Venue & Dress Code</h2>
+      <p class="section-desc font-serif-sub">Everything you need to know for your magical evening.</p>
+    </div>
+
+    <div class="venue-grid">
+      
+      <!-- Venue Details Card -->
+      <div class="glass-card venue-card">
+        <div class="venue-image-wrapper">
+          <img src="/images/venue.png" alt="Enchanted Glass Conservatory" class="venue-img" />
+          <div class="venue-badge font-serif">Primary Location</div>
+        </div>
+
+        <div class="venue-content">
+          <h3 class="venue-name font-serif">The Enchanted Glass Conservatory</h3>
+          <p class="venue-address">
+            <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            742 Celestial Avenue, Riviera Estate, NY 10021
+          </p>
+
+          <p class="venue-text font-serif-sub">
+            Nestled amid rolling botanical gardens, the Conservatory features soaring crystal glass ceilings, starlit courtyards, and warm ambient illumination.
+          </p>
+
+          <div class="venue-actions">
+            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn-outline-gold">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                <line x1="8" y1="2" x2="8" y2="18"/>
+                <line x1="16" y1="6" x2="16" y2="22"/>
+              </svg>
+              Open in Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dress Code & Accommodations Card -->
+      <div class="venue-side-cards">
+        
+        <!-- Dress Code Card -->
+        <div class="glass-card info-card">
+          <div class="card-icon-header">
+            <div class="icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div>
+              <span class="card-subtitle font-serif">Theme Guidelines</span>
+              <h4 class="card-title font-serif">Celestial & Navy Glamour</h4>
+            </div>
+          </div>
+          <p class="card-body">
+            <strong>Dress Code:</strong> Formal / Black-Tie Attire.<br/>
+            We invite guests to dress in our theme palette: <em>Midnight Navy Blue, Deep Sapphire, Celestial Emerald, and Shimmering Gold accents.</em>
+          </p>
+          <div class="color-swatches">
+            <span class="swatch swatch-navy" title="Midnight Navy"></span>
+            <span class="swatch swatch-sapphire" title="Sapphire Blue"></span>
+            <span class="swatch swatch-emerald" title="Deep Emerald"></span>
+            <span class="swatch swatch-gold" title="Celestial Gold"></span>
+          </div>
+        </div>
+
+        <!-- Accommodations Card -->
+        <div class="glass-card info-card">
+          <div class="card-icon-header">
+            <div class="icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 21h18M3 7v14M21 7v14M6 11h4M6 15h4M14 11h4M14 15h4M9 3h6l1 4H8l1-4z"/>
+              </svg>
+            </div>
+            <div>
+              <span class="card-subtitle font-serif">Stay & Comfort</span>
+              <h4 class="card-title font-serif">Accommodations</h4>
+            </div>
+          </div>
+          <p class="card-body">
+            Complimentary room block reserved at <strong>The Grand Starlight Hotel</strong> under <em>Vance-Wedding</em>. Shuttle transport provided to and from venue.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .venue-section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .section-header {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-desc {
+    font-size: 1.1rem;
+    color: var(--starlight-dim);
+  }
+
+  .venue-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 900px) {
+    .venue-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+  }
+
+  .venue-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .venue-image-wrapper {
+    position: relative;
+    height: 280px;
+  }
+
+  .venue-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .venue-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(11, 19, 43, 0.85);
+    color: var(--gold-300);
+    border: 1px solid var(--gold-500);
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .venue-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .venue-name {
+    font-size: 1.6rem;
+    color: var(--starlight);
+  }
+
+  .venue-address {
+    font-size: 0.9rem;
+    color: var(--gold-300);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .icon-inline {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .venue-text {
+    font-size: 1.05rem;
+    color: var(--starlight-dim);
+    line-height: 1.6;
+  }
+
+  .venue-actions {
+    margin-top: 0.5rem;
+  }
+
+  .venue-side-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-icon-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(28, 37, 65, 0.8);
+    border: 1px solid var(--gold-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-300);
+    flex-shrink: 0;
+  }
+
+  .card-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-400);
+    display: block;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    color: var(--starlight);
+  }
+
+  .card-body {
+    font-size: 0.925rem;
+    color: var(--starlight-dim);
+    line-height: 1.6;
+  }
+
+  .color-swatches {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  }
+
+  .swatch-navy { background: #0B132B; }
+  .swatch-sapphire { background: #1C2541; }
+  .swatch-emerald { background: #064E3B; }
+  .swatch-gold { background: #D4AF37; }
+</style>

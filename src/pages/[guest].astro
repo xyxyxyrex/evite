@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+import MagicPreloader from '../components/MagicPreloader.astro';
+import StarfieldCanvas from '../components/StarfieldCanvas.astro';
+import HeroSection from '../components/HeroSection.astro';
+import RevealedContent from '../components/RevealedContent.astro';
+import MobileNavBar from '../components/MobileNavBar.astro';
+import { GUESTS_DATA, getGuestInfo, toHyphenatedSlug, toCompactSlug, type GuestInfo } from '../utils/guests';
+
+export async function getStaticPaths() {
+  const pathsSet = new Set<string>();
+  const paths: Array<{ params: { guest: string }; props: { guestInfo: GuestInfo } }> = [];
+
+  const addPath = (slugParam: string, info: GuestInfo) => {
+    if (!slugParam || pathsSet.has(slugParam.toLowerCase())) return;
+    pathsSet.add(slugParam.toLowerCase());
+    paths.push({
+      params: { guest: slugParam },
+      props: { guestInfo: info }
+    });
+  };
+
+  // Generate paths for all guest names
+  for (const [_, names] of Object.entries(GUESTS_DATA)) {
+    for (const name of names) {
+      const info = getGuestInfo(name);
+      
+      // 1. Hyphenated slug e.g. /lenev-sorrosa
+      addPath(toHyphenatedSlug(name), info);
+
+      // 2. Compact slug e.g. /lenevsorrosa
+      addPath(toCompactSlug(name), info);
+
+      // 3. CamelCase e.g. /LenevSorrosa
+      const camelCase = name.replace(/[^a-zA-Z0-9]/g, '');
+      addPath(camelCase, info);
+    }
+  }
+
+  // Common demo paths
+  const demoJohn = getGuestInfo('John Doe');
+  addPath('johnDoe', demoJohn);
+  addPath('john-doe', demoJohn);
+
+  return paths;
+}
+
+interface Props {
+  guestInfo?: GuestInfo;
+}
+
+const { guest } = Astro.params;
+const guestInfo = Astro.props.guestInfo || getGuestInfo(guest);
+const debutanteName = "Rysha Isabel Trovillas";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={`18th Birthday Debut Invitation for ${guestInfo.rawName} - Rysha Isabel Trovillas.`} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Isabel | XVIII</title>
+</head>
+<body class="splash-locked">
+  
+  <!-- Magic Preloader -->
+  <MagicPreloader />
+
+  <!-- Enchanted Starfield Canvas Background -->
+  <StarfieldCanvas />
+
+  <!-- Fixed Splash Screen Hero Overlay -->
+  <HeroSection guestInfo={guestInfo} debutanteName={debutanteName} />
+
+  <!-- Main Revealed Content -->
+  <RevealedContent guestInfo={guestInfo} debutanteName={debutanteName} />
+
+  <!-- Bottom Floating Navigation Bar -->
+  <MobileNavBar />
+
+</body>
+</html>

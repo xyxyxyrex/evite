@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import MagicPreloader from '../components/MagicPreloader.astro';
+import StarfieldCanvas from '../components/StarfieldCanvas.astro';
+import HeroSection from '../components/HeroSection.astro';
+import RevealedContent from '../components/RevealedContent.astro';
+import MobileNavBar from '../components/MobileNavBar.astro';
+import { getGuestInfo } from '../utils/guests';
+
+const guestInfo = getGuestInfo('Honored Guest');
+const debutanteName = "Rysha Isabel Trovillas";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={`18th Birthday Debut Invitation for ${guestInfo.rawName} - Rysha Isabel Trovillas.`} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Isabel | XVIII</title>
+</head>
+<body class="splash-locked">
+  
+  <!-- Magic Preloader -->
+  <MagicPreloader />
+
+  <!-- Enchanted Starfield Canvas Background -->
+  <StarfieldCanvas />
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    
+    <!-- Single Frame Splash Section (100vh) -->
+    <HeroSection 
+      guestInfo={guestInfo}
+      debutanteName={debutanteName} 
+    />
+
+    <!-- Revealed Full Experience (Appears upon clicking Accept Invitation) -->
+    <RevealedContent 
+      guestInfo={guestInfo}
+      debutanteName={debutanteName} 
+    />
+
+  </main>
+
+  <!-- Bottom Floating Navigation Bar -->
+  <MobileNavBar />
+
+</body>
+</html>

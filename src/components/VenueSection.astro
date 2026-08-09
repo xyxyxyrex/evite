@@ -1,0 +1,360 @@
+---
+import { Image } from "astro:assets";
+import LocationImg from "../assets/location.jpg";
+---
+
+<section class="section-padding venue-standalone-section" id="venue">
+  <div class="container-custom">
+    
+    <div class="section-header text-center">
+      <span class="section-badge font-serif">DESTINATION</span>
+      <h2 class="section-title text-gold-gradient font-serif">The Venue</h2>
+      <p class="section-desc font-serif-sub">Alton Bar and Restaurant — Where memories come alive.</p>
+    </div>
+
+    <div class="glass-card venue-hero-card">
+      <div class="venue-content-layout">
+        
+        <!-- Venue Details Column -->
+        <div class="venue-info-box">
+          <div class="crest-tag font-serif">✦ PRIMARY CELEBRATION LOCATION ✦</div>
+          <h3 class="venue-title font-cursive text-gold-gradient">Alton Bar and Restaurant</h3>
+          
+          <div class="venue-address-block">
+            <svg class="venue-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span class="address-text font-sans">Kabankalan City, Negros Occidental</span>
+          </div>
+
+          <p class="venue-description font-serif-sub">
+            Join us for an enchanted evening of dining, music, and celebration at Alton Bar and Restaurant. Featuring sophisticated ambient illumination, exquisite dining, and an inviting atmosphere designed for Isabel's 18th debut.
+          </p>
+
+          <div class="venue-actions">
+            <button id="get-directions-btn" class="btn-gold">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                <line x1="8" y1="2" x2="8" y2="18"/>
+                <line x1="16" y1="6" x2="16" y2="22"/>
+              </svg>
+              <span>Get Directions ✦</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Dark-Styled Interactive Map Column -->
+        <div class="venue-map-col">
+          <div class="custom-map-wrapper glass-card" id="map-card-wrapper">
+            
+            <!-- Map Outer Gold Frame -->
+            <div class="map-gold-border"></div>
+            
+            <!-- Floating Venue Badge Top -->
+            <div class="map-badge font-serif" id="map-status-badge">✦ Alton Bar & Restaurant ✦</div>
+
+            <!-- Floating Circular Venue Photo Badge Bottom-Left (Overlaid on Map) -->
+            <div class="map-circular-photo-badge" id="map-photo-badge" title="Alton Bar and Restaurant Venue">
+              <Image 
+                src={LocationImg} 
+                alt="Alton Bar and Restaurant Venue Photo" 
+                width={180}
+                height={180}
+                quality={90}
+                format="webp"
+                class="map-circle-img"
+              />
+              <div class="map-circle-gold-ring"></div>
+            </div>
+
+            <!-- Glowing Center Gold Diamond Pin Overlay -->
+            <div class="center-gold-pin font-serif" id="gold-pin-marker">
+              <div class="pin-head">✦</div>
+              <div class="pin-pulse"></div>
+            </div>
+
+            <!-- Dark-Styled Directions Route Google Maps Iframe -->
+            <iframe 
+              id="venue-google-map"
+              class="dark-styled-map-iframe"
+              src="https://maps.google.com/maps?q=9.97898684714112,122.82095265173152&z=16&output=embed" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function onReady(fn: () => void) {
+    if (document.readyState !== 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  onReady(() => {
+    const destLat = 9.97898684714112;
+    const destLng = 122.82095265173152;
+
+    const btn = document.getElementById('get-directions-btn');
+    const mapWrapper = document.getElementById('map-card-wrapper');
+
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (mapWrapper) {
+          mapWrapper.classList.add('map-pulse-active');
+          setTimeout(() => mapWrapper.classList.remove('map-pulse-active'), 1200);
+        }
+
+        // Open Google Maps Directions safely in a new tab to avoid iOS WebKit iframe navigation errors
+        const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destLat},${destLng}`;
+        window.open(mapsUrl, '_blank', 'noopener,noreferrer');
+      });
+    }
+  });
+</script>
+
+<style>
+  .venue-standalone-section {
+    position: relative;
+    z-index: 1;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .text-center { text-align: center; }
+
+  .section-header { margin-bottom: 3rem; }
+  .section-badge {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .section-desc { font-size: 1.15rem; color: var(--starlight-dim); }
+
+  .venue-hero-card {
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--gold-500);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.2);
+  }
+
+  .venue-content-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .venue-content-layout {
+      grid-template-columns: 1fr 1.1fr;
+    }
+  }
+
+  .crest-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-300);
+    margin-bottom: 0.5rem;
+  }
+
+  .venue-title {
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .venue-address-block {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--gold-200);
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .venue-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--gold-400);
+    flex-shrink: 0;
+  }
+
+  .venue-description {
+    font-size: 1.15rem;
+    color: var(--starlight);
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .venue-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  /* Custom Map Wrapper */
+  .venue-map-col {
+    width: 100%;
+    height: 100%;
+  }
+
+  .custom-map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    min-height: 340px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--gold-500);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(212, 175, 55, 0.25);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .custom-map-wrapper.map-pulse-active {
+    transform: scale(1.02);
+    box-shadow: 0 0 35px rgba(212, 175, 55, 0.7);
+  }
+
+  .map-gold-border {
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    border-radius: 14px;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .map-badge {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: rgba(6, 11, 25, 0.88);
+    backdrop-filter: blur(8px);
+    color: var(--gold-300);
+    border: 1px solid var(--gold-500);
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
+  /* Floating Circular Venue Photo Overlaid Bottom-Left on Map */
+  .map-circular-photo-badge {
+    position: absolute;
+    bottom: 1.1rem;
+    left: 1.1rem;
+    z-index: 25;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2.5px solid var(--gold-400);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.95), 0 0 20px rgba(212, 175, 55, 0.5);
+    background: #060b19;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+    pointer-events: auto;
+  }
+
+  .map-circular-photo-badge:hover {
+    transform: scale(1.15) translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.98), 0 0 30px rgba(212, 175, 55, 0.8);
+    border-color: #FFFFFF;
+  }
+
+  .map-circle-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .map-circle-gold-ring {
+    position: absolute;
+    inset: 3px;
+    border: 1px fill rgba(212, 175, 55, 0.35);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Glowing Center Diamond Pin Overlay */
+  .center-gold-pin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    z-index: 20;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pin-head {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #FFF6D5, #D4AF37);
+    color: #060B19;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.9), 0 0 35px rgba(212, 175, 55, 0.5);
+    border: 2px solid #FFFFFF;
+  }
+
+  .pin-head::after {
+    content: "✦";
+    transform: rotate(45deg);
+  }
+
+  .pin-pulse {
+    position: absolute;
+    bottom: -4px;
+    width: 24px;
+    height: 8px;
+    background: rgba(212, 175, 55, 0.6);
+    border-radius: 50%;
+    animation: pinPulseShadow 2s ease-out infinite;
+  }
+
+  @keyframes pinPulseShadow {
+    0% { transform: scale(0.8); opacity: 0.9; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  /* Dark Midnight Inverted Theme Filter for Google Maps Embed */
+  .dark-styled-map-iframe {
+    width: 100%;
+    height: 100%;
+    filter: invert(90%) hue-rotate(190deg) contrast(120%) brightness(88%);
+    -webkit-filter: invert(90%) hue-rotate(190deg) contrast(120%) brightness(88%);
+    transition: filter 0.3s ease;
+  }
+</style>

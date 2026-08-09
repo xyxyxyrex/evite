@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Luminous Gold Shimmer Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="25%" stop-color="#FFF5D6" />
+      <stop offset="50%" stop-color="#F6E597" />
+      <stop offset="75%" stop-color="#EECE5A" />
+      <stop offset="100%" stop-color="#D4AF37" />
+    </linearGradient>
+
+    <!-- Deep Midnight Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0B132B" />
+      <stop offset="70%" stop-color="#060B19" />
+      <stop offset="100%" stop-color="#030611" />
+    </radialGradient>
+
+    <!-- Outer Gold Glow -->
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Circular Outer Midnight Canvas Base -->
+  <circle cx="256" cy="256" r="248" fill="url(#bgGrad)" stroke="url(#goldGrad)" stroke-width="6" />
+
+  <!-- Top Ornate Filigree Wings & Star Crown -->
+  <g filter="url(#goldGlow)">
+    <!-- Left Wing Line -->
+    <path d="M 40 100 Q 150 110 230 145" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" />
+    <circle cx="140" cy="107" r="6" fill="url(#goldGrad)" />
+    
+    <!-- Right Wing Line -->
+    <path d="M 472 100 Q 362 110 282 145" fill="none" stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round" />
+    <circle cx="372" cy="107" r="6" fill="url(#goldGrad)" />
+
+    <!-- Center Top Star -->
+    <polygon points="256,60 267,95 304,95 274,117 285,152 256,131 227,152 238,117 208,95 245,95" fill="url(#goldGrad)" />
+  </g>
+
+  <!-- Main Circular Gold Crest Border -->
+  <circle cx="256" cy="290" r="170" fill="none" stroke="url(#goldGrad)" stroke-width="7" filter="url(#goldGlow)" />
+  <circle cx="256" cy="290" r="158" fill="none" stroke="#F6E597" stroke-width="2" stroke-dasharray="6 8" opacity="0.85" />
+  <circle cx="256" cy="290" r="148" fill="none" stroke="url(#goldGrad)" stroke-width="2" opacity="0.6" />
+
+  <!-- Central Regal "18" Typography -->
+  <text 
+    x="256" 
+    y="348" 
+    font-family="'Cinzel', 'Georgia', 'Times New Roman', serif" 
+    font-size="160" 
+    font-weight="800" 
+    fill="url(#goldGrad)" 
+    text-anchor="middle" 
+    letter-spacing="-3"
+    filter="url(#goldGlow)"
+  >18</text>
+
+  <!-- Small Diamond Star Accents on Crest Rim -->
+  <g fill="url(#goldGrad)">
+    <circle cx="256" cy="116" r="4" />
+    <circle cx="256" cy="464" r="4" />
+    <circle cx="82" cy="290" r="4" />
+    <circle cx="430" cy="290" r="4" />
+  </g>
+
+</svg>

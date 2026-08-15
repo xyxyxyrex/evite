@@ -3,7 +3,9 @@ import test from "node:test";
 import {
   getMagicTrailPoint,
   getSceneOffsets,
+  normalizeOrientation,
   normalizeScenePointer,
+  sampleMagicTrail,
 } from "../src/utils/landingScene.ts";
 
 test("normalizes the scene center and edges", () => {
@@ -51,4 +53,21 @@ test("routes the trail around the central face region", () => {
     const insideFace = x > 0.31 && x < 0.76 && y > 0.2 && y < 0.58;
     assert.equal(insideFace, false);
   }
+});
+
+test("interpolates continuously between cached magic trail samples", () => {
+  const output = { x: 0, y: 0 };
+  const result = sampleMagicTrail(0.125, [0, 1, 0, -1], [0, 0, 1, 0], output);
+  assert.equal(result, output);
+  assert.deepEqual(output, { x: 0.5, y: 0 });
+
+  sampleMagicTrail(1.125, [0, 1, 0, -1], [0, 0, 1, 0], output);
+  assert.deepEqual(output, { x: 0.5, y: 0 });
+});
+
+test("normalizes and clamps phone orientation deltas", () => {
+  assert.deepEqual(normalizeOrientation(0, 0), { x: 0, y: 0 });
+  assert.deepEqual(normalizeOrientation(9, -18), { x: -1, y: 0.5 });
+  assert.deepEqual(normalizeOrientation(-90, 90), { x: 1, y: -1 });
+  assert.deepEqual(normalizeOrientation(Number.NaN, 4), { x: 0, y: 0 });
 });

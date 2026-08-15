@@ -23,7 +23,7 @@ const FULL_BUDGET: RenderingBudget = {
   handwritingCanvasDpr: 1.5,
   confettiParticles: 180,
   sceneSparkleCount: 12,
-  sceneSparkleFps: 30,
+  sceneSparkleFps: 60,
   sceneCanvasDpr: 1.5,
   transitionMotes: 12,
 };
@@ -37,7 +37,7 @@ const MOBILE_BUDGET: RenderingBudget = {
   handwritingCanvasDpr: 1,
   confettiParticles: 40,
   sceneSparkleCount: 6,
-  sceneSparkleFps: 20,
+  sceneSparkleFps: 60,
   sceneCanvasDpr: 1,
   transitionMotes: 6,
 };

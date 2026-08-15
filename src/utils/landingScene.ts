@@ -63,3 +63,37 @@ export function getMagicTrailPoint(progress: number): ScenePointer {
     y: a * segment[1] + b * segment[3] + c * segment[5] + d * segment[7],
   };
 }
+
+export function sampleMagicTrail(
+  progress: number,
+  xSamples: ArrayLike<number>,
+  ySamples: ArrayLike<number>,
+  output: ScenePointer,
+): ScenePointer {
+  const count = Math.min(xSamples.length, ySamples.length);
+  if (count < 2 || !Number.isFinite(progress)) {
+    output.x = 0;
+    output.y = 0;
+    return output;
+  }
+
+  const wrapped = ((progress % 1) + 1) % 1;
+  const scaled = wrapped * count;
+  const from = Math.floor(scaled) % count;
+  const to = (from + 1) % count;
+  const amount = scaled - Math.floor(scaled);
+  output.x = xSamples[from] + (xSamples[to] - xSamples[from]) * amount;
+  output.y = ySamples[from] + (ySamples[to] - ySamples[from]) * amount;
+  return output;
+}
+
+export function normalizeOrientation(betaDelta: number, gammaDelta: number): ScenePointer {
+  if (!Number.isFinite(betaDelta) || !Number.isFinite(gammaDelta)) {
+    return { x: 0, y: 0 };
+  }
+
+  return {
+    x: clampAxis(gammaDelta / 18),
+    y: clampAxis(betaDelta / 18),
+  };
+}

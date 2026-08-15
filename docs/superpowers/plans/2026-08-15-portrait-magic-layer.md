@@ -72,26 +72,26 @@ Commit the focused implementation and tests on `master`; do not push or deploy.
 - Produce `normalizeOrientation(beta, gamma)` for clamped `ScenePointer` gyro input.
 - Consume one rear canvas and one front canvas driven by the same orbit progress.
 
-- [ ] **Step 1: Add failing interpolation, gyro, 60 FPS, and output tests**
+- [x] **Step 1: Add failing interpolation, gyro, 60 FPS, and output tests**
 
 Assert continuous midpoint interpolation, orientation clamping, `sceneSparkleFps: 60` in full/mobile profiles, and emitted rear/front canvas ordering.
 
-- [ ] **Step 2: Run `npm.cmd run test:unit` and confirm the new tests fail**
+- [x] **Step 2: Run `npm.cmd run test:unit` and confirm the new tests fail**
 
 Expected failures: missing scene helpers and old scene FPS values.
 
-- [ ] **Step 3: Implement scene math and rendering budgets**
+- [x] **Step 3: Implement scene math and rendering budgets**
 
 Add allocation-free output parameters for trail sampling, normalize device orientation into bounded parallax coordinates, and set the scene canvas target to 60 FPS.
 
-- [ ] **Step 4: Split and synchronize the orbit renderer**
+- [x] **Step 4: Split and synchronize the orbit renderer**
 
 Add `scene-magic-front` above the foreground. Draw rear and front arc ranges with crossover fades, interpolate the moving head continuously, and reuse one cached glow sprite with screen blending on the front canvas.
 
-- [ ] **Step 5: Add gyroscope lifecycle**
+- [x] **Step 5: Add gyroscope lifecycle**
 
 Attach device orientation where available, request iOS permission from the first portrait tap, smooth/clamp readings through the existing input RAF, and remove every new listener during teardown.
 
-- [ ] **Step 6: Verify and commit locally**
+- [x] **Step 6: Verify and commit locally**
 
 Run unit tests, Astro check, build-output tests, diff check, and a mobile browser canvas/layer-order check. Commit on `master` without pushing or deploying.

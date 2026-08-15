@@ -27,8 +27,10 @@ test("landing emits the concise moonlit letter and layered portrait scene", () =
   assert.match(html, /id="moonlit-letter"/);
   assert.match(html, /id="portrait-stage"/);
   assert.match(html, /id="scene-background"/);
-  assert.match(html, /id="scene-sparkles"/);
+  assert.match(html, /id="scene-magic-rear"/);
   assert.match(html, /id="scene-foreground"/);
+  assert.match(html, /id="scene-magic-front"/);
+  assert.match(html, /id="scene-background"[\s\S]*id="scene-magic-rear"[\s\S]*id="scene-foreground"[\s\S]*id="scene-magic-front"/);
   assert.match(html, /You are invited to:/i);
   assert.match(html, /Once Upon Eighteen/);
   assert.doesNotMatch(html, /An 18th Birthday Debut Celebration/);

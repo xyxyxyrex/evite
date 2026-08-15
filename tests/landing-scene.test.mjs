@@ -2,7 +2,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   getMagicTrailPoint,
+  getNextMotionActivationState,
   getSceneOffsets,
+  isValidOrientationReading,
   normalizeOrientation,
   normalizeScenePointer,
   sampleMagicTrail,
@@ -70,4 +72,29 @@ test("normalizes and clamps phone orientation deltas", () => {
   assert.deepEqual(normalizeOrientation(9, -18), { x: -1, y: 0.5 });
   assert.deepEqual(normalizeOrientation(-90, 90), { x: 1, y: -1 });
   assert.deepEqual(normalizeOrientation(Number.NaN, 4), { x: 0, y: 0 });
+});
+
+test("moves motion activation through request, reading, denial, and timeout states", () => {
+  assert.equal(getNextMotionActivationState("idle", "request"), "requesting");
+  assert.equal(getNextMotionActivationState("requesting", "reading"), "active");
+  assert.equal(getNextMotionActivationState("requesting", "deny"), "denied");
+  assert.equal(getNextMotionActivationState("requesting", "timeout"), "unavailable");
+  assert.equal(getNextMotionActivationState("denied", "request"), "requesting");
+  assert.equal(getNextMotionActivationState("active", "timeout"), "active");
+});
+
+test("validates finite orientation readings", () => {
+  assert.equal(isValidOrientationReading(0, 0), true);
+  assert.equal(isValidOrientationReading(null, 0), false);
+  assert.equal(isValidOrientationReading(0, null), false);
+  assert.equal(isValidOrientationReading(Number.NaN, 0), false);
+  assert.equal(isValidOrientationReading(0, Number.POSITIVE_INFINITY), false);
+});
+
+test("maps orientation deltas into the current screen axes", () => {
+  assert.deepEqual(normalizeOrientation(9, -18, 0), { x: -1, y: 0.5 });
+  assert.deepEqual(normalizeOrientation(9, -18, 90), { x: 0.5, y: 1 });
+  assert.deepEqual(normalizeOrientation(9, -18, 180), { x: 1, y: -0.5 });
+  assert.deepEqual(normalizeOrientation(9, -18, 270), { x: -0.5, y: -1 });
+  assert.deepEqual(normalizeOrientation(9, -18, -90), { x: -0.5, y: -1 });
 });

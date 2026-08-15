@@ -31,6 +31,15 @@ test("landing emits the concise moonlit letter and layered portrait scene", () =
   assert.match(html, /id="scene-foreground"/);
   assert.match(html, /id="scene-magic-front"/);
   assert.match(html, /id="scene-background"[\s\S]*id="scene-magic-rear"[\s\S]*id="scene-foreground"[\s\S]*id="scene-magic-front"/);
+  assert.match(html, /id="scene-motion-button"/);
+  assert.match(html, /id="scene-motion-button"[^>]*type="button"/);
+  assert.match(html, /id="scene-motion-button"[^>]*aria-label="Enable motion effect"/);
+  assert.match(html, /id="scene-motion-status"[^>]*role="status"/);
+  const heroScriptPath = html.match(/<script type="module" src="([^"]*HeroSection[^"]+\.js)"/)?.[1];
+  assert.ok(heroScriptPath, "landing page references the HeroSection browser bundle");
+  const heroScript = readFileSync(`dist${heroScriptPath}`, "utf8");
+  assert.match(heroScript, /requestPermission/);
+  assert.match(heroScript, /deviceorientation/);
   assert.match(html, /You are invited to:/i);
   assert.match(html, /Once Upon Eighteen/);
   assert.doesNotMatch(html, /An 18th Birthday Debut Celebration/);

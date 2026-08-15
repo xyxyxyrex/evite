@@ -3,6 +3,9 @@ export interface ScenePointer {
   y: number;
 }
 
+export type MotionActivationState = 'idle' | 'requesting' | 'active' | 'denied' | 'unavailable';
+export type MotionActivationEvent = 'request' | 'reading' | 'deny' | 'timeout';
+
 const MAGIC_TRAIL_SEGMENTS = [
   [0.1, 0.32, 0.11, 0.18, 0.31, 0.12, 0.5, 0.14],
   [0.5, 0.14, 0.77, 0.12, 0.94, 0.27, 0.89, 0.49],
@@ -87,13 +90,52 @@ export function sampleMagicTrail(
   return output;
 }
 
-export function normalizeOrientation(betaDelta: number, gammaDelta: number): ScenePointer {
+export function getNextMotionActivationState(
+  state: MotionActivationState,
+  event: MotionActivationEvent,
+): MotionActivationState {
+  if (event === 'request' && state !== 'active') return 'requesting';
+  if (state !== 'requesting') return state;
+  if (event === 'reading') return 'active';
+  if (event === 'deny') return 'denied';
+  if (event === 'timeout') return 'unavailable';
+  return state;
+}
+
+export function isValidOrientationReading(
+  beta: number | null,
+  gamma: number | null,
+): boolean {
+  return beta !== null && gamma !== null && Number.isFinite(beta) && Number.isFinite(gamma);
+}
+
+export function normalizeOrientation(
+  betaDelta: number,
+  gammaDelta: number,
+  screenAngle = 0,
+): ScenePointer {
   if (!Number.isFinite(betaDelta) || !Number.isFinite(gammaDelta)) {
     return { x: 0, y: 0 };
   }
 
+  const safeScreenAngle = Number.isFinite(screenAngle) ? screenAngle : 0;
+  const angle = ((Math.round(safeScreenAngle / 90) * 90) % 360 + 360) % 360;
+  let x = gammaDelta;
+  let y = betaDelta;
+
+  if (angle === 90) {
+    x = betaDelta;
+    y = -gammaDelta;
+  } else if (angle === 180) {
+    x = -gammaDelta;
+    y = -betaDelta;
+  } else if (angle === 270) {
+    x = -betaDelta;
+    y = gammaDelta;
+  }
+
   return {
-    x: clampAxis(gammaDelta / 18),
-    y: clampAxis(betaDelta / 18),
+    x: clampAxis(x / 18),
+    y: clampAxis(y / 18),
   };
 }

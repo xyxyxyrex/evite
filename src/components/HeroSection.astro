@@ -92,6 +92,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   const heroTimeouts = new Set<number>();
   let backgroundAudio: HTMLAudioElement | null = null;
   let audioFadeInterval: number | null = null;
+  let openingFinalizer: (() => void) | null = null;
   let heroDestroyed = false;
   let heroLifecycleGeneration = 0;
   let sceneInputFrame = 0;
@@ -140,6 +141,13 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     heroTimeouts.clear();
     if (audioFadeInterval !== null) clearInterval(audioFadeInterval);
     audioFadeInterval = null;
+  }
+
+  function finalizeOpeningTransition() {
+    const finalize = openingFinalizer;
+    if (!finalize) return;
+    openingFinalizer = null;
+    finalize();
   }
 
   function releaseSparkleCanvases() {
@@ -377,6 +385,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   function teardownHeroResources() {
     if (heroDestroyed) return;
     heroDestroyed = true;
+    openingFinalizer = null;
     destroyLandingScene();
     clearHeroScheduledWork();
     if (backgroundAudio) {
@@ -410,6 +419,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
 
   function handleHeroPageShow(event: PageTransitionEvent) {
     if (event.persisted) {
+      finalizeOpeningTransition();
       sceneVisible = !document.hidden;
       if (sceneVisible) scheduleSceneSparkleFrame();
       if (backgroundAudio) backgroundAudio.play().catch(() => {});
@@ -721,7 +731,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
       mainContent?.classList.remove('hidden-main');
       mainContent?.classList.add('revealed-active');
 
-      scheduleHeroTimeout(() => {
+      openingFinalizer = () => {
         splash.classList.add('splash-dismissed');
         splash.style.display = 'none';
         window.scrollTo(0, 0);
@@ -731,7 +741,8 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
           sceneCanvas.height = 1;
         }
         destroyLandingScene();
-      }, budget.profile === 'reduced' ? 180 : 900);
+      };
+      scheduleHeroTimeout(finalizeOpeningTransition, budget.profile === 'reduced' ? 180 : 900);
     }, { once: true });
   }
 

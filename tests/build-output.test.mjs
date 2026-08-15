@@ -35,3 +35,14 @@ test("landing emits the concise moonlit letter and layered portrait scene", () =
   assert.doesNotMatch(html, /cordially requests your presence/);
   assert.doesNotMatch(html, /You are invited to my 18th Birthday Debut!/);
 });
+
+test("long roster names emit a compact one-line greeting", () => {
+  const longNameHtml = readFileSync("dist/johnezza-veronic-tolentino/index.html", "utf8");
+  const typicalNameHtml = readFileSync("dist/lara-espanola/index.html", "utf8");
+
+  assert.match(
+    longNameHtml,
+    /class="guest-name-text[^"]*guest-name-compact[^"]*" id="guest-name-reveal"[^>]*>Johnezza Veronic Tolentino</,
+  );
+  assert.doesNotMatch(typicalNameHtml, /guest-name-compact/);
+});

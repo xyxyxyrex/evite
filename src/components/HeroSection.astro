@@ -14,6 +14,8 @@ export interface Props {
 const {
   guestInfo
 } = Astro.props;
+
+const guestNameIsCompact = guestInfo.rawName.length >= 25;
 ---
 
 <div id="splash-screen" class="splash-overlay">
@@ -25,7 +27,7 @@ const {
       <h1 class="guest-greeting font-serif">
         <span>Hi,</span>
         <span class="guest-sparkle-wrapper inline-reveal-wrapper" id="guest-wrapper">
-          <span class="guest-name-text font-cursive inline-reveal-text" id="guest-name-reveal">{guestInfo.rawName}</span>
+          <span class:list={['guest-name-text', 'font-cursive', 'inline-reveal-text', { 'guest-name-compact': guestNameIsCompact }]} id="guest-name-reveal">{guestInfo.rawName}</span>
           <span class="guest-writing-glow" id="guest-writing-glow" aria-hidden="true"></span>
           <canvas class="sparkle-leading-canvas" id="guest-sparkle-canvas" aria-hidden="true"></canvas>
         </span>
@@ -693,8 +695,11 @@ const {
     font-size: 1.18em;
     font-weight: 700;
     line-height: 1.1;
-    overflow-wrap: anywhere;
-    white-space: normal;
+    white-space: nowrap;
+  }
+
+  .guest-name-compact {
+    font-size: 1.65rem;
   }
 
   .guest-name-text.is-complete {
@@ -814,6 +819,10 @@ const {
       line-height: 1.08;
     }
 
+    .guest-name-compact {
+      font-size: 1.12rem;
+    }
+
     .letter-rule {
       margin-top: 8px;
       margin-bottom: 7px;
@@ -849,6 +858,10 @@ const {
 
     .guest-greeting {
       font-size: 1.5rem;
+    }
+
+    .guest-name-compact {
+      font-size: 1.08rem;
     }
 
     .event-name {

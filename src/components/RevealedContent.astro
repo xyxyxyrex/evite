@@ -120,16 +120,30 @@ const {
 
     // Hide sticky scroll indicator near bottom of page
     if (stickyWrap) {
-      window.addEventListener('scroll', () => {
+      let scrollFrame = 0;
+      const updateStickyIndicator = () => {
+        scrollFrame = 0;
         const scrollPos = window.scrollY || window.pageYOffset;
         const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        
+
         if (scrollPos > totalHeight - 300) {
           stickyWrap.classList.add('sticky-hidden');
         } else {
           stickyWrap.classList.remove('sticky-hidden');
         }
-      });
+      };
+      const handleScroll = () => {
+        if (!scrollFrame) scrollFrame = requestAnimationFrame(updateStickyIndicator);
+      };
+      const cleanupScroll = () => {
+        window.removeEventListener('scroll', handleScroll);
+        if (scrollFrame) cancelAnimationFrame(scrollFrame);
+        scrollFrame = 0;
+      };
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('pagehide', cleanupScroll, { once: true });
+      updateStickyIndicator();
     }
   });
 </script>

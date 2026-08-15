@@ -108,16 +108,30 @@
 
     // Hide sticky scroll indicator near bottom of page
     if (scrollPillWrap) {
-      window.addEventListener('scroll', () => {
+      let scrollFrame = 0;
+      const updateScrollPill = () => {
+        scrollFrame = 0;
         const scrollPos = window.scrollY || window.pageYOffset;
         const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        
+
         if (scrollPos > totalHeight - 350) {
           scrollPillWrap.classList.add('is-hidden');
         } else {
           scrollPillWrap.classList.remove('is-hidden');
         }
-      });
+      };
+      const handleScroll = () => {
+        if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollPill);
+      };
+      const cleanupScroll = () => {
+        window.removeEventListener('scroll', handleScroll);
+        if (scrollFrame) cancelAnimationFrame(scrollFrame);
+        scrollFrame = 0;
+      };
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('pagehide', cleanupScroll, { once: true });
+      updateScrollPill();
     }
   });
 </script>

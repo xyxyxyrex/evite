@@ -622,6 +622,16 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
 
     if (!modalEl || !mainImg || triggers.length === 0) return;
     const modal = modalEl; // Non-null type assertion for closed-over callbacks
+    const lightboxImage = mainImg;
+    let imageReleaseTimeout: number | null = null;
+
+    function releaseLightboxImage() {
+      if (imageReleaseTimeout !== null) clearTimeout(imageReleaseTimeout);
+      imageReleaseTimeout = null;
+      lightboxImage.onload = null;
+      lightboxImage.removeAttribute('src');
+      lightboxImage.removeAttribute('srcset');
+    }
 
     function getTriggerData(el: Element) {
       const customSrc = el.getAttribute('data-lightbox-src');
@@ -650,6 +660,8 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
 
     function openLightbox(index: number) {
       if (index < 0 || index >= triggers.length) return;
+      if (imageReleaseTimeout !== null) clearTimeout(imageReleaseTimeout);
+      imageReleaseTimeout = null;
       currentIndex = index;
       const data = getTriggerData(triggers[currentIndex]);
 
@@ -658,15 +670,16 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
         document.body.appendChild(modal);
       }
 
-      if (mainImg && data.src) {
-        mainImg.style.opacity = '0';
-        mainImg.src = data.src;
-        mainImg.onload = () => {
-          mainImg.style.opacity = '1';
+      if (data.src) {
+        lightboxImage.onload = null;
+        lightboxImage.style.opacity = '0';
+        lightboxImage.src = data.src;
+        lightboxImage.onload = () => {
+          lightboxImage.style.opacity = '1';
         };
         // Fallback opacity if already cached
-        if (mainImg.complete) {
-          mainImg.style.opacity = '1';
+        if (lightboxImage.complete) {
+          lightboxImage.style.opacity = '1';
         }
       }
 
@@ -685,6 +698,9 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
       modal.classList.remove('is-open');
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      imageReleaseTimeout = window.setTimeout(() => {
+        if (!modal.classList.contains('is-open')) releaseLightboxImage();
+      }, 400);
     }
 
     function showNext() {
@@ -741,6 +757,11 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
       if (e.key === 'ArrowRight') showNext();
       if (e.key === 'ArrowLeft') showPrev();
     });
+
+    window.addEventListener('pagehide', (event) => {
+      if (!event.persisted) observer.disconnect();
+      releaseLightboxImage();
+    }, { once: true });
   });
 </script>
 

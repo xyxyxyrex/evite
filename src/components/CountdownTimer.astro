@@ -100,7 +100,8 @@ const { targetDate = "2026-11-14T16:00:00" } = Astro.props;
     initializeCountdown();
   }
 
-  window.addEventListener("pagehide", stopCountdown, { once: true });
+  window.addEventListener("pagehide", stopCountdown);
+  window.addEventListener("pageshow", initializeCountdown);
 </script>
 
 <style>

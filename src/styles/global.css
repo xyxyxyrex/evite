@@ -196,3 +196,50 @@ body.splash-locked {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Keep long invitation pages within mobile Safari's compositing budget. */
+html[data-rendering-profile="mobile"] .glass-card,
+html[data-rendering-profile="reduced"] .glass-card,
+html[data-rendering-profile="mobile"] .scroll-pill-btn,
+html[data-rendering-profile="reduced"] .scroll-pill-btn,
+html[data-rendering-profile="mobile"] .sticky-nav-bar,
+html[data-rendering-profile="reduced"] .sticky-nav-bar,
+html[data-rendering-profile="mobile"] .scroll-indicator-link,
+html[data-rendering-profile="reduced"] .scroll-indicator-link,
+html[data-rendering-profile="mobile"] .map-direction-overlay,
+html[data-rendering-profile="reduced"] .map-direction-overlay,
+html[data-rendering-profile="mobile"] .story-act-block,
+html[data-rendering-profile="reduced"] .story-act-block,
+html[data-rendering-profile="mobile"] .lightbox-backdrop,
+html[data-rendering-profile="reduced"] .lightbox-backdrop,
+html[data-rendering-profile="mobile"] .roster-category-card,
+html[data-rendering-profile="reduced"] .roster-category-card {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45) !important;
+}
+
+html[data-rendering-profile="mobile"] .ambient-orb,
+html[data-rendering-profile="reduced"] .ambient-orb {
+  display: none !important;
+}
+
+html[data-rendering-profile="mobile"] .photo-card,
+html[data-rendering-profile="mobile"] .gallery-lightbox-trigger,
+html[data-rendering-profile="reduced"] .photo-card,
+html[data-rendering-profile="reduced"] .gallery-lightbox-trigger {
+  filter: none !important;
+}
+
+html[data-rendering-profile="reduced"] {
+  scroll-behavior: auto !important;
+}
+
+html[data-rendering-profile="reduced"] *,
+html[data-rendering-profile="reduced"] *::before,
+html[data-rendering-profile="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}

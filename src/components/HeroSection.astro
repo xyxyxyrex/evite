@@ -192,15 +192,26 @@ const {
     return id;
   }
 
-  function teardownHeroResources() {
-    if (heroDestroyed) return;
-    heroDestroyed = true;
+  function clearHeroScheduledWork() {
     heroAnimationFrames.forEach((id) => cancelAnimationFrame(id));
     heroAnimationFrames.clear();
     heroTimeouts.forEach((id) => clearTimeout(id));
     heroTimeouts.clear();
     if (audioFadeInterval !== null) clearInterval(audioFadeInterval);
     audioFadeInterval = null;
+  }
+
+  function releaseSparkleCanvases() {
+    document.querySelectorAll<HTMLCanvasElement>('.sparkle-overlay-canvas').forEach((canvas) => {
+      canvas.width = 1;
+      canvas.height = 1;
+    });
+  }
+
+  function teardownHeroResources() {
+    if (heroDestroyed) return;
+    heroDestroyed = true;
+    clearHeroScheduledWork();
     if (backgroundAudio) {
       backgroundAudio.pause();
       backgroundAudio.removeAttribute('src');
@@ -208,13 +219,36 @@ const {
       backgroundAudio = null;
     }
     confetti.reset();
-    document.querySelectorAll<HTMLCanvasElement>('.sparkle-overlay-canvas').forEach((canvas) => {
-      canvas.width = 1;
-      canvas.height = 1;
-    });
+    releaseSparkleCanvases();
   }
 
-  window.addEventListener('pagehide', teardownHeroResources, { once: true });
+  function handleHeroPageHide(event: PageTransitionEvent) {
+    if (!event.persisted) {
+      teardownHeroResources();
+      return;
+    }
+
+    clearHeroScheduledWork();
+    backgroundAudio?.pause();
+    confetti.reset();
+    releaseSparkleCanvases();
+    const guestName = document.getElementById('guest-name-reveal');
+    if (guestName) {
+      guestName.style.width = 'auto';
+      guestName.style.opacity = '1';
+      guestName.classList.remove('is-revealing');
+      guestName.classList.add('is-complete');
+    }
+  }
+
+  function handleHeroPageShow(event: PageTransitionEvent) {
+    if (event.persisted && backgroundAudio) {
+      backgroundAudio.play().catch(() => {});
+    }
+  }
+
+  window.addEventListener('pagehide', handleHeroPageHide);
+  window.addEventListener('pageshow', handleHeroPageShow);
 
   // --- FEATHERED SOFT BLUR EDGE & LEADING SPARKLE REVEAL ENGINE ---
   function initFeatheredHandwritingSparkleReveal() {

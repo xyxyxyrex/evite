@@ -167,6 +167,10 @@ const {
 
 <script>
   import confetti from 'canvas-confetti';
+  import {
+    easeHandwritingProgress,
+    getMoteSpawnCount,
+  } from '../utils/handwriting';
   import { getRenderingBudget } from '../utils/performance';
 
   const heroAnimationFrames = new Set<number>();
@@ -203,10 +207,13 @@ const {
   }
 
   function releaseSparkleCanvases() {
-    document.querySelectorAll<HTMLCanvasElement>('.sparkle-overlay-canvas').forEach((canvas) => {
+    document.querySelectorAll<HTMLCanvasElement>('.sparkle-overlay-canvas, .sparkle-leading-canvas').forEach((canvas) => {
+      canvas.style.display = 'none';
       canvas.width = 1;
       canvas.height = 1;
     });
+    const glow = document.getElementById('guest-writing-glow');
+    if (glow) glow.style.opacity = '0';
   }
 
   function teardownHeroResources() {
@@ -259,89 +266,92 @@ const {
       {
         wrapper: document.getElementById('guest-wrapper'),
         textEl: document.getElementById('guest-name-reveal'),
+        glow: document.getElementById('guest-writing-glow'),
         canvas: document.getElementById('guest-sparkle-canvas') as HTMLCanvasElement | null,
         delay: 350,
-        duration: 1200
+        duration: 1500
       }
     ];
 
-    sequences.forEach(({ wrapper, textEl, canvas, delay, duration }) => {
-      if (!wrapper || !textEl || !canvas) return;
+    sequences.forEach(({ wrapper, textEl, glow, canvas, delay, duration }) => {
+      if (!wrapper || !textEl || !glow || !canvas) return;
+
+      const sequenceWrapper = wrapper;
+      const sequenceText = textEl;
+      const sequenceGlow = glow;
+      const sequenceCanvas = canvas;
+      const dpr = budget.handwritingCanvasDpr;
+      let ctx: CanvasRenderingContext2D | null = null;
+      let fullW = 0;
+      let finished = false;
+      const motes: Mote[] = [];
+
+      interface Mote {
+        bornAt: number;
+        duration: number;
+        originX: number;
+        originY: number;
+        driftX: number;
+        driftY: number;
+        size: number;
+      }
+
+      function finishSequence() {
+        if (finished) return;
+        finished = true;
+        sequenceWrapper.style.setProperty('--reveal-position', '100%');
+        sequenceWrapper.style.setProperty('--reveal-x', `${fullW}px`);
+        sequenceText.classList.remove('is-revealing');
+        sequenceText.classList.add('is-complete');
+        sequenceGlow.style.opacity = '0';
+        ctx?.clearRect(0, 0, sequenceCanvas.width / dpr, sequenceCanvas.height / dpr);
+        sequenceCanvas.style.display = 'none';
+        sequenceCanvas.width = 1;
+        sequenceCanvas.height = 1;
+        motes.length = 0;
+      }
 
       if (budget.handwritingParticleScale === 0) {
-        textEl.style.width = 'auto';
-        textEl.style.opacity = '1';
-        textEl.classList.add('is-complete');
-        canvas.style.display = 'none';
-        canvas.width = 1;
-        canvas.height = 1;
+        finishSequence();
         return;
       }
 
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      const dpr = budget.profile === 'full' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
-
       function startSequence() {
-        if (!textEl || !canvas || !ctx || !wrapper) return;
+        fullW = Math.ceil(sequenceText.getBoundingClientRect().width || sequenceText.scrollWidth);
+        const fullH = Math.ceil(sequenceText.getBoundingClientRect().height || sequenceText.scrollHeight);
 
-        textEl.style.width = 'auto';
-        textEl.style.opacity = '1';
-        const fullW = Math.ceil(textEl.getBoundingClientRect().width || textEl.scrollWidth);
-        const fullH = Math.ceil(textEl.getBoundingClientRect().height || textEl.scrollHeight);
-
-        // Fallback for mobile if measurement fails
-        if (fullW <= 0) {
-          textEl.style.width = 'auto';
-          textEl.classList.add('is-complete');
+        if (fullW <= 0 || fullH <= 0) {
+          finishSequence();
           return;
         }
 
-        // Size canvas overlay
+        ctx = sequenceCanvas.getContext('2d');
+        if (!ctx) {
+          finishSequence();
+          return;
+        }
+
         const padX = 30;
         const padY = 20;
-        canvas.width = (fullW + padX * 2) * dpr;
-        canvas.height = (fullH + padY * 2) * dpr;
-        canvas.style.width = `${fullW + padX * 2}px`;
-        canvas.style.height = `${fullH + padY * 2}px`;
-        canvas.style.left = `-${padX}px`;
-        canvas.style.top = `-${padY}px`;
-        ctx.scale(dpr, dpr);
+        sequenceCanvas.width = Math.ceil((fullW + padX * 2) * dpr);
+        sequenceCanvas.height = Math.ceil((fullH + padY * 2) * dpr);
+        sequenceCanvas.style.width = `${fullW + padX * 2}px`;
+        sequenceCanvas.style.height = `${fullH + padY * 2}px`;
+        sequenceCanvas.style.left = `-${padX}px`;
+        sequenceCanvas.style.top = `-${padY}px`;
+        sequenceCanvas.style.display = 'block';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        textEl.style.width = '0px';
-
-        interface Particle {
-          x: number;
-          y: number;
-          size: number;
-          maxSize: number;
-          alpha: number;
-          life: number;
-          maxLife: number;
-          rot: number;
-          rotSpeed: number;
-          color: string;
-        }
-
-        const particles: Particle[] = [];
         const colors = ['#FFF6D5', '#F6E597', '#D4AF37', '#FFFFFF', '#EECE5A'];
-
-        function spawnEdgeSparkle(edgeX: number) {
-          const p: Particle = {
-            x: edgeX + padX + (Math.random() * 16 - 8),
-            y: padY + (fullH * 0.4) + (Math.random() * (fullH * 0.5) - (fullH * 0.25)),
-            size: 0,
-            maxSize: Math.random() * 4.5 + 2.5,
-            alpha: 0,
-            life: 0,
-            maxLife: Math.floor(Math.random() * 18 + 10),
-            rot: Math.random() * Math.PI,
-            rotSpeed: (Math.random() - 0.5) * 0.08,
-            color: colors[Math.floor(Math.random() * colors.length)]
-          };
-          particles.push(p);
-        }
+        const motePattern = [
+          { offsetX: -3, offsetY: -6, driftX: -7, driftY: -13, size: 2.8, duration: 420 },
+          { offsetX: 2, offsetY: 5, driftX: 8, driftY: 11, size: 2.2, duration: 360 },
+          { offsetX: 5, offsetY: -1, driftX: 11, driftY: -7, size: 2.5, duration: 480 },
+          { offsetX: -1, offsetY: 8, driftX: -4, driftY: 14, size: 2, duration: 400 },
+        ];
+        const centerY = padY + fullH * 0.52;
+        let nextMotePattern = 0;
+        let lastEmissionX = 0;
 
         function drawDiamondStar(x: number, y: number, r: number, rot: number, color: string, alpha: number) {
           if (!ctx) return;
@@ -364,78 +374,79 @@ const {
           ctx.restore();
         }
 
-        textEl.classList.add('is-revealing');
+        sequenceText.classList.add('is-revealing');
         const startTime = performance.now();
 
         function renderFrame(now: number) {
-          if (!textEl || !canvas || !ctx) return;
+          if (finished || !ctx) return;
 
-          ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+          ctx.clearRect(0, 0, sequenceCanvas.width / dpr, sequenceCanvas.height / dpr);
 
-          const elapsed = now - startTime;
-          const progress = Math.min(1, elapsed / duration);
+          const rawProgress = Math.min(1, Math.max(0, (now - startTime) / duration));
+          const progress = easeHandwritingProgress(rawProgress);
+          const edgeX = fullW * progress;
 
-          // Smooth width write-out
-          const currentW = fullW * progress;
-          textEl.style.width = `${currentW}px`;
+          sequenceWrapper.style.setProperty('--reveal-position', `${progress * 100}%`);
+          sequenceWrapper.style.setProperty('--reveal-x', `${edgeX}px`);
+          sequenceGlow.style.opacity = String(Math.sin(Math.PI * rawProgress) * 0.9);
 
-          // Stream sparkles directly at the feathered soft edge
-          if (progress < 1) {
-            if (Math.random() < budget.handwritingParticleScale) {
-              spawnEdgeSparkle(currentW);
-            }
-            if (Math.random() < 0.7 * budget.handwritingParticleScale) {
-              spawnEdgeSparkle(currentW);
-            }
-          }
+          if (rawProgress < 1) {
+            drawDiamondStar(edgeX + padX, centerY, 5.5, Math.PI / 4, '#FFF6D5', 0.95);
 
-          // Update vector sparkles
-          for (let i = particles.length - 1; i >= 0; i--) {
-            const p = particles[i];
-            p.life++;
-            p.rot += p.rotSpeed;
+            const spawnCount = getMoteSpawnCount(
+              edgeX - lastEmissionX,
+              budget.profile === 'mobile' ? 22 : 14,
+              motes.length,
+              budget.handwritingMoteLimit,
+            );
 
-            const halfLife = p.maxLife / 2;
-            if (p.life < halfLife) {
-              p.alpha = p.life / halfLife;
-              p.size = (p.life / halfLife) * p.maxSize;
-            } else {
-              p.alpha = (p.maxLife - p.life) / halfLife;
-              p.size = (1 - (p.life - halfLife) / halfLife) * p.maxSize;
-            }
-
-            drawDiamondStar(p.x, p.y, Math.max(0, p.size), p.rot, p.color, p.alpha);
-
-            if (p.life >= p.maxLife) {
-              particles.splice(i, 1);
+            if (spawnCount > 0) {
+              for (let i = 0; i < spawnCount; i++) {
+                const pattern = motePattern[nextMotePattern % motePattern.length];
+                nextMotePattern++;
+                motes.push({
+                  bornAt: now,
+                  duration: pattern.duration,
+                  originX: edgeX + padX + pattern.offsetX,
+                  originY: centerY + pattern.offsetY,
+                  driftX: pattern.driftX,
+                  driftY: pattern.driftY,
+                  size: pattern.size,
+                });
+              }
+              lastEmissionX = edgeX;
             }
           }
 
-          if (progress < 1 || particles.length > 0) {
+          for (let i = motes.length - 1; i >= 0; i--) {
+            const mote = motes[i];
+            const age = now - mote.bornAt;
+            if (age >= mote.duration) {
+              motes.splice(i, 1);
+              continue;
+            }
+
+            const moteProgress = Math.max(0, age / mote.duration);
+            const alpha = Math.sin(Math.PI * moteProgress) * 0.85;
+            drawDiamondStar(
+              mote.originX + mote.driftX * moteProgress,
+              mote.originY + mote.driftY * moteProgress,
+              mote.size * Math.sin(Math.PI * moteProgress),
+              Math.PI / 4 + moteProgress * 0.35,
+              colors[i % colors.length],
+              alpha,
+            );
+          }
+
+          if (rawProgress < 1 || motes.length > 0) {
             scheduleHeroFrame(renderFrame);
           } else {
-            // Sequence completed cleanly
-            textEl.style.width = 'auto';
-            textEl.classList.remove('is-revealing');
-            textEl.classList.add('is-complete');
-            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
-            canvas.style.display = 'none';
-            canvas.width = 1;
-            canvas.height = 1;
-            particles.length = 0;
+            finishSequence();
           }
         }
 
         scheduleHeroFrame(renderFrame);
       }
-
-      // Failsafe timeout to force text visibility on slow mobile connections
-      scheduleHeroTimeout(() => {
-        if (textEl && textEl.style.width === '0px') {
-          textEl.style.width = 'auto';
-          textEl.style.opacity = '1';
-        }
-      }, duration + delay + 400);
 
       scheduleHeroTimeout(startSequence, delay);
     });

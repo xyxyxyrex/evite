@@ -178,6 +178,7 @@ const {
   let backgroundAudio: HTMLAudioElement | null = null;
   let audioFadeInterval: number | null = null;
   let heroDestroyed = false;
+  let heroLifecycleGeneration = 0;
 
   function scheduleHeroFrame(callback: FrameRequestCallback) {
     const id = requestAnimationFrame((time) => {
@@ -198,6 +199,7 @@ const {
   }
 
   function clearHeroScheduledWork() {
+    heroLifecycleGeneration++;
     heroAnimationFrames.forEach((id) => cancelAnimationFrame(id));
     heroAnimationFrames.clear();
     heroTimeouts.forEach((id) => clearTimeout(id));
@@ -262,6 +264,9 @@ const {
   function initFeatheredHandwritingSparkleReveal() {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const budget = getRenderingBudget(window.innerWidth, motionQuery.matches);
+    const lifecycleGeneration = heroLifecycleGeneration;
+    const handwritingFont = '700 1em "Great Vibes"';
+    const fontLoadTimeout = 1200;
     const sequences = [
       {
         wrapper: document.getElementById('guest-wrapper'),
@@ -448,7 +453,37 @@ const {
         scheduleHeroFrame(renderFrame);
       }
 
-      scheduleHeroTimeout(startSequence, delay);
+      function startWhenFontReady() {
+        const sampleText = sequenceText.textContent?.trim() || 'Guest';
+        let fontWaitFinished = false;
+
+        function settleFontWait(fontLoaded: boolean) {
+          if (fontWaitFinished) return;
+          fontWaitFinished = true;
+
+          if (
+            heroDestroyed ||
+            finished ||
+            lifecycleGeneration !== heroLifecycleGeneration
+          ) {
+            return;
+          }
+
+          if (fontLoaded) {
+            startSequence();
+          } else {
+            finishSequence();
+          }
+        }
+
+        scheduleHeroTimeout(() => settleFontWait(false), fontLoadTimeout);
+        document.fonts.load(handwritingFont, sampleText).then(
+          (fontFaces) => settleFontWait(fontFaces.length > 0),
+          () => settleFontWait(false),
+        );
+      }
+
+      scheduleHeroTimeout(startWhenFontReady, delay);
     });
   }
 

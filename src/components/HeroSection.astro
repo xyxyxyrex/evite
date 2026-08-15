@@ -61,7 +61,16 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     easeHandwritingProgress,
     getMoteSpawnCount,
   } from '../utils/handwriting';
+  import { getSceneOffsets, normalizeScenePointer } from '../utils/landingScene';
   import { getRenderingBudget } from '../utils/performance';
+
+  interface SceneSparkle {
+    x: number;
+    y: number;
+    radius: number;
+    phase: number;
+    speed: number;
+  }
 
   const heroAnimationFrames = new Set<number>();
   const heroTimeouts = new Set<number>();
@@ -69,6 +78,25 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   let audioFadeInterval: number | null = null;
   let heroDestroyed = false;
   let heroLifecycleGeneration = 0;
+  let sceneInputFrame = 0;
+  let sceneSparkleFrame = 0;
+  let sceneDestroyed = false;
+  let sceneVisible = !document.hidden;
+  let sceneSparkles: SceneSparkle[] = [];
+  let sceneInitialized = false;
+  let sceneStage: HTMLElement | null = null;
+  let sceneBackground: HTMLElement | null = null;
+  let sceneCanvas: HTMLCanvasElement | null = null;
+  let sceneForeground: HTMLElement | null = null;
+  let sceneContext: CanvasRenderingContext2D | null = null;
+  let sceneCanvasDpr = 1;
+  let sceneCanvasWidth = 0;
+  let sceneCanvasHeight = 0;
+  let sceneFrameInterval = 0;
+  let sceneLastRenderTime = -Infinity;
+  let sceneClientX = 0;
+  let sceneClientY = 0;
+  let scenePointerResetPending = true;
 
   function scheduleHeroFrame(callback: FrameRequestCallback) {
     const id = requestAnimationFrame((time) => {
@@ -108,9 +136,232 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     if (glow) glow.style.opacity = '0';
   }
 
+  function resetSceneLayers() {
+    sceneBackground?.style.setProperty('--scene-x', '0px');
+    sceneBackground?.style.setProperty('--scene-y', '0px');
+    sceneCanvas?.style.setProperty('--scene-x', '0px');
+    sceneCanvas?.style.setProperty('--scene-y', '0px');
+    sceneForeground?.style.setProperty('--scene-x', '0px');
+    sceneForeground?.style.setProperty('--scene-y', '0px');
+  }
+
+  function applyScenePointerFrame() {
+    sceneInputFrame = 0;
+    if (
+      sceneDestroyed ||
+      !sceneVisible ||
+      !sceneStage ||
+      !sceneBackground ||
+      !sceneCanvas ||
+      !sceneForeground
+    ) {
+      return;
+    }
+
+    if (scenePointerResetPending) {
+      resetSceneLayers();
+      return;
+    }
+
+    const rect = sceneStage.getBoundingClientRect();
+    const pointer = normalizeScenePointer(
+      sceneClientX,
+      sceneClientY,
+      rect.left,
+      rect.top,
+      rect.width,
+      rect.height,
+    );
+    const offsets = getSceneOffsets(pointer);
+    sceneBackground.style.setProperty('--scene-x', `${offsets.background.x}px`);
+    sceneBackground.style.setProperty('--scene-y', `${offsets.background.y}px`);
+    sceneCanvas.style.setProperty('--scene-x', `${offsets.sparkles.x}px`);
+    sceneCanvas.style.setProperty('--scene-y', `${offsets.sparkles.y}px`);
+    sceneForeground.style.setProperty('--scene-x', `${offsets.foreground.x}px`);
+    sceneForeground.style.setProperty('--scene-y', `${offsets.foreground.y}px`);
+  }
+
+  function scheduleSceneInputFrame() {
+    if (sceneDestroyed || !sceneVisible || sceneInputFrame) return;
+    sceneInputFrame = requestAnimationFrame(applyScenePointerFrame);
+  }
+
+  function handleScenePointer(event: PointerEvent) {
+    sceneClientX = event.clientX;
+    sceneClientY = event.clientY;
+    scenePointerResetPending = false;
+    scheduleSceneInputFrame();
+  }
+
+  function resetScenePointer() {
+    scenePointerResetPending = true;
+    scheduleSceneInputFrame();
+  }
+
+  function resizeSceneCanvas() {
+    if (sceneDestroyed || !sceneStage || !sceneCanvas || !sceneContext) return;
+
+    const rect = sceneStage.getBoundingClientRect();
+    sceneCanvasWidth = Math.max(0, rect.width);
+    sceneCanvasHeight = Math.max(0, rect.height);
+    const backingWidth = Math.max(1, Math.ceil(sceneCanvasWidth * sceneCanvasDpr));
+    const backingHeight = Math.max(1, Math.ceil(sceneCanvasHeight * sceneCanvasDpr));
+
+    if (sceneCanvas.width !== backingWidth || sceneCanvas.height !== backingHeight) {
+      sceneCanvas.width = backingWidth;
+      sceneCanvas.height = backingHeight;
+      sceneContext.setTransform(sceneCanvasDpr, 0, 0, sceneCanvasDpr, 0, 0);
+    }
+  }
+
+  function scheduleSceneSparkleFrame() {
+    if (
+      sceneDestroyed ||
+      !sceneVisible ||
+      sceneSparkleFrame ||
+      sceneSparkles.length === 0 ||
+      !sceneContext
+    ) {
+      return;
+    }
+    sceneSparkleFrame = requestAnimationFrame(renderSceneSparkles);
+  }
+
+  function renderSceneSparkles(now: number) {
+    sceneSparkleFrame = 0;
+    if (sceneDestroyed || !sceneVisible || !sceneCanvas || !sceneContext) return;
+
+    if (now - sceneLastRenderTime >= sceneFrameInterval) {
+      sceneLastRenderTime = now;
+      sceneContext.clearRect(0, 0, sceneCanvasWidth, sceneCanvasHeight);
+      sceneContext.fillStyle = '#ffe8a3';
+
+      for (let i = 0; i < sceneSparkles.length; i++) {
+        const sparkle = sceneSparkles[i];
+        const pulse = (Math.sin(now * sparkle.speed + sparkle.phase) + 1) * 0.5;
+        const opacity = 0.24 + pulse * 0.64;
+        const radius = sparkle.radius * (0.72 + pulse * 0.58);
+        const x = sparkle.x * sceneCanvasWidth;
+        const y = sparkle.y * sceneCanvasHeight;
+
+        sceneContext.globalAlpha = opacity;
+        sceneContext.beginPath();
+        if (i % 4 === 0) {
+          sceneContext.moveTo(x, y - radius * 2.1);
+          sceneContext.lineTo(x + radius * 0.34, y - radius * 0.34);
+          sceneContext.lineTo(x + radius * 2.1, y);
+          sceneContext.lineTo(x + radius * 0.34, y + radius * 0.34);
+          sceneContext.lineTo(x, y + radius * 2.1);
+          sceneContext.lineTo(x - radius * 0.34, y + radius * 0.34);
+          sceneContext.lineTo(x - radius * 2.1, y);
+          sceneContext.lineTo(x - radius * 0.34, y - radius * 0.34);
+          sceneContext.closePath();
+        } else {
+          sceneContext.arc(x, y, radius, 0, Math.PI * 2);
+        }
+        sceneContext.fill();
+      }
+
+      sceneContext.globalAlpha = 1;
+    }
+
+    scheduleSceneSparkleFrame();
+  }
+
+  function pauseLandingScene(resetLayers = false) {
+    if (sceneInputFrame) cancelAnimationFrame(sceneInputFrame);
+    if (sceneSparkleFrame) cancelAnimationFrame(sceneSparkleFrame);
+    sceneInputFrame = 0;
+    sceneSparkleFrame = 0;
+    if (resetLayers) {
+      scenePointerResetPending = true;
+      resetSceneLayers();
+    }
+  }
+
+  function handleSceneVisibility() {
+    sceneVisible = !document.hidden;
+    if (!sceneVisible) {
+      pauseLandingScene();
+      return;
+    }
+    scheduleSceneSparkleFrame();
+  }
+
+  function initLandingScene() {
+    if (sceneInitialized || sceneDestroyed) return;
+    sceneInitialized = true;
+    sceneStage = document.getElementById('portrait-stage');
+    sceneBackground = document.getElementById('scene-background');
+    sceneCanvas = document.getElementById('scene-sparkles') as HTMLCanvasElement | null;
+    sceneForeground = document.getElementById('scene-foreground');
+
+    if (!sceneStage || !sceneBackground || !sceneCanvas || !sceneForeground) return;
+
+    const budget = getRenderingBudget(
+      window.innerWidth,
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    );
+
+    if (budget.profile === 'reduced') {
+      sceneCanvas.style.display = 'none';
+      sceneCanvas.width = 1;
+      sceneCanvas.height = 1;
+      return;
+    }
+
+    sceneCanvasDpr = budget.sceneCanvasDpr;
+    sceneFrameInterval = 1000 / budget.sceneSparkleFps;
+    for (let i = 0; i < budget.sceneSparkleCount; i++) {
+      sceneSparkles.push({
+        x: 0.08 + ((i * 0.61803398875 + 0.13) % 1) * 0.84,
+        y: 0.08 + ((i * 0.38196601125 + 0.31) % 1) * 0.84,
+        radius: 0.8 + (i % 4) * 0.24,
+        phase: ((i * 2.39996322973) % (Math.PI * 2)),
+        speed: 0.00062 + (i % 3) * 0.00011,
+      });
+    }
+
+    sceneContext = sceneCanvas.getContext('2d');
+    if (!sceneContext) {
+      sceneSparkles.length = 0;
+      sceneCanvas.width = 1;
+      sceneCanvas.height = 1;
+      return;
+    }
+
+    resizeSceneCanvas();
+    sceneStage.addEventListener('pointermove', handleScenePointer, { passive: true });
+    sceneStage.addEventListener('pointerleave', resetScenePointer);
+    window.addEventListener('resize', resizeSceneCanvas);
+    document.addEventListener('visibilitychange', handleSceneVisibility);
+    scheduleSceneSparkleFrame();
+  }
+
+  function destroyLandingScene() {
+    if (sceneDestroyed) return;
+    sceneDestroyed = true;
+    sceneStage?.removeEventListener('pointermove', handleScenePointer);
+    sceneStage?.removeEventListener('pointerleave', resetScenePointer);
+    window.removeEventListener('resize', resizeSceneCanvas);
+    document.removeEventListener('visibilitychange', handleSceneVisibility);
+    pauseLandingScene(true);
+    sceneSparkles.length = 0;
+    if (sceneCanvas) {
+      sceneCanvas.width = 1;
+      sceneCanvas.height = 1;
+    }
+    sceneContext = null;
+    sceneStage = null;
+    sceneBackground = null;
+    sceneCanvas = null;
+    sceneForeground = null;
+  }
+
   function teardownHeroResources() {
     if (heroDestroyed) return;
     heroDestroyed = true;
+    destroyLandingScene();
     clearHeroScheduledWork();
     if (backgroundAudio) {
       backgroundAudio.pause();
@@ -128,6 +379,8 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
       return;
     }
 
+    sceneVisible = false;
+    pauseLandingScene(true);
     clearHeroScheduledWork();
     backgroundAudio?.pause();
     confetti.reset();
@@ -142,8 +395,10 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   }
 
   function handleHeroPageShow(event: PageTransitionEvent) {
-    if (event.persisted && backgroundAudio) {
-      backgroundAudio.play().catch(() => {});
+    if (event.persisted) {
+      sceneVisible = !document.hidden;
+      if (sceneVisible) scheduleSceneSparkleFrame();
+      if (backgroundAudio) backgroundAudio.play().catch(() => {});
     }
   }
 
@@ -479,6 +734,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   }
 
   onReady(() => {
+    initLandingScene();
     initFeatheredHandwritingSparkleReveal();
     initOpeningTransition();
   });

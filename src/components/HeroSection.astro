@@ -21,6 +21,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
 <div id="splash-screen" class="splash-overlay">
   <div class="landing-scene">
     <section class="moonlit-letter" id="moonlit-letter" aria-labelledby="landing-title">
+      <span class="letter-border-trace" aria-hidden="true"></span>
       <span class="letter-star letter-star-left" aria-hidden="true">✦</span>
       <span class="letter-star letter-star-right" aria-hidden="true">✦</span>
 
@@ -46,6 +47,21 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
       </button>
     </section>
 
+    <div class="unseal-motes" aria-hidden="true">
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+      <span class="unseal-mote" aria-hidden="true"></span>
+    </div>
+
     <figure class="portrait-stage" id="portrait-stage" aria-label="Portrait of Isabel">
       <Image id="scene-background" class="scene-layer scene-background" src={parallaxBackground} alt="" width={1024} quality={76} format="webp" loading="eager" fetchpriority="high" />
       <canvas id="scene-sparkles" class="scene-layer scene-sparkles" aria-hidden="true"></canvas>
@@ -53,10 +69,10 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
       <div class="scene-vignette" aria-hidden="true"></div>
     </figure>
   </div>
+  <div class="opening-veil" id="opening-veil" aria-hidden="true"></div>
 </div>
 
 <script>
-  import confetti from 'canvas-confetti';
   import {
     easeHandwritingProgress,
     getMoteSpawnCount,
@@ -369,7 +385,6 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
       backgroundAudio.load();
       backgroundAudio = null;
     }
-    confetti.reset();
     releaseSparkleCanvases();
   }
 
@@ -383,7 +398,6 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     pauseLandingScene(true);
     clearHeroScheduledWork();
     backgroundAudio?.pause();
-    confetti.reset();
     releaseSparkleCanvases();
     const guestName = document.getElementById('guest-name-reveal');
     if (guestName) {
@@ -660,13 +674,16 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   }
 
   function initOpeningTransition() {
-    const btn = document.getElementById('accept-invitation-btn');
+    const btn = document.getElementById('accept-invitation-btn') as HTMLButtonElement | null;
     const splash = document.getElementById('splash-screen');
     const mainContent = document.getElementById('main-revealed-content');
 
     if (!btn || !splash) return;
 
     btn.addEventListener('click', () => {
+      if (btn.disabled || heroDestroyed) return;
+      btn.disabled = true;
+
       // 0. Log Splash Invitation Acceptance to Google Sheets
       const guestName = btn.getAttribute('data-guest-name') || 'Honored Guest';
       const guestRole = btn.getAttribute('data-guest-role') || 'Honored Guest';
@@ -693,35 +710,28 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
         startBackgroundAudio();
       } catch(e) {}
 
-      // 2. Confetti explosion (scaled for mobile performance)
       const budget = getRenderingBudget(
         window.innerWidth,
         window.matchMedia('(prefers-reduced-motion: reduce)').matches,
       );
-      if (budget.confettiParticles > 0) {
-        confetti({
-          particleCount: budget.confettiParticles,
-          spread: budget.profile === 'mobile' ? 75 : 100,
-          origin: { y: 0.5 },
-          colors: ['#D4AF37', '#F6E597', '#0B132B', '#FFFFFF', '#EECE5A']
-        });
-      }
-
-      // 3. Splash curtain transition
-      splash.classList.add('opening-transition');
-
-      if (mainContent) {
-        mainContent.classList.remove('hidden-main');
-        mainContent.classList.add('revealed-active');
-      }
-
-      window.scrollTo(0, 0);
-      document.body.classList.remove('splash-locked');
+      splash.classList.add(budget.profile === 'reduced' ? 'opening-reduced' : 'opening-enchanted');
+      document.querySelectorAll<HTMLElement>('.unseal-mote').forEach((mote, index) => {
+        mote.hidden = index >= budget.transitionMotes;
+      });
+      mainContent?.classList.remove('hidden-main');
+      mainContent?.classList.add('revealed-active');
 
       scheduleHeroTimeout(() => {
         splash.classList.add('splash-dismissed');
         splash.style.display = 'none';
-      }, 1100);
+        window.scrollTo(0, 0);
+        document.body.classList.remove('splash-locked');
+        if (sceneCanvas) {
+          sceneCanvas.width = 1;
+          sceneCanvas.height = 1;
+        }
+        destroyLandingScene();
+      }, budget.profile === 'reduced' ? 180 : 900);
     }, { once: true });
   }
 
@@ -820,12 +830,19 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     overflow: hidden;
     background: #050914;
     padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
-    transition: opacity 320ms ease;
   }
 
-  .splash-overlay.opening-transition {
-    opacity: 0;
+  .splash-overlay.opening-enchanted,
+  .splash-overlay.opening-reduced {
     pointer-events: none;
+  }
+
+  .splash-overlay.opening-enchanted {
+    animation: enchantedSplashReveal 900ms cubic-bezier(0.22, 0.72, 0.22, 1) both;
+  }
+
+  .splash-overlay.opening-reduced {
+    animation: reducedSplashReveal 180ms ease-out both;
   }
 
   .splash-overlay.splash-dismissed {
@@ -866,6 +883,10 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   .scene-sparkles { z-index: 1; pointer-events: none; }
   .scene-foreground { z-index: 2; }
 
+  .opening-enchanted .scene-foreground {
+    animation: portraitAdvance 900ms cubic-bezier(0.22, 0.72, 0.22, 1) both;
+  }
+
   .scene-vignette {
     position: absolute;
     inset: 0;
@@ -890,6 +911,118 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     text-align: center;
     background-color: rgba(7, 13, 31, 0.92);
     box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42), inset 0 0 32px rgba(218, 180, 74, 0.07);
+  }
+
+  .opening-enchanted .moonlit-letter {
+    animation: letterUnseal 650ms cubic-bezier(0.22, 0.72, 0.22, 1) 160ms both;
+  }
+
+  .letter-border-trace {
+    position: absolute;
+    inset: -2px;
+    z-index: 8;
+    border: 2px solid #f6e597;
+    border-radius: 5px;
+    pointer-events: none;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .opening-enchanted .letter-border-trace {
+    animation: traceLetterBorder 900ms cubic-bezier(0.22, 0.72, 0.22, 1) both;
+  }
+
+  .unseal-motes {
+    position: absolute;
+    inset: 0;
+    z-index: 9;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .unseal-mote {
+    position: absolute;
+    left: var(--mote-left);
+    top: var(--mote-top);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #f6e597;
+    box-shadow: 0 0 8px rgba(246, 229, 151, 0.72);
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.45);
+  }
+
+  .opening-enchanted .unseal-mote:not([hidden]) {
+    animation: releaseUnsealMote 620ms cubic-bezier(0.16, 0.68, 0.3, 1) var(--mote-delay) both;
+  }
+
+  .unseal-mote:nth-child(1) { --mote-left: 58%; --mote-top: 42%; --mote-x: -72px; --mote-y: -64px; --mote-delay: 120ms; }
+  .unseal-mote:nth-child(2) { --mote-left: 61%; --mote-top: 46%; --mote-x: 68px; --mote-y: -52px; --mote-delay: 145ms; }
+  .unseal-mote:nth-child(3) { --mote-left: 55%; --mote-top: 52%; --mote-x: -88px; --mote-y: 26px; --mote-delay: 175ms; }
+  .unseal-mote:nth-child(4) { --mote-left: 64%; --mote-top: 55%; --mote-x: 84px; --mote-y: 38px; --mote-delay: 205ms; }
+  .unseal-mote:nth-child(5) { --mote-left: 57%; --mote-top: 59%; --mote-x: -46px; --mote-y: 74px; --mote-delay: 225ms; }
+  .unseal-mote:nth-child(6) { --mote-left: 62%; --mote-top: 38%; --mote-x: 42px; --mote-y: -82px; --mote-delay: 245ms; }
+  .unseal-mote:nth-child(7) { --mote-left: 52%; --mote-top: 47%; --mote-x: -108px; --mote-y: -18px; --mote-delay: 135ms; }
+  .unseal-mote:nth-child(8) { --mote-left: 68%; --mote-top: 49%; --mote-x: 104px; --mote-y: -12px; --mote-delay: 165ms; }
+  .unseal-mote:nth-child(9) { --mote-left: 54%; --mote-top: 37%; --mote-x: -58px; --mote-y: -96px; --mote-delay: 195ms; }
+  .unseal-mote:nth-child(10) { --mote-left: 66%; --mote-top: 61%; --mote-x: 62px; --mote-y: 88px; --mote-delay: 215ms; }
+  .unseal-mote:nth-child(11) { --mote-left: 59%; --mote-top: 34%; --mote-x: 12px; --mote-y: -108px; --mote-delay: 235ms; }
+  .unseal-mote:nth-child(12) { --mote-left: 59%; --mote-top: 64%; --mote-x: -8px; --mote-y: 104px; --mote-delay: 255ms; }
+
+  .opening-veil {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(-105%, 0, 0);
+    background: linear-gradient(100deg, transparent 0%, rgba(224, 188, 75, 0.12) 26%, rgba(255, 246, 213, 0.88) 50%, rgba(224, 188, 75, 0.16) 72%, transparent 100%);
+  }
+
+  .opening-enchanted .opening-veil {
+    animation: sweepOpeningVeil 900ms cubic-bezier(0.22, 0.72, 0.22, 1) both;
+  }
+
+  @keyframes enchantedSplashReveal {
+    0%, 46% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes reducedSplashReveal {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes traceLetterBorder {
+    0% { opacity: 0; transform: scaleX(0); }
+    18% { opacity: 1; }
+    58% { opacity: 0.92; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1); }
+  }
+
+  @keyframes letterUnseal {
+    from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+    to { opacity: 0; transform: translate3d(0, -10px, 0) scale(0.985); }
+  }
+
+  @keyframes releaseUnsealMote {
+    0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.45); }
+    24% { opacity: 0.95; }
+    100% { opacity: 0; transform: translate3d(var(--mote-x), var(--mote-y), 0) scale(1.1); }
+  }
+
+  @keyframes portraitAdvance {
+    from { transform: translate3d(var(--scene-x, 0px), var(--scene-y, 0px), 0) scale(1); }
+    to { transform: translate3d(var(--scene-x, 0px), calc(var(--scene-y, 0px) - 8px), 0) scale(1.025); }
+  }
+
+  @keyframes sweepOpeningVeil {
+    0% { opacity: 0; transform: translate3d(-105%, 0, 0); }
+    28% { opacity: 0.88; }
+    56% { opacity: 0.96; transform: translate3d(0, 0, 0); }
+    100% { opacity: 0; transform: translate3d(105%, 0, 0); }
   }
 
   .moonlit-letter::before,
@@ -1137,13 +1270,20 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .splash-overlay,
-    .scene-layer {
-      transition: none;
-    }
-
     .btn-reveal {
       animation: none;
     }
+  }
+
+  html[data-rendering-profile="reduced"] .letter-border-trace,
+  html[data-rendering-profile="reduced"] .unseal-motes,
+  html[data-rendering-profile="reduced"] .opening-veil {
+    display: none;
+  }
+
+  html[data-rendering-profile="reduced"] .splash-overlay.opening-reduced {
+    animation: reducedSplashReveal 180ms ease-out both;
+    animation-duration: 180ms !important;
+    animation-iteration-count: 1 !important;
   }
 </style>

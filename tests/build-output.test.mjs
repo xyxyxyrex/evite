@@ -36,6 +36,13 @@ test("landing emits the concise moonlit letter and layered portrait scene", () =
   assert.doesNotMatch(html, /You are invited to my 18th Birthday Debut!/);
 });
 
+test("landing emits the enchanted unsealing layers", () => {
+  const html = readFileSync("dist/lara-espanola/index.html", "utf8");
+  assert.match(html, /id="opening-veil"/);
+  assert.match(html, /class="letter-border-trace"/);
+  assert.match(html, /class="unseal-motes"/);
+});
+
 test("long roster names emit a compact one-line greeting", () => {
   const longNameHtml = readFileSync("dist/johnezza-veronic-tolentino/index.html", "utf8");
   const typicalNameHtml = readFileSync("dist/lara-espanola/index.html", "utf8");

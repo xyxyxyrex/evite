@@ -5,6 +5,8 @@ export interface RenderingBudget {
   starCount: number;
   starfieldFps: number;
   handwritingParticleScale: number;
+  handwritingMoteLimit: number;
+  handwritingCanvasDpr: number;
   confettiParticles: number;
 }
 
@@ -13,6 +15,8 @@ const FULL_BUDGET: RenderingBudget = {
   starCount: 80,
   starfieldFps: 60,
   handwritingParticleScale: 1,
+  handwritingMoteLimit: 4,
+  handwritingCanvasDpr: 1.5,
   confettiParticles: 180,
 };
 
@@ -21,6 +25,8 @@ const MOBILE_BUDGET: RenderingBudget = {
   starCount: 20,
   starfieldFps: 20,
   handwritingParticleScale: 0.4,
+  handwritingMoteLimit: 2,
+  handwritingCanvasDpr: 1,
   confettiParticles: 40,
 };
 
@@ -29,6 +35,8 @@ const REDUCED_BUDGET: RenderingBudget = {
   starCount: 0,
   starfieldFps: 0,
   handwritingParticleScale: 0,
+  handwritingMoteLimit: 0,
+  handwritingCanvasDpr: 0,
   confettiParticles: 0,
 };
 

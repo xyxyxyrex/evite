@@ -110,7 +110,8 @@ const {
             <span class="guest-name-text font-cursive text-gold-gradient inline-reveal-text" id="guest-name-reveal">
               {guestInfo.rawName}
             </span>
-            <canvas class="sparkle-leading-canvas" id="guest-sparkle-canvas"></canvas>
+            <span class="guest-writing-glow" id="guest-writing-glow" aria-hidden="true"></span>
+            <canvas class="sparkle-leading-canvas" id="guest-sparkle-canvas" aria-hidden="true"></canvas>
           </span>!
         </h1>
       </div>
@@ -614,24 +615,36 @@ const {
 
   /* Inline Handwriting Reveal with Soft Feathered Edge Masking */
   .inline-reveal-wrapper {
+    --reveal-position: 0%;
+    --reveal-x: 0px;
     position: relative;
     display: inline-flex;
     align-items: baseline;
     vertical-align: baseline;
+    isolation: isolate;
   }
 
   .inline-reveal-text {
     display: inline-block;
     vertical-align: baseline;
     white-space: nowrap;
-    overflow: hidden;
-    width: 0px;
-    opacity: 0;
-    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 25px), rgba(0, 0, 0, 0.15) 92%, transparent 100%);
-    mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 25px), rgba(0, 0, 0, 0.15) 92%, transparent 100%);
-    filter: blur(1.5px);
-    -webkit-filter: blur(1.5px);
-    will-change: width, filter, opacity;
+    opacity: 1;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 calc(var(--reveal-position) - 18px),
+      rgba(0, 0, 0, 0.75) calc(var(--reveal-position) - 8px),
+      transparent var(--reveal-position),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 calc(var(--reveal-position) - 18px),
+      rgba(0, 0, 0, 0.75) calc(var(--reveal-position) - 8px),
+      transparent var(--reveal-position),
+      transparent 100%
+    );
   }
 
   .inline-reveal-text.is-revealing {
@@ -646,6 +659,19 @@ const {
     mask-image: none !important;
     filter: none !important;
     -webkit-filter: none !important;
+  }
+
+  .guest-writing-glow {
+    position: absolute;
+    left: 0;
+    top: 52%;
+    width: 58px;
+    height: 42px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(var(--reveal-x), -50%, 0) translateX(-50%);
+    background: radial-gradient(ellipse, rgba(255, 239, 166, 0.42) 0%, rgba(224, 174, 55, 0.16) 42%, transparent 74%);
   }
 
   .sparkle-leading-canvas {
@@ -845,7 +871,10 @@ const {
     -webkit-background-clip: text !important;
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    filter: drop-shadow(0 0 10px rgba(254, 240, 138, 0.95)) drop-shadow(0 0 20px rgba(245, 158, 11, 0.7)) !important;
+  }
+
+  .guest-name-text.is-complete {
+    filter: drop-shadow(0 0 5px rgba(253, 230, 138, 0.45)) !important;
   }
 
   .invitation-text-block {

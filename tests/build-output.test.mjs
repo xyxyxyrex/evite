@@ -14,3 +14,10 @@ test("build emits only normalized aliases for an accented guest name", () => {
   assert.equal(existsSync("dist/laraespanola/index.html"), true);
   assert.equal(existsSync("dist/LaraEspaola/index.html"), false);
 });
+
+test("build emits independent greeting glow and sparkle layers", () => {
+  const html = readFileSync("dist/lara-espanola/index.html", "utf8");
+  assert.match(html, /id="guest-writing-glow"/);
+  assert.match(html, /id="guest-sparkle-canvas"/);
+  assert.match(html, /aria-hidden="true"/);
+});

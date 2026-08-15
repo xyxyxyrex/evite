@@ -1,0 +1,18 @@
+<script>
+  import { getRenderingBudget } from "../utils/performance";
+
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function applyRenderingProfile() {
+    const budget = getRenderingBudget(window.innerWidth, motionQuery.matches);
+    document.documentElement.dataset.renderingProfile = budget.profile;
+  }
+
+  function cleanupRenderingProfile() {
+    motionQuery.removeEventListener("change", applyRenderingProfile);
+  }
+
+  applyRenderingProfile();
+  motionQuery.addEventListener("change", applyRenderingProfile);
+  window.addEventListener("pagehide", cleanupRenderingProfile, { once: true });
+</script>

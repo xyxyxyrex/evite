@@ -5,6 +5,7 @@ import StarfieldCanvas from '../components/StarfieldCanvas.astro';
 import HeroSection from '../components/HeroSection.astro';
 import RevealedContent from '../components/RevealedContent.astro';
 import MobileNavBar from '../components/MobileNavBar.astro';
+import PerformanceProfile from '../components/PerformanceProfile.astro';
 import { GUESTS_DATA, getGuestInfo, getGuestRouteAliases, type GuestInfo } from '../utils/guests';
 
 export async function getStaticPaths() {
@@ -58,6 +59,7 @@ const debutanteName = "Rysha Isabel Trovillas";
   <title>Isabel | XVIII</title>
 </head>
 <body class="splash-locked">
+  <PerformanceProfile />
   
   <!-- Magic Preloader -->
   <MagicPreloader />

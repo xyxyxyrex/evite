@@ -10,76 +10,103 @@
 </div>
 
 <script>
+  import { getRenderingBudget } from "../utils/performance";
+
+  interface Star {
+    x: number;
+    y: number;
+    size: number;
+    alpha: number;
+    alphaSpeed: number;
+    color: string;
+    vy: number;
+    vx: number;
+  }
+
   class Starfield {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
-    stars: Array<{
-      x: number;
-      y: number;
-      size: number;
-      alpha: number;
-      alphaSpeed: number;
-      color: string;
-      vy: number;
-      vx: number;
-    }> = [];
-    width: number = 0;
-    height: number = 0;
-    animationFrameId: number = 0;
-    isRunning: boolean = false;
-    lastFrameTime: number = 0;
+    stars: Star[] = [];
+    width = 0;
+    height = 0;
+    animationFrameId = 0;
+    isRunning = false;
+    isDestroyed = false;
+    lastFrameTime = 0;
+    lastWidth = 0;
+    motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    budget = getRenderingBudget(window.innerWidth, this.motionQuery.matches);
 
-    constructor() {
-      this.canvas = document.getElementById('starfield-canvas') as HTMLCanvasElement;
-      this.ctx = this.canvas.getContext('2d', { alpha: true })!;
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+      this.canvas = canvas;
+      this.ctx = ctx;
+      this.handleResize = this.handleResize.bind(this);
+      this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+      this.handleMotionChange = this.handleMotionChange.bind(this);
+      this.handlePageHide = this.handlePageHide.bind(this);
+      this.handlePageShow = this.handlePageShow.bind(this);
       this.init();
     }
 
     init() {
       this.width = window.innerWidth;
       this.height = window.innerHeight;
-      this.canvas.width = this.width;
-      this.canvas.height = this.height;
-
-      // Smart mobile resize listener: ignore height-only resizes from mobile address bar collapse
-      let lastWidth = this.width;
-      window.addEventListener('resize', () => {
-        const newWidth = window.innerWidth;
-        if (Math.abs(newWidth - lastWidth) > 10) {
-          lastWidth = newWidth;
-          this.resize();
-        }
-      });
-
-      // Pause animation loop when tab is hidden or backgrounded to conserve RAM & battery
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          this.stop();
-        } else {
-          this.start();
-        }
-      });
-
+      this.lastWidth = this.width;
+      this.sizeCanvas();
       this.createStars();
+
+      window.addEventListener("resize", this.handleResize, { passive: true });
+      document.addEventListener("visibilitychange", this.handleVisibilityChange);
+      this.motionQuery.addEventListener("change", this.handleMotionChange);
+      window.addEventListener("pagehide", this.handlePageHide);
+      window.addEventListener("pageshow", this.handlePageShow);
       this.start();
     }
 
-    resize() {
-      this.width = window.innerWidth;
+    sizeCanvas() {
+      this.canvas.width = Math.max(1, this.width);
+      this.canvas.height = Math.max(1, this.height);
+    }
+
+    handleResize() {
+      const newWidth = window.innerWidth;
+      if (Math.abs(newWidth - this.lastWidth) <= 10) return;
+      this.lastWidth = newWidth;
+      this.width = newWidth;
       this.height = window.innerHeight;
-      this.canvas.width = this.width;
-      this.canvas.height = this.height;
+      this.budget = getRenderingBudget(this.width, this.motionQuery.matches);
+      this.sizeCanvas();
       this.createStars();
+      if (this.budget.starfieldFps === 0) this.stop();
+      else this.start();
+    }
+
+    handleVisibilityChange() {
+      if (document.hidden) this.stop();
+      else this.start();
+    }
+
+    handleMotionChange() {
+      this.budget = getRenderingBudget(window.innerWidth, this.motionQuery.matches);
+      this.createStars();
+      if (this.budget.starfieldFps === 0) this.stop();
+      else this.start();
+    }
+
+    handlePageHide(event: PageTransitionEvent) {
+      if (event.persisted) this.stop();
+      else this.destroy();
+    }
+
+    handlePageShow() {
+      if (!this.isDestroyed && !document.hidden) this.start();
     }
 
     createStars() {
-      // Mobile optimization: cap max star count to keep memory footprint under 3MB
-      const isMobile = this.width < 768;
       const rawCount = Math.floor((this.width * this.height) / 8000);
-      const starCount = isMobile ? Math.min(30, rawCount) : Math.min(80, rawCount);
-      
+      const starCount = Math.min(this.budget.starCount, rawCount);
+      const colors = ["#FFFFFF", "#FDF3CB", "#EECE5A", "#94A3B8", "#D4AF37"];
       this.stars = [];
-      const colors = ['#FFFFFF', '#FDF3CB', '#EECE5A', '#94A3B8', '#D4AF37'];
 
       for (let i = 0; i < starCount; i++) {
         this.stars.push({
@@ -90,82 +117,81 @@
           alphaSpeed: (Math.random() * 0.01 + 0.003) * (Math.random() > 0.5 ? 1 : -1),
           color: colors[Math.floor(Math.random() * colors.length)],
           vy: -(Math.random() * 0.2 + 0.06),
-          vx: (Math.random() - 0.5) * 0.06
+          vx: (Math.random() - 0.5) * 0.06,
         });
       }
+
+      if (starCount === 0) this.ctx.clearRect(0, 0, this.width, this.height);
     }
 
     start() {
-      if (!this.isRunning) {
-        this.isRunning = true;
-        this.lastFrameTime = performance.now();
-        this.animate();
-      }
+      if (this.isDestroyed || this.isRunning || this.budget.starfieldFps === 0) return;
+      this.isRunning = true;
+      this.lastFrameTime = performance.now();
+      this.animationFrameId = requestAnimationFrame((now) => this.animate(now));
     }
 
     stop() {
       this.isRunning = false;
-      if (this.animationFrameId) {
-        cancelAnimationFrame(this.animationFrameId);
-        this.animationFrameId = 0;
-      }
+      if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = 0;
     }
 
-    animate() {
-      if (!this.isRunning) return;
-
-      const now = performance.now();
-      const isMobile = this.width < 768;
-      const frameThreshold = isMobile ? 33 : 16; // 30fps cap on mobile to save 50% CPU/GPU RAM
+    animate(now: number) {
+      if (!this.isRunning || this.isDestroyed) return;
+      const frameThreshold = 1000 / this.budget.starfieldFps;
 
       if (now - this.lastFrameTime >= frameThreshold) {
         this.lastFrameTime = now;
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        for (let i = 0; i < this.stars.length; i++) {
-          const star = this.stars[i];
-          
-          // Twinkle
+        for (const star of this.stars) {
           star.alpha += star.alphaSpeed;
-          if (star.alpha <= 0.15 || star.alpha >= 0.9) {
-            star.alphaSpeed = -star.alphaSpeed;
-          }
-
-          // Float upwards softly
+          if (star.alpha <= 0.15 || star.alpha >= 0.9) star.alphaSpeed = -star.alphaSpeed;
           star.y += star.vy;
           star.x += star.vx;
-
           if (star.y < 0) {
             star.y = this.height;
             star.x = Math.random() * this.width;
           }
 
-          const currentAlpha = Math.max(0.1, Math.min(0.9, star.alpha));
+          this.ctx.globalAlpha = Math.max(0.1, Math.min(0.9, star.alpha));
           this.ctx.fillStyle = star.color;
-
-          // Draw star core without expensive shadowBlur
-          this.ctx.globalAlpha = currentAlpha;
           this.ctx.beginPath();
           this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
           this.ctx.fill();
         }
       }
 
-      this.animationFrameId = requestAnimationFrame(() => this.animate());
+      this.animationFrameId = requestAnimationFrame((nextNow) => this.animate(nextNow));
+    }
+
+    destroy() {
+      if (this.isDestroyed) return;
+      this.isDestroyed = true;
+      this.stop();
+      window.removeEventListener("resize", this.handleResize);
+      document.removeEventListener("visibilitychange", this.handleVisibilityChange);
+      this.motionQuery.removeEventListener("change", this.handleMotionChange);
+      window.removeEventListener("pagehide", this.handlePageHide);
+      window.removeEventListener("pageshow", this.handlePageShow);
+      this.stars = [];
+      this.canvas.width = 1;
+      this.canvas.height = 1;
     }
   }
 
-  function onReady(fn: () => void) {
-    if (document.readyState !== 'loading') {
-      fn();
-    } else {
-      document.addEventListener('DOMContentLoaded', fn);
-    }
+  function initializeStarfield() {
+    const canvas = document.getElementById("starfield-canvas") as HTMLCanvasElement | null;
+    const ctx = canvas?.getContext("2d", { alpha: true });
+    if (canvas && ctx) new Starfield(canvas, ctx);
   }
 
-  onReady(() => {
-    new Starfield();
-  });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeStarfield, { once: true });
+  } else {
+    initializeStarfield();
+  }
 </script>
 
 <style>

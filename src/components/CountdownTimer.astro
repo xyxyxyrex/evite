@@ -41,9 +41,16 @@ const { targetDate = "2026-11-14T16:00:00" } = Astro.props;
 </section>
 
 <script>
-  function updateCountdown() {
+  let countdownInterval: number | null = null;
+
+  function stopCountdown() {
+    if (countdownInterval !== null) clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+
+  function updateCountdown(): boolean {
     const timerGrid = document.getElementById("timer-grid");
-    if (!timerGrid) return;
+    if (!timerGrid) return false;
 
     const targetDateStr =
       timerGrid.getAttribute("data-target") || "2026-11-14T16:00:00";
@@ -52,11 +59,13 @@ const { targetDate = "2026-11-14T16:00:00" } = Astro.props;
     const distance = targetDate - now;
 
     if (distance < 0) {
-      document.getElementById("days")!.innerText = "00";
-      document.getElementById("hours")!.innerText = "00";
-      document.getElementById("minutes")!.innerText = "00";
-      document.getElementById("seconds")!.innerText = "00";
-      return;
+      const expiredValues = ["days", "hours", "minutes", "seconds"];
+      expiredValues.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) element.innerText = "00";
+      });
+      stopCountdown();
+      return false;
     }
 
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -75,12 +84,23 @@ const { targetDate = "2026-11-14T16:00:00" } = Astro.props;
     if (hEl) hEl.innerText = String(hours).padStart(2, "0");
     if (mEl) mEl.innerText = String(minutes).padStart(2, "0");
     if (sEl) sEl.innerText = String(seconds).padStart(2, "0");
+    return true;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  });
+  function initializeCountdown() {
+    if (countdownInterval !== null) return;
+    if (updateCountdown()) {
+      countdownInterval = window.setInterval(updateCountdown, 1000);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeCountdown, { once: true });
+  } else {
+    initializeCountdown();
+  }
+
+  window.addEventListener("pagehide", stopCountdown, { once: true });
 </script>
 
 <style>

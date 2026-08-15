@@ -166,9 +166,60 @@ const {
 
 <script>
   import confetti from 'canvas-confetti';
+  import { getRenderingBudget } from '../utils/performance';
+
+  const heroAnimationFrames = new Set<number>();
+  const heroTimeouts = new Set<number>();
+  let backgroundAudio: HTMLAudioElement | null = null;
+  let audioFadeInterval: number | null = null;
+  let heroDestroyed = false;
+
+  function scheduleHeroFrame(callback: FrameRequestCallback) {
+    const id = requestAnimationFrame((time) => {
+      heroAnimationFrames.delete(id);
+      if (!heroDestroyed) callback(time);
+    });
+    heroAnimationFrames.add(id);
+    return id;
+  }
+
+  function scheduleHeroTimeout(callback: () => void, delay: number) {
+    const id = window.setTimeout(() => {
+      heroTimeouts.delete(id);
+      if (!heroDestroyed) callback();
+    }, delay);
+    heroTimeouts.add(id);
+    return id;
+  }
+
+  function teardownHeroResources() {
+    if (heroDestroyed) return;
+    heroDestroyed = true;
+    heroAnimationFrames.forEach((id) => cancelAnimationFrame(id));
+    heroAnimationFrames.clear();
+    heroTimeouts.forEach((id) => clearTimeout(id));
+    heroTimeouts.clear();
+    if (audioFadeInterval !== null) clearInterval(audioFadeInterval);
+    audioFadeInterval = null;
+    if (backgroundAudio) {
+      backgroundAudio.pause();
+      backgroundAudio.removeAttribute('src');
+      backgroundAudio.load();
+      backgroundAudio = null;
+    }
+    confetti.reset();
+    document.querySelectorAll<HTMLCanvasElement>('.sparkle-overlay-canvas').forEach((canvas) => {
+      canvas.width = 1;
+      canvas.height = 1;
+    });
+  }
+
+  window.addEventListener('pagehide', teardownHeroResources, { once: true });
 
   // --- FEATHERED SOFT BLUR EDGE & LEADING SPARKLE REVEAL ENGINE ---
   function initFeatheredHandwritingSparkleReveal() {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const budget = getRenderingBudget(window.innerWidth, motionQuery.matches);
     const sequences = [
       {
         wrapper: document.getElementById('guest-wrapper'),
@@ -182,10 +233,20 @@ const {
     sequences.forEach(({ wrapper, textEl, canvas, delay, duration }) => {
       if (!wrapper || !textEl || !canvas) return;
 
+      if (budget.handwritingParticleScale === 0) {
+        textEl.style.width = 'auto';
+        textEl.style.opacity = '1';
+        textEl.classList.add('is-complete');
+        canvas.style.display = 'none';
+        canvas.width = 1;
+        canvas.height = 1;
+        return;
+      }
+
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = budget.profile === 'full' ? Math.min(window.devicePixelRatio || 1, 2) : 1;
 
       function startSequence() {
         if (!textEl || !canvas || !ctx || !wrapper) return;
@@ -285,8 +346,10 @@ const {
 
           // Stream sparkles directly at the feathered soft edge
           if (progress < 1) {
-            spawnEdgeSparkle(currentW);
-            if (Math.random() > 0.3) {
+            if (Math.random() < budget.handwritingParticleScale) {
+              spawnEdgeSparkle(currentW);
+            }
+            if (Math.random() < 0.7 * budget.handwritingParticleScale) {
               spawnEdgeSparkle(currentW);
             }
           }
@@ -314,7 +377,7 @@ const {
           }
 
           if (progress < 1 || particles.length > 0) {
-            requestAnimationFrame(renderFrame);
+            scheduleHeroFrame(renderFrame);
           } else {
             // Sequence completed cleanly
             textEl.style.width = 'auto';
@@ -322,25 +385,53 @@ const {
             textEl.classList.add('is-complete');
             ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
             canvas.style.display = 'none';
+            canvas.width = 1;
+            canvas.height = 1;
+            particles.length = 0;
           }
         }
 
-        requestAnimationFrame(renderFrame);
+        scheduleHeroFrame(renderFrame);
       }
 
       // Failsafe timeout to force text visibility on slow mobile connections
-      setTimeout(() => {
+      scheduleHeroTimeout(() => {
         if (textEl && textEl.style.width === '0px') {
           textEl.style.width = 'auto';
           textEl.style.opacity = '1';
         }
       }, duration + delay + 400);
 
-      setTimeout(startSequence, delay);
+      scheduleHeroTimeout(startSequence, delay);
     });
   }
 
   const GOOGLE_SHEETS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwPB4mXKlNyNUIKocRuNXLbReyl71p00_-rFNv2oQ1s9lh4kXwjTIYTJ09H37nJ_U6/exec";
+
+  function startBackgroundAudio() {
+    if (backgroundAudio) return;
+    backgroundAudio = new Audio('/audio/bgm.mp3');
+    backgroundAudio.loop = true;
+    backgroundAudio.volume = 0;
+
+    backgroundAudio.play().then(() => {
+      let volume = 0;
+      audioFadeInterval = window.setInterval(() => {
+        if (!backgroundAudio) return;
+        volume += 0.03;
+        if (volume >= 0.35) {
+          backgroundAudio.volume = 0.35;
+          if (audioFadeInterval !== null) clearInterval(audioFadeInterval);
+          audioFadeInterval = null;
+        } else {
+          backgroundAudio.volume = volume;
+        }
+      }, 80);
+    }).catch((err) => {
+      console.log('Audio playback initialized:', err);
+      backgroundAudio = null;
+    });
+  }
 
   function initOpeningTransition() {
     const btn = document.getElementById('accept-invitation-btn');
@@ -373,33 +464,22 @@ const {
 
       // 1. Play processed background music continuously in a loop upon accepting invitation
       try {
-        const bgm = new Audio('/audio/bgm.mp3');
-        bgm.loop = true;
-        bgm.volume = 0;
-        bgm.play().then(() => {
-          let vol = 0;
-          const fadeTimer = setInterval(() => {
-            vol += 0.03;
-            if (vol >= 0.35) {
-              bgm.volume = 0.35;
-              clearInterval(fadeTimer);
-            } else {
-              bgm.volume = vol;
-            }
-          }, 80);
-        }).catch(err => {
-          console.log('Audio playback initialized:', err);
-        });
+        startBackgroundAudio();
       } catch(e) {}
 
       // 2. Confetti explosion (scaled for mobile performance)
-      const isMobile = window.innerWidth < 768;
-      confetti({
-        particleCount: isMobile ? 85 : 180,
-        spread: isMobile ? 75 : 100,
-        origin: { y: 0.5 },
-        colors: ['#D4AF37', '#F6E597', '#0B132B', '#FFFFFF', '#EECE5A']
-      });
+      const budget = getRenderingBudget(
+        window.innerWidth,
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      );
+      if (budget.confettiParticles > 0) {
+        confetti({
+          particleCount: budget.confettiParticles,
+          spread: budget.profile === 'mobile' ? 75 : 100,
+          origin: { y: 0.5 },
+          colors: ['#D4AF37', '#F6E597', '#0B132B', '#FFFFFF', '#EECE5A']
+        });
+      }
 
       // 3. Splash curtain transition
       splash.classList.add('opening-transition');
@@ -412,11 +492,11 @@ const {
       window.scrollTo(0, 0);
       document.body.classList.remove('splash-locked');
 
-      setTimeout(() => {
+      scheduleHeroTimeout(() => {
         splash.classList.add('splash-dismissed');
         splash.style.display = 'none';
       }, 1100);
-    });
+    }, { once: true });
   }
 
   function onReady(fn: () => void) {

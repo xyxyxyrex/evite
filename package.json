@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test:unit": "node --experimental-strip-types --test tests/guests.test.ts tests/performance.test.ts",
+    "test:unit": "node --experimental-strip-types --test tests/guests.test.mjs tests/performance.test.mjs",
     "test:build": "npm run build && node --test tests/build-output.test.mjs",
     "deploy": "astro build && wrangler pages deploy dist"
   },

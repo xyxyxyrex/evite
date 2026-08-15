@@ -342,104 +342,7 @@ const {
 
   const GOOGLE_SHEETS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwPB4mXKlNyNUIKocRuNXLbReyl71p00_-rFNv2oQ1s9lh4kXwjTIYTJ09H37nJ_U6/exec";
 
-  function resolveLiveGuestInfo() {
-    const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
-    if (!path || path === 'index' || path === 'index.html') return null;
-
-    const compact = path.toLowerCase().replace(/[^a-z0-9]/g, '');
-    if (compact === 'johndoe' || compact === 'john-doe') return null;
-
-    const GUESTS_MAP: Record<string, string[]> = {
-      "18 Roses": [
-        "Helmar Returan", "Lenmar Returan", "Martin Returan Jr.", "Julius Salazar",
-        "Abraham Salazar", "Gabriel Cainglet", "Romar Returan", "Kyle Urbanozo",
-        "Wacky Loumar Solomon", "Sandy Carl Templo", "Philip Abdon", "Kelly Abdon",
-        "Jeros Andre Salazar", "Andrew Trovillas", "Leo Trovillas", "Loccio Miguel Trovillas",
-        "Jemar Gabriel Trovillas", "Jerry Trovillas"
-      ],
-      "18 Candles": [
-        "Marichu Gonzales", "Sharon Templo", "Lara Española", "Cris Joy Sencil",
-        "Zendy Shar Templo", "Stiffany Dyann Templo", "Patricia Lacson", "Valerie Ruiz",
-        "Samantha Rose Rico", "Janelle Marie Magsino", "Ashleigh Gwyneth Rodriguez",
-        "Kenichi Metchell Gaudia", "Alyzza Faith Mojana", "Luxlyn Lei Badajos",
-        "Johnezza Veronic Tolentino", "Marvi Aiah Solomon", "Nicole Grace Recaido", "Jamila Kate Degala"
-      ],
-      "18 Treasures": [
-        "Michelle Dla Paz", "Arne Jane Gonzales", "Ma. Roxanne Eniceno", "Judelyn Solidarios",
-        "Suelin Villanueva", "Reynalyn Estoquia", "Kate Andrea Salazar", "Diana Elizabeth Elarmo",
-        "Rona Returan", "Arlene Trovillas", "Diosa Trovillas", "Melmia Cyann Noguid",
-        "Danilo Bacolod", "JV Esoy", "Lee Villaflor", "Bing Campo", "Anabrenda Gierza", "Evelyn Gerongani"
-      ],
-      "18 Blue Bills": [
-        "Lenev Sorrosa", "Lenie Mospa", "Ma. Socorro Veloso", "Josephine Angolo",
-        "Freda Recaido", "Lou Martha Solomon", "Jennifer Gallego", "Jessa Gallego",
-        "Cherry Mae Millan", "Terrence Granada", "Roselle Returan", "Marjolan Returan",
-        "Aurelio Baluran Jr.", "Andrew Gallego", "Angel Baluran", "Susana Delfin",
-        "Amalia Dioman", "Brenda Talaman"
-      ]
-    };
-
-    for (const [role, names] of Object.entries(GUESTS_MAP)) {
-      for (const name of names) {
-        if (name.toLowerCase().replace(/[^a-z0-9]/g, '') === compact) {
-          return { name, role };
-        }
-      }
-    }
-
-    for (const [role, names] of Object.entries(GUESTS_MAP)) {
-      for (const name of names) {
-        const cName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-        if (Math.abs(cName.length - compact.length) <= 2) {
-          let diff = 0, i = 0, j = 0;
-          while (i < cName.length && j < compact.length) {
-            if (cName[i] !== compact[j]) {
-              diff++;
-              if (cName.length > compact.length) i++;
-              else if (compact.length > cName.length) j++;
-              else { i++; j++; }
-            } else { i++; j++; }
-          }
-          diff += (cName.length - i) + (compact.length - j);
-          if (diff <= 2) return { name, role };
-        }
-      }
-    }
-
-    const formatted = path
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
-      .replace(/[-_]/g, ' ')
-      .trim()
-      .split(/\s+/)
-      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-      .join(' ');
-
-    return { name: formatted, role: 'Honored Guest' };
-  }
-
-  function syncLiveGuestData() {
-    const live = resolveLiveGuestInfo();
-    if (!live) return;
-
-    const btn = document.getElementById('accept-invitation-btn');
-    if (btn) {
-      btn.setAttribute('data-guest-name', live.name);
-      btn.setAttribute('data-guest-role', live.role);
-    }
-
-    const guestText = document.getElementById('guest-name-reveal');
-    if (guestText) {
-      guestText.textContent = live.name;
-    }
-
-    const guestBadge = document.querySelector('.guest-invitation-badge');
-    if (guestBadge) {
-      guestBadge.textContent = `✦ ${live.role.toUpperCase()} ✦`;
-    }
-  }
-
   function initOpeningTransition() {
-    syncLiveGuestData();
     const btn = document.getElementById('accept-invitation-btn');
     const splash = document.getElementById('splash-screen');
     const mainContent = document.getElementById('main-revealed-content');
@@ -524,16 +427,9 @@ const {
     }
   }
 
-  // Instant execution for immediate mobile DOM sync
-  syncLiveGuestData();
-
   onReady(() => {
     initFeatheredHandwritingSparkleReveal();
     initOpeningTransition();
-  });
-
-  window.addEventListener('pageshow', () => {
-    syncLiveGuestData();
   });
 </script>
 

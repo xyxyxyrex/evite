@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test:unit": "node --experimental-strip-types --test tests/guests.test.ts",
+    "test:build": "npm run build && node --test tests/build-output.test.mjs",
     "deploy": "astro build && wrangler pages deploy dist"
   },
   "dependencies": {

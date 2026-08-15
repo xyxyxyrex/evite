@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  getMagicTrailPoint,
   getSceneOffsets,
   normalizeScenePointer,
 } from "../src/utils/landingScene.ts";
@@ -26,4 +27,28 @@ test("maps normalized input to bounded depth offsets", () => {
     sparkles: { x: 8, y: -4 },
     foreground: { x: 12, y: -6 },
   });
+});
+
+test("wraps magic trail progress into one continuous loop", () => {
+  assert.deepEqual(getMagicTrailPoint(0), getMagicTrailPoint(1));
+  assert.deepEqual(getMagicTrailPoint(0.25), getMagicTrailPoint(1.25));
+  assert.deepEqual(getMagicTrailPoint(0.75), getMagicTrailPoint(-0.25));
+});
+
+test("keeps the magic trail finite and inside the portrait", () => {
+  for (let i = 0; i < 32; i++) {
+    const point = getMagicTrailPoint(i / 32);
+    assert.ok(Number.isFinite(point.x));
+    assert.ok(Number.isFinite(point.y));
+    assert.ok(point.x >= 0.04 && point.x <= 0.96);
+    assert.ok(point.y >= 0.12 && point.y <= 0.9);
+  }
+});
+
+test("routes the trail around the central face region", () => {
+  for (let i = 0; i < 32; i++) {
+    const { x, y } = getMagicTrailPoint(i / 32);
+    const insideFace = x > 0.31 && x < 0.76 && y > 0.2 && y < 0.58;
+    assert.equal(insideFace, false);
+  }
 });

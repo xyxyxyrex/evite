@@ -77,7 +77,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     easeHandwritingProgress,
     getMoteSpawnCount,
   } from '../utils/handwriting';
-  import { getSceneOffsets, normalizeScenePointer } from '../utils/landingScene';
+  import { getMagicTrailPoint, getSceneOffsets, normalizeScenePointer } from '../utils/landingScene';
   import { getRenderingBudget } from '../utils/performance';
 
   interface SceneSparkle {
@@ -111,6 +111,10 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
   let sceneCanvasHeight = 0;
   let sceneFrameInterval = 0;
   let sceneLastRenderTime = -Infinity;
+  let sceneReducedMotion = false;
+  const sceneTrailPointCount = 96;
+  const sceneTrailX = new Float32Array(sceneTrailPointCount);
+  const sceneTrailY = new Float32Array(sceneTrailPointCount);
   let sceneClientX = 0;
   let sceneClientY = 0;
   let scenePointerResetPending = true;
@@ -236,6 +240,61 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
       sceneCanvas.height = backingHeight;
       sceneContext.setTransform(sceneCanvasDpr, 0, 0, sceneCanvasDpr, 0, 0);
     }
+
+    if (sceneReducedMotion) drawSceneMagic(0, false);
+  }
+
+  function traceSceneTrail() {
+    if (!sceneContext) return;
+    sceneContext.beginPath();
+    sceneContext.moveTo(sceneTrailX[0] * sceneCanvasWidth, sceneTrailY[0] * sceneCanvasHeight);
+    for (let i = 1; i < sceneTrailPointCount; i++) {
+      sceneContext.lineTo(sceneTrailX[i] * sceneCanvasWidth, sceneTrailY[i] * sceneCanvasHeight);
+    }
+    sceneContext.closePath();
+  }
+
+  function drawSceneMagic(now: number, animated: boolean) {
+    if (!sceneContext) return;
+    sceneContext.clearRect(0, 0, sceneCanvasWidth, sceneCanvasHeight);
+    sceneContext.save();
+    sceneContext.lineCap = 'round';
+    sceneContext.lineJoin = 'round';
+    sceneContext.shadowColor = '#f7c95c';
+    sceneContext.shadowBlur = animated ? 8 : 5;
+    sceneContext.strokeStyle = '#e8bd55';
+    sceneContext.globalAlpha = animated ? 0.22 : 0.28;
+    sceneContext.lineWidth = 1.15;
+    traceSceneTrail();
+    sceneContext.stroke();
+
+    if (animated) {
+      const headIndex = Math.floor((now * 0.000045 % 1) * sceneTrailPointCount);
+      const tailLength = 22;
+      for (let i = tailLength; i > 0; i--) {
+        const from = (headIndex - i + sceneTrailPointCount) % sceneTrailPointCount;
+        const to = (from + 1) % sceneTrailPointCount;
+        const strength = (tailLength - i + 1) / tailLength;
+        sceneContext.beginPath();
+        sceneContext.moveTo(sceneTrailX[from] * sceneCanvasWidth, sceneTrailY[from] * sceneCanvasHeight);
+        sceneContext.lineTo(sceneTrailX[to] * sceneCanvasWidth, sceneTrailY[to] * sceneCanvasHeight);
+        sceneContext.globalAlpha = 0.08 + strength * 0.76;
+        sceneContext.lineWidth = 0.9 + strength * 1.8;
+        sceneContext.strokeStyle = strength > 0.72 ? '#fff2b5' : '#e9b936';
+        sceneContext.stroke();
+      }
+
+      const headX = sceneTrailX[headIndex] * sceneCanvasWidth;
+      const headY = sceneTrailY[headIndex] * sceneCanvasHeight;
+      sceneContext.fillStyle = '#fff8d9';
+      sceneContext.globalAlpha = 0.98;
+      sceneContext.shadowBlur = 14;
+      sceneContext.beginPath();
+      sceneContext.arc(headX, headY, 2.2, 0, Math.PI * 2);
+      sceneContext.fill();
+    }
+
+    sceneContext.restore();
   }
 
   function scheduleSceneSparkleFrame() {
@@ -257,7 +316,7 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
 
     if (now - sceneLastRenderTime >= sceneFrameInterval) {
       sceneLastRenderTime = now;
-      sceneContext.clearRect(0, 0, sceneCanvasWidth, sceneCanvasHeight);
+      drawSceneMagic(now, true);
       sceneContext.fillStyle = '#ffe8a3';
 
       for (let i = 0; i < sceneSparkles.length; i++) {
@@ -327,19 +386,19 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
       window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     );
 
-    if (budget.profile === 'reduced') {
-      sceneCanvas.style.display = 'none';
-      sceneCanvas.width = 1;
-      sceneCanvas.height = 1;
-      return;
+    sceneReducedMotion = budget.profile === 'reduced';
+    sceneCanvasDpr = sceneReducedMotion ? 1 : budget.sceneCanvasDpr;
+    sceneFrameInterval = sceneReducedMotion ? 0 : 1000 / budget.sceneSparkleFps;
+    for (let i = 0; i < sceneTrailPointCount; i++) {
+      const point = getMagicTrailPoint(i / sceneTrailPointCount);
+      sceneTrailX[i] = point.x;
+      sceneTrailY[i] = point.y;
     }
-
-    sceneCanvasDpr = budget.sceneCanvasDpr;
-    sceneFrameInterval = 1000 / budget.sceneSparkleFps;
     for (let i = 0; i < budget.sceneSparkleCount; i++) {
+      const trailIndex = Math.floor((i / Math.max(1, budget.sceneSparkleCount)) * sceneTrailPointCount);
       sceneSparkles.push({
-        x: 0.08 + ((i * 0.61803398875 + 0.13) % 1) * 0.84,
-        y: 0.08 + ((i * 0.38196601125 + 0.31) % 1) * 0.84,
+        x: sceneTrailX[trailIndex],
+        y: sceneTrailY[trailIndex],
         radius: 0.8 + (i % 4) * 0.24,
         phase: ((i * 2.39996322973) % (Math.PI * 2)),
         speed: 0.00062 + (i % 3) * 0.00011,
@@ -355,6 +414,10 @@ const guestNameIsCompact = guestInfo.rawName.length >= 25;
     }
 
     resizeSceneCanvas();
+    if (sceneReducedMotion) {
+      window.addEventListener('resize', resizeSceneCanvas);
+      return;
+    }
     sceneStage.addEventListener('pointermove', handleScenePointer, { passive: true });
     sceneStage.addEventListener('pointerleave', resetScenePointer);
     window.addEventListener('resize', resizeSceneCanvas);

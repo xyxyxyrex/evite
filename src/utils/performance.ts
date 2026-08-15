@@ -8,6 +8,10 @@ export interface RenderingBudget {
   handwritingMoteLimit: number;
   handwritingCanvasDpr: number;
   confettiParticles: number;
+  sceneSparkleCount: number;
+  sceneSparkleFps: number;
+  sceneCanvasDpr: number;
+  transitionMotes: number;
 }
 
 const FULL_BUDGET: RenderingBudget = {
@@ -18,6 +22,10 @@ const FULL_BUDGET: RenderingBudget = {
   handwritingMoteLimit: 4,
   handwritingCanvasDpr: 1.5,
   confettiParticles: 180,
+  sceneSparkleCount: 12,
+  sceneSparkleFps: 30,
+  sceneCanvasDpr: 1.5,
+  transitionMotes: 12,
 };
 
 const MOBILE_BUDGET: RenderingBudget = {
@@ -28,6 +36,10 @@ const MOBILE_BUDGET: RenderingBudget = {
   handwritingMoteLimit: 2,
   handwritingCanvasDpr: 1,
   confettiParticles: 40,
+  sceneSparkleCount: 6,
+  sceneSparkleFps: 20,
+  sceneCanvasDpr: 1,
+  transitionMotes: 6,
 };
 
 const REDUCED_BUDGET: RenderingBudget = {
@@ -38,6 +50,10 @@ const REDUCED_BUDGET: RenderingBudget = {
   handwritingMoteLimit: 0,
   handwritingCanvasDpr: 0,
   confettiParticles: 0,
+  sceneSparkleCount: 0,
+  sceneSparkleFps: 0,
+  sceneCanvasDpr: 0,
+  transitionMotes: 0,
 };
 
 export function getRenderingBudget(

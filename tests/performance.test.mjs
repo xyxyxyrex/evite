@@ -11,6 +11,10 @@ test("uses full animation budgets on desktop", () => {
     handwritingMoteLimit: 4,
     handwritingCanvasDpr: 1.5,
     confettiParticles: 180,
+    sceneSparkleCount: 12,
+    sceneSparkleFps: 30,
+    sceneCanvasDpr: 1.5,
+    transitionMotes: 12,
   });
 });
 
@@ -23,6 +27,10 @@ test("caps animation budgets on mobile", () => {
     handwritingMoteLimit: 2,
     handwritingCanvasDpr: 1,
     confettiParticles: 40,
+    sceneSparkleCount: 6,
+    sceneSparkleFps: 20,
+    sceneCanvasDpr: 1,
+    transitionMotes: 6,
   });
 });
 
@@ -35,6 +43,10 @@ test("reduced motion disables continuous and particle animation", () => {
     handwritingMoteLimit: 0,
     handwritingCanvasDpr: 0,
     confettiParticles: 0,
+    sceneSparkleCount: 0,
+    sceneSparkleFps: 0,
+    sceneCanvasDpr: 0,
+    transitionMotes: 0,
   });
 });
 

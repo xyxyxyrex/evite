@@ -21,3 +21,17 @@ test("build emits independent greeting glow and sparkle layers", () => {
   assert.match(html, /id="guest-sparkle-canvas"/);
   assert.match(html, /aria-hidden="true"/);
 });
+
+test("landing emits the concise moonlit letter and layered portrait scene", () => {
+  const html = readFileSync("dist/lara-espanola/index.html", "utf8");
+  assert.match(html, /id="moonlit-letter"/);
+  assert.match(html, /id="portrait-stage"/);
+  assert.match(html, /id="scene-background"/);
+  assert.match(html, /id="scene-sparkles"/);
+  assert.match(html, /id="scene-foreground"/);
+  assert.match(html, /You are invited to:/i);
+  assert.match(html, /Once Upon Eighteen/);
+  assert.doesNotMatch(html, /An 18th Birthday Debut Celebration/);
+  assert.doesNotMatch(html, /cordially requests your presence/);
+  assert.doesNotMatch(html, /You are invited to my 18th Birthday Debut!/);
+});

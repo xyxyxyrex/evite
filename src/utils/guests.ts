@@ -113,6 +113,18 @@ export function toCompactSlug(text: string): string {
     .trim();
 }
 
+export function getGuestRouteAliases(name: string): string[] {
+  const candidates = [toHyphenatedSlug(name), toCompactSlug(name)];
+  const seen = new Set<string>();
+
+  return candidates.filter((candidate) => {
+    const key = candidate.toLowerCase();
+    if (!candidate || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export function formatCustomName(slug: string): string {
   const spaced = slug
     .replace(/([a-z])([A-Z])/g, '$1 $2')

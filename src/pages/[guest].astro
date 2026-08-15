@@ -5,7 +5,7 @@ import StarfieldCanvas from '../components/StarfieldCanvas.astro';
 import HeroSection from '../components/HeroSection.astro';
 import RevealedContent from '../components/RevealedContent.astro';
 import MobileNavBar from '../components/MobileNavBar.astro';
-import { GUESTS_DATA, getGuestInfo, toHyphenatedSlug, toCompactSlug, type GuestInfo } from '../utils/guests';
+import { GUESTS_DATA, getGuestInfo, getGuestRouteAliases, type GuestInfo } from '../utils/guests';
 
 export async function getStaticPaths() {
   const pathsSet = new Set<string>();
@@ -25,15 +25,9 @@ export async function getStaticPaths() {
     for (const name of names) {
       const info = getGuestInfo(name);
       
-      // 1. Hyphenated slug e.g. /lenev-sorrosa
-      addPath(toHyphenatedSlug(name), info);
-
-      // 2. Compact slug e.g. /lenevsorrosa
-      addPath(toCompactSlug(name), info);
-
-      // 3. CamelCase e.g. /LenevSorrosa
-      const camelCase = name.replace(/[^a-zA-Z0-9]/g, '');
-      addPath(camelCase, info);
+      for (const alias of getGuestRouteAliases(name)) {
+        addPath(alias, info);
+      }
     }
   }
 

@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "test:unit": "node --experimental-strip-types --test tests/guests.test.ts",
     "deploy": "astro build && wrangler pages deploy dist"
   },
   "dependencies": {

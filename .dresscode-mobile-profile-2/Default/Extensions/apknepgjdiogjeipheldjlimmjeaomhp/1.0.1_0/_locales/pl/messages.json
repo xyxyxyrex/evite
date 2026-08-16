@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Wszystkie strony zakładek"
+   },
+   "allow_access": {
+      "message": "Zezwalaj na dostęp do adresów URL plików"
+   },
+   "allow_location": {
+      "message": "najpierw na stronie ustawień rozszerzenia"
+   },
+   "application_description": {
+      "message": "Łatwiejszy sposób zmiany ulubionej ikony zakładek EDGE"
+   },
+   "application_title": {
+      "message": "Zakładka Favicon Changer"
+   },
+   "cancel": {
+      "message": "Anuluj"
+   },
+   "cant_change": {
+      "message": "Nie możesz zmienić tego adresu URL"
+   },
+   "choose_new": {
+      "message": "Wybierz nowy favicon:"
+   },
+   "clear": {
+      "message": "Jasny"
+   },
+   "click_action": {
+      "message": "Kliknij tutaj, aby zezwolić"
+   },
+   "confirm": {
+      "message": "Zmiana"
+   },
+   "current": {
+      "message": "Aktualny favicon:"
+   },
+   "last_change": {
+      "message": "Ostatnia zmiana favicon"
+   },
+   "not_bookmark": {
+      "message": "Ta strona nie jest jeszcze dodana do zakładek"
+   },
+   "preview": {
+      "message": "Podgląd ulubionych:"
+   },
+   "success": {
+      "message": "Pomyślnie zapisano!"
+   },
+   "you_need": {
+      "message": "Musisz"
+   }
+}

@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "すべてのブックマークページ"
+   },
+   "allow_access": {
+      "message": "ファイルのURLへのアクセスを許可します"
+   },
+   "allow_location": {
+      "message": "最初に拡張機能の設定ページで"
+   },
+   "application_description": {
+      "message": "EDGEブックマークファビコンを変更する最も簡単な方法"
+   },
+   "application_title": {
+      "message": "ブックマークのファビコンチェンジャー"
+   },
+   "cancel": {
+      "message": "キャンセル"
+   },
+   "cant_change": {
+      "message": "このURLは変更できません"
+   },
+   "choose_new": {
+      "message": "新しいファビコンを選択："
+   },
+   "clear": {
+      "message": "クリア"
+   },
+   "click_action": {
+      "message": "許可するにはここをクリック"
+   },
+   "confirm": {
+      "message": "変化する"
+   },
+   "current": {
+      "message": "現在のファビコン："
+   },
+   "last_change": {
+      "message": "最終変更ファビコン"
+   },
+   "not_bookmark": {
+      "message": "このページはまだブックマークされていません"
+   },
+   "preview": {
+      "message": "ファビコンのプレビュー："
+   },
+   "success": {
+      "message": "保存しました！"
+   },
+   "you_need": {
+      "message": "必要がある"
+   }
+}

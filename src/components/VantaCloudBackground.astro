@@ -1,0 +1,100 @@
+<div id="vanta-cloud-layer" aria-hidden="true"></div>
+
+<script>
+  interface CloudEffect {
+    destroy(): void;
+  }
+
+  const cloudLayer = document.getElementById('vanta-cloud-layer');
+  let cloudEffect: CloudEffect | null = null;
+  let destroyed = false;
+
+  const unwrapCloudFactory = (moduleValue: unknown) => {
+    let candidate = moduleValue;
+
+    for (let depth = 0; depth < 3; depth++) {
+      if (typeof candidate === 'function') return candidate;
+      if (!candidate || typeof candidate !== 'object' || !('default' in candidate)) break;
+      candidate = (candidate as { default: unknown }).default;
+    }
+
+    return null;
+  };
+
+  const initializeClouds = async () => {
+    if (!cloudLayer || destroyed || cloudEffect) return;
+
+    try {
+      const [cloudsModule, THREE] = await Promise.all([
+        import('vanta/dist/vanta.clouds.min'),
+        import('three'),
+      ]);
+
+      if (destroyed) return;
+
+      const CLOUDS = unwrapCloudFactory(cloudsModule);
+      if (!CLOUDS) throw new TypeError('Vanta CLOUDS factory was not exported correctly');
+
+      cloudEffect = CLOUDS({
+        el: cloudLayer,
+        THREE,
+        mouseControls: false,
+        touchControls: false,
+        gyroControls: true,
+        forceAnimate: true,
+        minHeight: 200,
+        minWidth: 200,
+        scale: 4,
+        scaleMobile: 12,
+        speed: 0.28,
+        backgroundColor: 0x07040f,
+        skyColor: 0x35195c,
+        cloudColor: 0xd2c0ff,
+        cloudShadowColor: 0x4c286d,
+        sunColor: 0xe1b6ff,
+        sunlightColor: 0xf2ddff,
+        sunGlareColor: 0xba84ed,
+      });
+
+      cloudLayer.dataset.cloudState = cloudLayer.querySelector('canvas') ? 'active' : 'missing-canvas';
+    } catch (error) {
+      cloudLayer.dataset.cloudState = 'failed';
+      cloudLayer.dataset.cloudError = error instanceof Error ? error.message : String(error);
+      console.error('[Vanta Clouds] Failed to initialize', error);
+    }
+  };
+
+  const cleanup = () => {
+    destroyed = true;
+    try {
+      cloudEffect?.destroy();
+    } catch {
+      // The original image remains visible if WebGL cleanup fails.
+    }
+    cloudEffect = null;
+  };
+
+  window.addEventListener('pagehide', cleanup, { once: true });
+  void initializeClouds();
+</script>
+
+<style>
+  #vanta-cloud-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    width: 100vw;
+    height: 100svh;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.56;
+    mix-blend-mode: screen;
+    filter: brightness(1.04) saturate(1.12) contrast(1.08);
+  }
+
+  #vanta-cloud-layer :global(.vanta-canvas) {
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+  }
+</style>

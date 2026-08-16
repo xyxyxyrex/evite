@@ -1,0 +1,153 @@
+"use strict";
+(self["webpackChunkdotvpn"] = self["webpackChunkdotvpn"] || []).push([["src_js_settings_js"],{
+
+/***/ "./src/js/settings.js"
+/*!****************************!*\
+  !*** ./src/js/settings.js ***!
+  \****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var nullValues = {
+	email: null,
+	token: null,
+	enabled: false,
+	location: 'nl',
+	lastLocations: [],
+	bwGroup: '',
+	autoStart: false,
+	name: '',
+	premium: false,
+	regDate: null,
+	event: null,
+	node: '',
+	nodes: {},
+	nodesIps: {},
+	backupNodes: {},
+	backupNodesIps: {},
+	connectionInfo: {},
+	udid: null,
+	installId: null,
+	eventView: false,
+	eventExpire: false,
+	signinBoxState: null,
+	signinBoxStateData: [],
+	bandwidthSaver: true,
+	adblock: true,
+	trackingProtection: true,
+	blockAnalytics: true,
+	blockWebRTC: false,
+	firewall: true,
+	adblockStat: 0,
+	trackersStat: 0,
+	analyticsStat: 0,
+	firewallStat: 0,
+	hideAppIcon: false,
+	firstRun: true,
+	lastSpOfferShow: 0,
+	//accType: null,
+	bwStat: new Map(),
+	freeNetworkCountryName: null,
+	//directHosts: {},
+	//actualDirectHosts: {},
+	apiHost: 'https://dot-security-systems.com',
+	lastConnectTime: 0,
+	userLocation: null,
+	event: null,
+	eventView: false,
+	eventExpire: null,
+	freeConnectAfter: null,
+	freeDisconnectAfter: null,
+	freeSessionsCount: 0,
+	freeTotalSpentTime: 0,
+	freeTime: { // minutes
+		first: 60,
+		next: 60,
+	},
+	rateUsNtfState: null,
+	//tabUrls: {},
+	perSiteProxyHosts: new Map(),
+	//proxyMode: 'full',
+	proxyDomains: new Map(),
+	stat: {
+		up: 0,
+		down: 0
+	}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+	//values: nullValues,
+	get: async function(key) {
+		try {
+			var value = await chrome.storage.local.get(key);
+			if (typeof value[key] == 'undefined') {
+				if (nullValues[key] instanceof Array) {
+					return [];
+				} else if (nullValues[key] instanceof Map) {
+					return new Map();
+				} else if (nullValues[key] instanceof Set) {
+					return new Set();
+				} /*else if (nullValues[key] instanceof Object) {
+					return {};
+				}*/ else {
+					return nullValues[key];
+				}
+			} else {
+				switch (key) {
+					case 'bwStat':
+					case 'perSiteProxyHosts':
+					case 'proxyDomains':
+						value[key] = new Map(JSON.parse(value[key]));
+						break;
+				}
+
+				return value[key];
+			}
+		} catch (e) {
+			return nullValues[key];
+		}
+	},
+
+	set: async function(key, value) {
+		try {
+			switch (key) {
+				case 'bwStat':
+				case 'perSiteProxyHosts':
+				case 'proxyDomains':
+					value = JSON.stringify(Array.from(value.entries()));
+					break;
+			}
+
+			return await chrome.storage.local.set({ [key]: value });
+		} catch (e) {
+			return;
+		}
+	},
+
+	reset: async function() {
+		var udid = await this.get('udid', nullValues['udid']);
+		var firstRun = await this.get('firstRun', nullValues['firstRun']);
+		var installId = await this.get('installId', nullValues['installId']);
+		var firstConnect = await this.get('firstConnect', nullValues['firstConnect']);
+		var apiHost = await this.get('apiHost', nullValues['apiHost']);
+
+		try {
+			await chrome.storage.local.clear();
+		} catch (e) {
+			return;
+		}
+
+		this.set('udid', udid);
+		this.set('firstRun', firstRun);
+		this.set('installId', installId);
+		this.set('firstConnect', firstConnect);
+		this.set('apiHost', apiHost);
+	}
+});
+
+/***/ }
+
+}]);

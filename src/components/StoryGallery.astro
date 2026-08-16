@@ -1,5 +1,8 @@
 ---
 import { Image, getImage } from "astro:assets";
+import Butterfly from "./Butterfly.astro";
+import AnimatedFlowers from "./AnimatedFlowers.astro";
+import PetalOverlay from "./PetalOverlay.astro";
 
 // Import Purple Photos (6 Landscape + 1 Portrait)
 import PL1 from "../assets/PL1.jpg";
@@ -74,7 +77,8 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
       <!-- Grid for Act I (PL1, PL2, PL3, PL4) -->
       <div class="story-grid grid-2col">
         <!-- Photo 1: PL1 -->
-        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL1_hd.src}>
+        <div class="photo-card purple-card landscape-card has-butterfly reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL1_hd.src}>
+          <Butterfly />
           <div class="photo-aspect-box">
             <Image
               src={PL1}
@@ -126,7 +130,8 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
         </div>
 
         <!-- Photo 3: PL3 -->
-        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL3_hd.src}>
+        <div class="photo-card purple-card landscape-card has-butterfly reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL3_hd.src}>
+          <Butterfly side="left" tone="violet" />
           <div class="photo-aspect-box">
             <Image
               src={PL3}
@@ -193,6 +198,7 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
           class="banner-img"
         />
         <div class="banner-gradient-overlay"></div>
+        <PetalOverlay tone="purple" />
         <div class="banner-gold-frame"></div>
 
         <div class="banner-content-left">
@@ -229,6 +235,20 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
                 class="story-img"
               />
               <div class="photo-vignette"></div>
+              <AnimatedFlowers />
+              <div class="mobile-feature-overlay">
+                <span class="mobile-feature-divider" aria-hidden="true"></span>
+                <div class="mobile-feature-copy">
+                  <span class="feature-subtag font-serif">DREAMING BEYOND EIGHTEEN</span>
+                  <h3 class="feature-title font-cursive text-gold-gradient">
+                    A Quiet Wish Upon a Golden Star
+                  </h3>
+                  <p class="font-sans">
+                    Isabel reflects on eighteen cherished years of love and growth,
+                    ready to embrace tomorrow's unwritten magic.
+                  </p>
+                </div>
+              </div>
               <div class="photo-gold-border"></div>
             </div>
           </div>
@@ -243,12 +263,6 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
           <h3 class="feature-title font-cursive text-gold-gradient">
             "A Quiet Wish Upon a Golden Star"
           </h3>
-          <p class="feature-quote font-serif-sub">
-            <span class="quote-mark">“</span>Please don't be in love with
-            someone else, please don't have somebody waiting on you...<span
-              class="quote-mark">”</span
-            >
-          </p>
           <div class="feature-body-text font-sans">
             <p>
               In a single peaceful breath between girlhood and womanhood, Isabel
@@ -280,7 +294,8 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
 
       <div class="story-grid grid-2col">
         <!-- Photo 7: PL6 -->
-        <div class="photo-card purple-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL6_hd.src}>
+        <div class="photo-card purple-card landscape-card has-butterfly reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={PL6_hd.src}>
+          <Butterfly side="left" tone="violet" />
           <div class="photo-aspect-box">
             <Image
               src={PL6}
@@ -306,7 +321,8 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
         </div>
 
         <!-- Photo 8: RL1 -->
-        <div class="photo-card red-card landscape-card reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RL1_hd.src}>
+        <div class="photo-card red-card landscape-card has-butterfly reveal-on-scroll gallery-lightbox-trigger" data-lightbox-src={RL1_hd.src}>
+          <Butterfly tone="red" />
           <div class="photo-aspect-box">
             <Image
               src={RL1}
@@ -392,6 +408,7 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
               class="story-img"
             />
             <div class="photo-vignette"></div>
+            <AnimatedFlowers side="right" tone="red" />
             <div class="photo-gold-border"></div>
             <div class="photo-caption">
               <h4 class="caption-title font-cursive">
@@ -515,6 +532,7 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
               class="story-img"
             />
             <div class="photo-vignette"></div>
+            <PetalOverlay tone="red" />
             <div class="photo-gold-border"></div>
             <div class="photo-caption">
               <h4 class="caption-title font-cursive">
@@ -845,12 +863,13 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
   /* Story Act Block Styling */
   .story-act-block {
     margin-bottom: 4rem;
-    background: rgba(6, 11, 25, 0.65);
-    backdrop-filter: blur(12px);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    backdrop-filter: blur(18px) saturate(135%);
     border-radius: 24px;
     padding: 2.5rem 1.5rem;
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
   }
 
   .act-header {
@@ -923,6 +942,10 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
     transition:
       transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
       box-shadow 0.4s ease;
+  }
+
+  .photo-card.has-butterfly {
+    overflow: visible;
   }
 
   .photo-card:hover {
@@ -1148,7 +1171,13 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
   }
 
   .feature-photo-col {
+    position: relative;
     width: 100%;
+    overflow: visible;
+  }
+
+  .mobile-feature-overlay {
+    display: none;
   }
 
   .feature-portrait-glow {
@@ -1195,15 +1224,6 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
     margin-bottom: 1rem;
   }
 
-  .feature-quote {
-    font-size: 1.2rem;
-    color: var(--starlight);
-    font-style: italic;
-    margin-bottom: 1.25rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--gold-400);
-  }
-
   .feature-body-text {
     font-size: 1rem;
     color: var(--starlight-dim);
@@ -1216,6 +1236,69 @@ const RP8_hd = await getImage({ src: RP8, width: 1400, quality: 84, format: 'web
     letter-spacing: 0.18em;
     color: var(--gold-300);
     opacity: 0.9;
+  }
+
+  @media (max-width: 767px) {
+    .feature-split-layout {
+      display: block;
+    }
+
+    .feature-text-col {
+      display: none;
+    }
+
+    .mobile-feature-overlay {
+      position: absolute;
+      z-index: 7;
+      right: 1.35rem;
+      bottom: 2.5rem;
+      left: 31%;
+      display: grid;
+      grid-template-columns: 1px minmax(0, 1fr);
+      gap: 0.8rem;
+      align-items: stretch;
+      pointer-events: none;
+      text-align: left;
+      text-shadow: 0 2px 8px rgba(2, 5, 15, 0.95);
+    }
+
+    .mobile-feature-divider {
+      width: 1px;
+      min-height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--gold-300) 14%,
+        var(--gold-400) 86%,
+        transparent
+      );
+      box-shadow: 0 0 8px rgba(244, 208, 111, 0.55);
+    }
+
+    .mobile-feature-copy {
+      min-width: 0;
+    }
+
+    .mobile-feature-copy .feature-subtag {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: clamp(0.5rem, 1.8vw, 0.62rem);
+      line-height: 1.35;
+      letter-spacing: 0.13em;
+    }
+
+    .mobile-feature-copy .feature-title {
+      margin-bottom: 0.55rem;
+      font-size: clamp(1.45rem, 6.4vw, 2rem);
+      line-height: 0.98;
+    }
+
+    .mobile-feature-copy p {
+      margin: 0;
+      color: rgba(235, 238, 249, 0.88);
+      font-size: clamp(0.68rem, 2.55vw, 0.82rem);
+      line-height: 1.5;
+    }
   }
 
   /* Elegant Lightbox Modal Styling (Dead-Center Viewport Fixed) */

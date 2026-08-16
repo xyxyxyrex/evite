@@ -1,0 +1,190 @@
+---
+import flowerSource from "../../flowers.txt?raw";
+
+export interface Props {
+  side?: "left" | "right";
+  tone?: "violet" | "red";
+}
+
+const { side = "left", tone = "violet" } = Astro.props;
+const svgPrefix = `flower-${tone}-${side}`;
+const svgStart = flowerSource.indexOf("<svg");
+const svgEnd = flowerSource.indexOf("</svg>", svgStart) + 6;
+let flowerSvg = flowerSource
+  .slice(svgStart, svgEnd)
+  .replace(
+    /<pattern id="watercolour"[\s\S]*?<\/pattern>/,
+    tone === "red"
+      ? `<linearGradient id="watercolour" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fecaca" stop-opacity="0.82" />
+      <stop offset="0.45" stop-color="#e11d48" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#7f1d1d" stop-opacity="0.72" />
+    </linearGradient>`
+      : `<linearGradient id="watercolour" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6e597" stop-opacity="0.78" />
+      <stop offset="0.42" stop-color="#d8b4fe" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0.64" />
+    </linearGradient>`,
+  );
+
+if (tone === "red") {
+  flowerSvg = flowerSvg
+    .replaceAll("#465b78", "#7f1d2d")
+    .replaceAll("#e2d8d0", "#fda4af")
+    .replaceAll("#fff", "#fff1f2");
+}
+
+flowerSvg = flowerSvg
+  .replace(/id="([^"]+)"/g, `id="${svgPrefix}-$1"`)
+  .replace(/url\(#([^\)]+)\)/g, `url(#${svgPrefix}-$1)`)
+  .replace(/href="#([^"]+)"/g, `href="#${svgPrefix}-$1"`);
+---
+
+<div
+  class:list={["flower-decoration", `side-${side}`, `tone-${tone}`]}
+  data-animated-flowers
+  style={`--flower-sketch-0:url(#${svgPrefix}-sketch-0);--flower-sketch-1:url(#${svgPrefix}-sketch-1);--flower-sketch-2:url(#${svgPrefix}-sketch-2);--flower-sketch-3:url(#${svgPrefix}-sketch-3);--flower-sketch-4:url(#${svgPrefix}-sketch-4)`}
+  aria-hidden="true"
+>
+  <div class="flower-art" set:html={flowerSvg}></div>
+</div>
+
+<script>
+  const flowerDecorations = document.querySelectorAll<HTMLElement>(
+    "[data-animated-flowers]",
+  );
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    flowerDecorations.forEach((flower) => flower.classList.add("is-visible"));
+  } else {
+    const flowerObserver = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.25, rootMargin: "0px 0px -8%" },
+    );
+
+    flowerDecorations.forEach((flower) => flowerObserver.observe(flower));
+  }
+</script>
+
+<style>
+  .flower-decoration {
+    position: absolute;
+    z-index: 6;
+    bottom: 0;
+    left: -65px;
+    width: clamp(240px, 25vw, 320px);
+    aspect-ratio: 397.332 / 500;
+    opacity: 0;
+    transform: translate3d(-10px, 22px, 0) rotate(-7deg) scale(0.88);
+    transform-origin: 50% 100%;
+    pointer-events: none;
+    filter:
+      drop-shadow(0 8px 10px rgba(0, 0, 0, 0.36))
+      drop-shadow(0 0 8px rgba(216, 180, 254, 0.2));
+    transition:
+      opacity 700ms ease,
+      transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .flower-decoration.is-visible {
+    opacity: 0.94;
+    transform: translate3d(0, 0, 0) rotate(-7deg) scale(1);
+  }
+
+  .flower-decoration.side-right {
+    right: -65px;
+    left: auto;
+    transform: translate3d(10px, 22px, 0) rotate(7deg) scale(0.88);
+  }
+
+  .flower-decoration.side-right.is-visible {
+    transform: translate3d(0, 0, 0) rotate(7deg) scale(1);
+  }
+
+  .flower-decoration.tone-red {
+    filter:
+      drop-shadow(0 8px 10px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 0 9px rgba(225, 29, 72, 0.26));
+  }
+
+  .flower-art,
+  .flower-art :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .flower-art :global(.path) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .flower-decoration.is-visible .flower-art :global(.path) {
+    animation: flower-paint 1.25s ease-in-out 300ms forwards;
+  }
+
+  .flower-decoration.is-visible .flower-art :global(.path:nth-of-type(2)) {
+    animation-delay: 1.15s;
+  }
+
+  .flower-decoration.is-visible .flower-art :global([id$="-illustration"]) {
+    animation: flower-squiggle 0.55s infinite alternate;
+  }
+
+  @keyframes flower-paint {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes flower-squiggle {
+    0% { filter: var(--flower-sketch-0); }
+    25% { filter: var(--flower-sketch-1); }
+    50% { filter: var(--flower-sketch-2); }
+    75% { filter: var(--flower-sketch-3); }
+    100% { filter: var(--flower-sketch-4); }
+  }
+
+  @media (max-width: 767px) {
+    .flower-decoration {
+      bottom: 0;
+      left: -50px;
+      width: clamp(220px, 58vw, 275px);
+    }
+
+    .flower-decoration.side-right {
+      right: -50px;
+      left: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flower-decoration {
+      opacity: 0.88;
+      transform: rotate(-7deg);
+      transition: none;
+    }
+
+    .flower-decoration.is-visible .flower-art :global(.path),
+    .flower-decoration.is-visible .flower-art :global([id$="-illustration"]) {
+      animation: none;
+    }
+
+    .flower-art :global(.path) {
+      stroke-dashoffset: 0;
+    }
+
+    .flower-decoration.side-right {
+      transform: rotate(7deg);
+    }
+  }
+</style>

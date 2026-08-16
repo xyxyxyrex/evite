@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Visu grāmatzīmju lapa"
+   },
+   "allow_access": {
+      "message": "Atļaut piekļuvi failu vietrāžiem URL"
+   },
+   "allow_location": {
+      "message": "vispirms paplašinājuma iestatījumu lapā"
+   },
+   "application_description": {
+      "message": "Vieglāks veids, kā mainīt savu EDGE grāmatzīmi"
+   },
+   "application_title": {
+      "message": "Grāmatzīmes Favicon Changer"
+   },
+   "cancel": {
+      "message": "atcelt"
+   },
+   "cant_change": {
+      "message": "Jūs nevarat mainīt šo URL"
+   },
+   "choose_new": {
+      "message": "Izvēlieties jaunu favonu:"
+   },
+   "clear": {
+      "message": "Skaidrs"
+   },
+   "click_action": {
+      "message": "Noklikšķiniet šeit, lai atļautu"
+   },
+   "confirm": {
+      "message": "Pārmaiņas"
+   },
+   "current": {
+      "message": "Pašreizējā favona:"
+   },
+   "last_change": {
+      "message": "Pēdējās izmaiņas favicon"
+   },
+   "not_bookmark": {
+      "message": "Šī lapa vēl nav pievienota grāmatzīmēm"
+   },
+   "preview": {
+      "message": "Priekšskatījuma favicon:"
+   },
+   "success": {
+      "message": "Veiksmīgi saglabāts!"
+   },
+   "you_need": {
+      "message": "Tev vajag"
+   }
+}

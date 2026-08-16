@@ -1,0 +1,43 @@
+{
+   "action": {
+      "default_icon": {
+         "16": "i/icons/16/logo-inactive.png",
+         "32": "i/icons/32/logo-inactive.png"
+      },
+      "default_popup": "popup/index.html"
+   },
+   "background": {
+      "service_worker": "js/worker.js"
+   },
+   "default_locale": "en",
+   "description": "__MSG_appDesc__",
+   "externally_connectable": {
+      "matches": [ "https://*.dotvpn.com/*" ]
+   },
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "i/icons/icon128.png",
+      "16": "i/icons/icon16.png",
+      "32": "i/icons/icon32.png",
+      "48": "i/icons/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtXtzEgEst6G8Tc3ZzYvQE+0SKY7bYv3pp0+jFGtzJdX1jcEpvy8ZLfw4Fx4NMrvAFygwy/vJUkpVdjtk2JXwL8bf4ykR5IGKhfY1tOouKG/1o41hl5Hq/sEJEEWatjL9shzFWF4IJ/1O++L/GazFTWMSBbnl6eCtKcRW4yrtK/yoGczIozm2nRZYPETs5js5C3q1O9aUDCmtr3xY2P3gpZhOd/E6fK6S/I9cMMzDgL8F6AUB2fnFRZ91K1QwlF++dQt4//mNo9JutNX/h4PnyDGXEG8Kq51HE3AAWIruLpc/PO0PwaC82iXslgblcM+5kfEkPKboFFNLNXq10lZYfQIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "88",
+   "name": "__MSG_appName__",
+   "optional_permissions": [ "privacy" ],
+   "permissions": [ "proxy", "webRequest", "management", "alarms", "storage", "scripting" ],
+   "short_name": "__MSG_appShortName__",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.8.9",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "/upgrade.html", "/popup.html", "/timer.html" ]
+   }, {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "/i/*" ]
+   }, {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "/popup/*" ]
+   } ]
+}

@@ -1,0 +1,1 @@
+[{"id":1,"action":{"type":"modifyHeaders","requestHeaders":[{"header":"Origin","operation":"remove"}]},"condition":{"initiatorDomains":["nbcojefnccbanplpoffopkoepjmhgdgh"],"requestMethods":["post"],"resourceTypes":["xmlhttprequest"]}}]

@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
 import MagicPreloader from '../components/MagicPreloader.astro';
-import StarfieldCanvas from '../components/StarfieldCanvas.astro';
+import VantaCloudBackground from '../components/VantaCloudBackground.astro';
+import StarSparkleBackground from '../components/StarSparkleBackground.astro';
 import HeroSection from '../components/HeroSection.astro';
 import RevealedContent from '../components/RevealedContent.astro';
 import MobileNavBar from '../components/MobileNavBar.astro';
@@ -64,8 +65,11 @@ const debutanteName = "Rysha Isabel Trovillas";
   <!-- Magic Preloader -->
   <MagicPreloader />
 
-  <!-- Enchanted Starfield Canvas Background -->
-  <StarfieldCanvas />
+  <!-- Purple WebGL clouds between the original image and stars -->
+  <VantaCloudBackground />
+
+  <!-- Deferred slim tsParticles sparkle layer over the static background -->
+  <StarSparkleBackground />
 
   <!-- Fixed Splash Screen Hero Overlay -->
   <HeroSection guestInfo={guestInfo} debutanteName={debutanteName} />

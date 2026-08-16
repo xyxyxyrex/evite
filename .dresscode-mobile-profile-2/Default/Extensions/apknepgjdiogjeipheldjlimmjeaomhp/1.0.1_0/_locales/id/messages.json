@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Semua halaman bookmark"
+   },
+   "allow_access": {
+      "message": "Izinkan akses ke file URL"
+   },
+   "allow_location": {
+      "message": "di halaman pengaturan ekstensi pertama"
+   },
+   "application_description": {
+      "message": "Cara yang lebih mudah untuk mengubah favicon bookmark EDGE Anda"
+   },
+   "application_title": {
+      "message": "Bookmark Favicon Changer"
+   },
+   "cancel": {
+      "message": "Membatalkan"
+   },
+   "cant_change": {
+      "message": "Anda tidak dapat mengubah url ini"
+   },
+   "choose_new": {
+      "message": "Pilih favicon baru:"
+   },
+   "clear": {
+      "message": "Bersih"
+   },
+   "click_action": {
+      "message": "Klik di sini untuk mengizinkan"
+   },
+   "confirm": {
+      "message": "Perubahan"
+   },
+   "current": {
+      "message": "Favicon saat ini:"
+   },
+   "last_change": {
+      "message": "Perubahan terakhir favicon"
+   },
+   "not_bookmark": {
+      "message": "Halaman ini belum ditandai"
+   },
+   "preview": {
+      "message": "Pratinjau favicon:"
+   },
+   "success": {
+      "message": "Berhasil diselamatkan!"
+   },
+   "you_need": {
+      "message": "Kamu butuh"
+   }
+}

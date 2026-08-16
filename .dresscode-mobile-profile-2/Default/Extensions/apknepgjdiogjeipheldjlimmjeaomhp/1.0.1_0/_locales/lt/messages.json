@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Visas žymių puslapis"
+   },
+   "allow_access": {
+      "message": "Leisti prieigą prie failų URL"
+   },
+   "allow_location": {
+      "message": "pirmiausia plėtinio nustatymų puslapyje"
+   },
+   "application_description": {
+      "message": "Paprastesnis būdas pakeisti savo EDGE žymių sąrašą"
+   },
+   "application_title": {
+      "message": "Bookmark&#39;s Favicon Changer"
+   },
+   "cancel": {
+      "message": "atšaukti"
+   },
+   "cant_change": {
+      "message": "Negalite pakeisti šio URL"
+   },
+   "choose_new": {
+      "message": "Pasirinkite naują telefoną:"
+   },
+   "clear": {
+      "message": "Aišku"
+   },
+   "click_action": {
+      "message": "Spustelėkite čia, jei norite leisti"
+   },
+   "confirm": {
+      "message": "Keisti"
+   },
+   "current": {
+      "message": "Dabartinis favonas:"
+   },
+   "last_change": {
+      "message": "Paskutinis keitimas faviconas"
+   },
+   "not_bookmark": {
+      "message": "Šis puslapis dar nepažymėtas"
+   },
+   "preview": {
+      "message": "Peržiūrėti favicon:"
+   },
+   "success": {
+      "message": "Sėkmingai išsaugota!"
+   },
+   "you_need": {
+      "message": "Tau reikia"
+   }
+}

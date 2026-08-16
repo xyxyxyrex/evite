@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Minden könyvjelző oldal"
+   },
+   "allow_access": {
+      "message": "Fájlok URL-jéhez való hozzáférés engedélyezése"
+   },
+   "allow_location": {
+      "message": "először a bővítmény beállító oldalán"
+   },
+   "application_description": {
+      "message": "Az EDGE könyvjelző faviconjának megkönnyítésének egyszerűbb módja"
+   },
+   "application_title": {
+      "message": "Könyvjelző Favicon váltója"
+   },
+   "cancel": {
+      "message": "Megszünteti"
+   },
+   "cant_change": {
+      "message": "Ezt az URL-t nem lehet megváltoztatni"
+   },
+   "choose_new": {
+      "message": "Válasszon új favicont:"
+   },
+   "clear": {
+      "message": "Egyértelmű"
+   },
+   "click_action": {
+      "message": "Kattintson ide az engedélyezéshez"
+   },
+   "confirm": {
+      "message": "változás"
+   },
+   "current": {
+      "message": "Jelenlegi favicon:"
+   },
+   "last_change": {
+      "message": "Utolsó változás favicon"
+   },
+   "not_bookmark": {
+      "message": "Ez az oldal még nincs könyvjelzővel ellátva"
+   },
+   "preview": {
+      "message": "Előnézet favicon:"
+   },
+   "success": {
+      "message": "Sikeresen mentve!"
+   },
+   "you_need": {
+      "message": "Neked kell"
+   }
+}

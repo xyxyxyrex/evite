@@ -1,0 +1,527 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dress code preview</title><style data-vite-dev-id="C:/Users/Admin/Desktop/evite/src/styles/global.css">@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Monsieur+La+Doulaise&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --navy-950: #030611;
+  --navy-900: #060B19;
+  --navy-850: #0B132B;
+  --navy-800: #101B3B;
+  --navy-700: #1C2541;
+  --navy-600: #25335A;
+  
+  --gold-50: #FFFDF0;
+  --gold-100: #FBF3CB;
+  --gold-200: #F6E597;
+  --gold-300: #EECE5A;
+  --gold-400: #E5B82C;
+  --gold-500: #D4AF37;
+  --gold-600: #B38E22;
+  --gold-700: #8C6A15;
+
+  /* Taylor Swift Speak Now & RED Theme Accents */
+  --purple-speaknow-dark: #3B0764;
+  --purple-speaknow: #7E22CE;
+  --purple-speaknow-light: #C084FC;
+  --purple-glow: rgba(168, 85, 247, 0.35);
+
+  --red-era-dark: #450A0A;
+  --red-era: #B91C1C;
+  --red-era-light: #F87171;
+  --red-glow: rgba(239, 68, 68, 0.35);
+
+  --starlight: #EAEFFC;
+  --starlight-dim: #94A3B8;
+
+  --font-cursive: 'Great Vibes', cursive;
+  --font-cursive-alt: 'Monsieur La Doulaise', cursive;
+  --font-serif: 'Cinzel', serif;
+  --font-serif-sub: 'Cormorant Garamond', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+  --glass-bg: rgba(11, 19, 43, 0.88);
+  --glass-border: rgba(212, 175, 55, 0.35);
+  --glass-border-glow: rgba(212, 175, 55, 0.6);
+  --glass-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--navy-950);
+  color: var(--starlight);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+body {
+  background-image: url('/src/assets/bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Splash Locked Viewport Mode */
+body.splash-locked {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Typography Utility Classes */
+.font-cursive { font-family: var(--font-cursive); }
+.font-script { font-family: var(--font-cursive-alt); }
+.font-serif { font-family: var(--font-serif); letter-spacing: 0.05em; }
+.font-serif-sub { font-family: var(--font-serif-sub); }
+
+/* Radiant Gold Shimmer Gradient (Hardware Accelerated) */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDF3CB 30%, #EECE5A 60%, #D4AF37 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5)) !important;
+}
+
+.text-cursive-glow {
+  font-family: var(--font-cursive);
+  color: #FFEA9F;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 24px rgba(212, 175, 55, 0.6);
+}
+
+/* Glassmorphism Cards (Mobile GPU Optimized) */
+.glass-card {
+  background: rgba(8, 14, 30, 0.92);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 769px) {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-300), transparent);
+  opacity: 0.7;
+}
+
+/* Buttons */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #D97706 100%) !important;
+  color: var(--navy-950) !important;
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  border: 1.5px solid #FFFFFF !important;
+  cursor: pointer;
+  box-shadow: 0 4px 25px rgba(245, 158, 11, 0.5), 0 0 15px rgba(255, 255, 255, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold:hover {
+  transform: scale(1.04) translateY(-2px);
+  box-shadow: 0 8px 35px rgba(245, 158, 11, 0.75), 0 0 25px rgba(255, 255, 255, 0.8);
+}
+
+.btn-outline-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(11, 19, 43, 0.6);
+  color: var(--gold-200);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 1.8rem;
+  border-radius: 50px;
+  border: 1px solid var(--gold-300);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.btn-outline-gold:hover {
+  background: rgba(212, 175, 55, 0.18);
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(254, 240, 138, 0.4);
+}
+
+/* Animations */
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float { animation: floatSoft 5s ease-in-out infinite; }
+
+.container-custom {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Scroll Reveal Animation Utilities */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Keep long invitation pages within mobile Safari's compositing budget. */
+html[data-rendering-profile="mobile"] .glass-card,
+html[data-rendering-profile="reduced"] .glass-card,
+html[data-rendering-profile="mobile"] .scroll-pill-btn,
+html[data-rendering-profile="reduced"] .scroll-pill-btn,
+html[data-rendering-profile="mobile"] .sticky-nav-bar,
+html[data-rendering-profile="reduced"] .sticky-nav-bar,
+html[data-rendering-profile="mobile"] .scroll-indicator-link,
+html[data-rendering-profile="reduced"] .scroll-indicator-link,
+html[data-rendering-profile="mobile"] .map-direction-overlay,
+html[data-rendering-profile="reduced"] .map-direction-overlay,
+html[data-rendering-profile="mobile"] .story-act-block,
+html[data-rendering-profile="reduced"] .story-act-block,
+html[data-rendering-profile="mobile"] .lightbox-backdrop,
+html[data-rendering-profile="reduced"] .lightbox-backdrop,
+html[data-rendering-profile="mobile"] .roster-category-card,
+html[data-rendering-profile="reduced"] .roster-category-card {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45) !important;
+}
+
+html[data-rendering-profile="mobile"] .ambient-orb,
+html[data-rendering-profile="reduced"] .ambient-orb {
+  display: none !important;
+}
+
+html[data-rendering-profile="mobile"] .photo-card,
+html[data-rendering-profile="mobile"] .gallery-lightbox-trigger,
+html[data-rendering-profile="reduced"] .photo-card,
+html[data-rendering-profile="reduced"] .gallery-lightbox-trigger {
+  filter: none !important;
+}
+
+html[data-rendering-profile="reduced"] {
+  scroll-behavior: auto !important;
+}
+
+html[data-rendering-profile="reduced"] *,
+html[data-rendering-profile="reduced"] *::before,
+html[data-rendering-profile="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+</style><style data-vite-dev-id="C:/Users/Admin/Desktop/evite/src/components/DressCodeSection.astro?astro&amp;type=style&amp;index=0&amp;lang.css">.dresscode-standalone-section[data-astro-cid-fpg5ghog] {
+  position: relative;
+  z-index: 1;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  overflow: hidden;
+}
+
+.text-center[data-astro-cid-fpg5ghog] {
+  text-align: center;
+}
+
+.section-header[data-astro-cid-fpg5ghog] {
+  margin-bottom: 3rem;
+}
+
+.section-badge[data-astro-cid-fpg5ghog] {
+  font-size: .75rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--gold-300);
+  margin-bottom: .5rem;
+  display: block;
+}
+
+.section-title[data-astro-cid-fpg5ghog] {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+.section-desc[data-astro-cid-fpg5ghog] {
+  font-size: 1.15rem;
+  color: var(--starlight-dim);
+}
+
+.dresscode-hero-card[data-astro-cid-fpg5ghog] {
+  width: 100%;
+  min-width: 0;
+  padding: 2.5rem 2rem;
+  border: 1px solid #d4af3766;
+  box-shadow: 0 15px 45px #000c, 0 0 25px #ffffff26;
+}
+
+.dresscode-content-layout[data-astro-cid-fpg5ghog], .dresscode-header-box[data-astro-cid-fpg5ghog] {
+  width: 100%;
+  min-width: 0;
+}
+
+.theme-tag[data-astro-cid-fpg5ghog] {
+  font-size: .8rem;
+  letter-spacing: .2em;
+  color: var(--gold-300);
+  display: block;
+  margin-bottom: .5rem;
+}
+
+.dresscode-title[data-astro-cid-fpg5ghog] {
+  max-width: 100%;
+  font-size: 2.75rem;
+  line-height: 1.15;
+  margin-bottom: .75rem;
+  overflow-wrap: anywhere;
+}
+
+.dresscode-lead[data-astro-cid-fpg5ghog] {
+  font-size: 1.2rem;
+  color: var(--starlight);
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+  font-style: italic;
+}
+
+.attire-look-list[data-astro-cid-fpg5ghog] {
+  display: grid;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 1000px;
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog] {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2.45fr) minmax(230px, .8fr);
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #d4af376b;
+  border-radius: 18px;
+  background: #060b19d1;
+  box-shadow: 0 12px 30px #0000006b, inset 0 1px #ffffff0a;
+  transition: transform .26s, border-color .26s, box-shadow .26s;
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog]:after {
+  content: "";
+  position: absolute;
+  inset: 0 12% auto;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, #0000, #fff0beb8, #0000);
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog]:hover {
+  transform: translateY(-3px);
+  border-color: #eece5aad;
+  box-shadow: 0 16px 36px #00000085, 0 0 22px #d4af371f;
+}
+
+.look-image-stage[data-astro-cid-fpg5ghog] {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: .65rem .7rem .35rem;
+  background: radial-gradient(at 50% 52%, #ffffff38, #f0e0b512 54%, #0000 76%), linear-gradient(135deg, #ffffff06, #0000 56%);
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2) .look-image-stage[data-astro-cid-fpg5ghog] {
+  background: radial-gradient(at 50% 52%, #fff5da3d, #d9be8214 55%, #0000 77%), linear-gradient(135deg, #fff6dc09, #0000 58%);
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog]:nth-child(3) .look-image-stage[data-astro-cid-fpg5ghog] {
+  background: radial-gradient(at 50% 52%, #97b8ee33, #36558914 55%, #0000 77%), linear-gradient(135deg, #698fcf0b, #0000 58%);
+}
+
+.look-image[data-astro-cid-fpg5ghog] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 12px 18px #0000005c);
+}
+
+.look-copy[data-astro-cid-fpg5ghog] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1.25rem;
+  border-left: 1px solid #d4af3733;
+  text-align: center;
+  background: linear-gradient(145deg, #101b3be0, #060b19f0);
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2n) {
+  grid-template-columns: minmax(230px, .8fr) minmax(0, 2.45fr);
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2n) .look-image-stage[data-astro-cid-fpg5ghog] {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2n) .look-copy[data-astro-cid-fpg5ghog] {
+  grid-column: 1;
+  grid-row: 1;
+  border-right: 1px solid #d4af3733;
+  border-left: 0;
+}
+
+.look-number[data-astro-cid-fpg5ghog] {
+  margin-bottom: .55rem;
+  color: var(--gold-400);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .24em;
+}
+
+.look-name[data-astro-cid-fpg5ghog] {
+  color: var(--gold-100);
+  font-size: clamp(1.12rem, 2vw, 1.42rem);
+  line-height: 1.25;
+}
+
+.look-rule[data-astro-cid-fpg5ghog] {
+  width: 52px;
+  height: 1px;
+  margin: .85rem 0;
+  background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+}
+
+.look-description[data-astro-cid-fpg5ghog] {
+  max-width: 230px;
+  color: #eaeffcc2;
+  font-size: .88rem;
+  line-height: 1.55;
+}
+
+@media (width <= 700px) {
+  .dresscode-standalone-section[data-astro-cid-fpg5ghog] {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .section-header[data-astro-cid-fpg5ghog] {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .section-title[data-astro-cid-fpg5ghog] {
+    max-width: 100%;
+    font-size: clamp(1.7rem, 8vw, 2rem);
+    line-height: 1.18;
+    overflow-wrap: anywhere;
+  }
+
+  .section-desc[data-astro-cid-fpg5ghog] {
+    font-size: 1rem;
+  }
+
+  .dresscode-hero-card[data-astro-cid-fpg5ghog] {
+    padding: 1.6rem .75rem .85rem;
+    border-radius: 16px;
+  }
+
+  .dresscode-title[data-astro-cid-fpg5ghog] {
+    padding: 0 .25rem;
+    font-size: clamp(1.85rem, 9.5vw, 2.2rem);
+    line-height: 1.08;
+  }
+
+  .dresscode-lead[data-astro-cid-fpg5ghog] {
+    margin-bottom: 1.65rem;
+    padding: 0 .4rem;
+    font-size: 1.02rem;
+  }
+
+  .attire-look-list[data-astro-cid-fpg5ghog] {
+    gap: .9rem;
+  }
+
+  .attire-look-card[data-astro-cid-fpg5ghog], .attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2n) {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    border-radius: 14px;
+  }
+
+  .attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2n) .look-image-stage[data-astro-cid-fpg5ghog], .attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2n) .look-copy[data-astro-cid-fpg5ghog] {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .look-image-stage[data-astro-cid-fpg5ghog] {
+    width: 100%;
+    min-height: 0;
+    padding: .45rem .15rem .1rem;
+  }
+
+  .look-copy[data-astro-cid-fpg5ghog], .attire-look-card[data-astro-cid-fpg5ghog]:nth-child(2n) .look-copy[data-astro-cid-fpg5ghog] {
+    padding: 1rem 1rem 1.2rem;
+    border-top: 1px solid #d4af372e;
+    border-right: 0;
+    border-left: 0;
+  }
+
+  .look-number[data-astro-cid-fpg5ghog] {
+    margin-bottom: .35rem;
+  }
+
+  .look-rule[data-astro-cid-fpg5ghog] {
+    margin: .55rem 0;
+  }
+
+  .look-description[data-astro-cid-fpg5ghog] {
+    max-width: 300px;
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+}
+</style><script type="module" src="/@vite/client"></script><script type="module" src="/@id/astro/runtime/client/dev-toolbar/entrypoint.js"></script><script>window.__astro_dev_toolbar__ = {"root":"C:\\Users\\Admin\\Desktop\\evite\\","version":"7.2.0","debugInfo":"Astro                    v7.2.0\nNode                     v25.2.1\nSystem                   Windows (x64)\nPackage Manager          unknown\nOutput                   static\nAdapter                  none\nIntegrations             none"}</script><script type="module" src="/src/styles/global.css"></script><script type="module" src="/src/components/DressCodeSection.astro?astro&type=style&index=0&lang.css"></script></head><body><main><section class="section-padding dresscode-standalone-section" id="dresscode-section" data-astro-cid-fpg5ghog><div class="container-custom" data-astro-cid-fpg5ghog><div class="section-header text-center" data-astro-cid-fpg5ghog><span class="section-badge font-serif" data-astro-cid-fpg5ghog>ATTIRE & THEME</span><h2 class="section-title text-gold-gradient font-serif" data-astro-cid-fpg5ghog>Dress Code Guidelines</h2><p class="section-desc font-serif-sub" data-astro-cid-fpg5ghog>Dressing for Isabel's Enchanted 18th Debut Celebration.</p></div><div class="glass-card dresscode-hero-card" data-astro-cid-fpg5ghog><div class="dresscode-content-layout" data-astro-cid-fpg5ghog><div class="dresscode-header-box text-center" data-astro-cid-fpg5ghog><span class="theme-tag font-serif" data-astro-cid-fpg5ghog>✦ FORMAL ATTIRE ✦</span><h3 class="dresscode-title font-cursive text-gold-gradient" data-astro-cid-fpg5ghog>White, Shades of White & White Details</h3><p class="dresscode-lead font-serif-sub" data-astro-cid-fpg5ghog>We kindly invite our honored guests to wear Formal Attire featuring <strong data-astro-cid-fpg5ghog>White</strong>, <strong data-astro-cid-fpg5ghog>Shades of White</strong>, or <strong data-astro-cid-fpg5ghog>White Details</strong>.</p></div><div class="attire-look-list" data-astro-cid-fpg5ghog><article class="attire-look-card" data-astro-cid-fpg5ghog><div class="look-image-stage" data-astro-cid-fpg5ghog><img src="/_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-attire.png%3ForigWidth%3D806%26origHeight%3D290%26origFormat%3Dpng&amp;w=806&amp;h=290&amp;q=88&amp;f=webp" srcset="/_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-attire.png%3ForigWidth%3D806%26origHeight%3D290%26origFormat%3Dpng&amp;w=420&amp;h=151&amp;q=88&amp;f=webp 420w, /_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-attire.png%3ForigWidth%3D806%26origHeight%3D290%26origFormat%3Dpng&amp;w=640&amp;h=230&amp;q=88&amp;f=webp 640w, /_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-attire.png%3ForigWidth%3D806%26origHeight%3D290%26origFormat%3Dpng&amp;w=806&amp;h=290&amp;q=88&amp;f=webp 806w" data-image-component="true" alt="Formal white attire inspiration with two menswear and two dress options" sizes="(max-width: 700px) 100vw, 720px" loading="lazy" data-astro-cid-fpg5ghog="true" decoding="async" width="806" height="290" class="look-image"></div><div class="look-copy" data-astro-cid-fpg5ghog><span class="look-number font-serif" data-astro-cid-fpg5ghog>LOOK 01</span><h4 class="look-name font-serif" data-astro-cid-fpg5ghog>White Attire</h4><span class="look-rule" aria-hidden="true" data-astro-cid-fpg5ghog></span><p class="look-description font-sans" data-astro-cid-fpg5ghog>Full white gowns, suits, and polished formal separates.</p></div></article><article class="attire-look-card" data-astro-cid-fpg5ghog><div class="look-image-stage" data-astro-cid-fpg5ghog><img src="/_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-shades.png%3ForigWidth%3D820%26origHeight%3D326%26origFormat%3Dpng&amp;w=820&amp;h=326&amp;q=88&amp;f=webp" srcset="/_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-shades.png%3ForigWidth%3D820%26origHeight%3D326%26origFormat%3Dpng&amp;w=420&amp;h=167&amp;q=88&amp;f=webp 420w, /_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-shades.png%3ForigWidth%3D820%26origHeight%3D326%26origFormat%3Dpng&amp;w=640&amp;h=254&amp;q=88&amp;f=webp 640w, /_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-shades.png%3ForigWidth%3D820%26origHeight%3D326%26origFormat%3Dpng&amp;w=820&amp;h=326&amp;q=88&amp;f=webp 820w" data-image-component="true" alt="Formal ivory and cream attire inspiration with two menswear and two dress options" sizes="(max-width: 700px) 100vw, 720px" loading="lazy" data-astro-cid-fpg5ghog="true" decoding="async" width="820" height="326" class="look-image"></div><div class="look-copy" data-astro-cid-fpg5ghog><span class="look-number font-serif" data-astro-cid-fpg5ghog>LOOK 02</span><h4 class="look-name font-serif" data-astro-cid-fpg5ghog>Shades of White</h4><span class="look-rule" aria-hidden="true" data-astro-cid-fpg5ghog></span><p class="look-description font-sans" data-astro-cid-fpg5ghog>Ivory, cream, off-white, champagne, and alabaster tones.</p></div></article><article class="attire-look-card" data-astro-cid-fpg5ghog><div class="look-image-stage" data-astro-cid-fpg5ghog><img src="/_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-accent.png%3ForigWidth%3D808%26origHeight%3D313%26origFormat%3Dpng&amp;w=808&amp;h=313&amp;q=88&amp;f=webp" srcset="/_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-accent.png%3ForigWidth%3D808%26origHeight%3D313%26origFormat%3Dpng&amp;w=420&amp;h=163&amp;q=88&amp;f=webp 420w, /_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-accent.png%3ForigWidth%3D808%26origHeight%3D313%26origFormat%3Dpng&amp;w=640&amp;h=248&amp;q=88&amp;f=webp 640w, /_image?href=%2F%40fs%2FC%3A%2FUsers%2FAdmin%2FDesktop%2Fevite%2Fsrc%2Fassets%2Fwhite-accent.png%3ForigWidth%3D808%26origHeight%3D313%26origFormat%3Dpng&amp;w=808&amp;h=313&amp;q=88&amp;f=webp 808w" data-image-component="true" alt="Navy formal attire inspiration featuring white accents and details" sizes="(max-width: 700px) 100vw, 720px" loading="lazy" data-astro-cid-fpg5ghog="true" decoding="async" width="808" height="313" class="look-image"></div><div class="look-copy" data-astro-cid-fpg5ghog><span class="look-number font-serif" data-astro-cid-fpg5ghog>LOOK 03</span><h4 class="look-name font-serif" data-astro-cid-fpg5ghog>White Details</h4><span class="look-rule" aria-hidden="true" data-astro-cid-fpg5ghog></span><p class="look-description font-sans" data-astro-cid-fpg5ghog>Deep navy attire finished with white accents, embroidery, or patterns.</p></div></article></div></div></div></div></section></main><script type="module" src="/src/pages/dresscode-preview.astro?astro&type=script&index=0&lang.ts"></script></body></html>

@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Όλη η σελίδα σελιδοδεικτών"
+   },
+   "allow_access": {
+      "message": "Να επιτρέπεται η πρόσβαση σε διευθύνσεις URL αρχείων"
+   },
+   "allow_location": {
+      "message": "στη σελίδα ρύθμισης της επέκτασης πρώτα"
+   },
+   "application_description": {
+      "message": "Ένας ευκολότερος τρόπος για να αλλάξετε το favicon σελιδοδεικτών EDGE"
+   },
+   "application_title": {
+      "message": "Favicon Changer του σελιδοδείκτη"
+   },
+   "cancel": {
+      "message": "Ματαίωση"
+   },
+   "cant_change": {
+      "message": "Δεν μπορείτε να αλλάξετε αυτήν τη διεύθυνση URL"
+   },
+   "choose_new": {
+      "message": "Επιλέξτε νέο favicon:"
+   },
+   "clear": {
+      "message": "Σαφή"
+   },
+   "click_action": {
+      "message": "Κάντε κλικ εδώ για να το επιτρέψετε"
+   },
+   "confirm": {
+      "message": "Αλλαγή"
+   },
+   "current": {
+      "message": "Τρέχον favicon:"
+   },
+   "last_change": {
+      "message": "Τελευταία αλλαγή favicon"
+   },
+   "not_bookmark": {
+      "message": "Αυτή η σελίδα δεν έχει επισημανθεί ακόμη σελιδοδείκτη"
+   },
+   "preview": {
+      "message": "Προεπισκόπηση favicon:"
+   },
+   "success": {
+      "message": "Αποθηκεύτηκε με επιτυχία!"
+   },
+   "you_need": {
+      "message": "Πρέπει να"
+   }
+}

@@ -1,0 +1,17 @@
+2026-08-15 13:12:39.378: [INFO] CurrentProfilePath: C:\Users\Admin\Desktop\evite\.dresscode-mobile-profile-3\Default
+2026-08-15 13:12:39.378: [INFO] Profiles total count: 1
+2026-08-15 13:12:39.378: [INFO] Profile: name=Profile 1 path=C:\Users\Admin\Desktop\evite\.dresscode-mobile-profile-3\Default lastActive=2026-08-15T13:12:39.314Z
+2026-08-15 13:12:39.378: [INFO] LastUsedProfileDir: C:\Users\Admin\Desktop\evite\.dresscode-mobile-profile-3\Default
+2026-08-15 13:12:39.379: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Users\Admin\Desktop\evite\.dresscode-mobile-profile-3\Default lastActive=2026-08-15T13:12:39.314Z
+2026-08-15 13:12:39.379: [INFO] OnDoneLoading sync enabled: 0
+2026-08-15 13:12:39.379: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-08-15 13:12:39.379: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-08-15 13:12:39.379: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-08-15 13:12:39.455: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-08-15 13:12:40.244: [INFO] VisibilityChanged: 0
+2026-08-15 13:12:42.877: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-08-15 13:12:42.885: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-08-15 13:12:42.891: [INFO] Primary account changed.
+2026-08-15 13:12:42.891: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-08-15 13:12:42.907: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-08-15 13:12:42.983: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3

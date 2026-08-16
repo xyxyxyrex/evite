@@ -17,22 +17,22 @@ const { targetDate = "2026-11-14T16:00:00" } = Astro.props;
     </div>
 
     <div class="countdown-grid" id="timer-grid" data-target={targetDate}>
-      <div class="glass-card timer-card">
+      <div class="timer-card">
         <span class="timer-value text-gold-gradient" id="days">00</span>
         <span class="timer-label font-serif">Days</span>
       </div>
 
-      <div class="glass-card timer-card">
+      <div class="timer-card">
         <span class="timer-value text-gold-gradient" id="hours">00</span>
         <span class="timer-label font-serif">Hours</span>
       </div>
 
-      <div class="glass-card timer-card">
+      <div class="timer-card">
         <span class="timer-value text-gold-gradient" id="minutes">00</span>
         <span class="timer-label font-serif">Minutes</span>
       </div>
 
-      <div class="glass-card timer-card">
+      <div class="timer-card">
         <span class="timer-value text-gold-gradient" id="seconds">00</span>
         <span class="timer-label font-serif">Seconds</span>
       </div>
@@ -140,40 +140,59 @@ const { targetDate = "2026-11-14T16:00:00" } = Astro.props;
 
   .countdown-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    max-width: 650px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    width: min(100%, 720px);
     margin: 0 auto;
   }
 
-  @media (min-width: 640px) {
-    .countdown-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-  }
-
   .timer-card {
-    padding: 1.75rem 1rem;
+    position: relative;
+    padding: 0.75rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
 
+  .timer-card:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 14%;
+    right: 0;
+    width: 1px;
+    height: 72%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(212, 175, 55, 0.5),
+      transparent
+    );
+  }
+
   .timer-value {
     font-family: var(--font-serif);
-    font-size: 2.75rem;
+    font-size: clamp(2rem, 6vw, 3.25rem);
     font-weight: 800;
     line-height: 1;
     margin-bottom: 0.5rem;
   }
 
   .timer-label {
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
+    font-size: clamp(0.56rem, 1.7vw, 0.78rem);
+    letter-spacing: clamp(0.08em, 0.5vw, 0.15em);
     text-transform: uppercase;
     color: var(--starlight);
     opacity: 0.8;
+  }
+
+  @media (max-width: 520px) {
+    .section-header {
+      margin-bottom: 2.25rem;
+    }
+
+    .timer-card {
+      padding-inline: 0.25rem;
+    }
   }
 </style>

@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Tüm yer işareti sayfası"
+   },
+   "allow_access": {
+      "message": "Dosya URL&#39;lerine erişime izin ver"
+   },
+   "allow_location": {
+      "message": "önce uzantının ayar sayfasında"
+   },
+   "application_description": {
+      "message": "EDGE yer imi favicon&#39;unuzu değiştirmenin daha kolay bir yolu"
+   },
+   "application_title": {
+      "message": "Bookmark&#39;ın Favicon Değiştirici"
+   },
+   "cancel": {
+      "message": "İptal etmek"
+   },
+   "cant_change": {
+      "message": "Bu URL&#39;yi değiştiremezsiniz"
+   },
+   "choose_new": {
+      "message": "Yeni favori simgesi seçin:"
+   },
+   "clear": {
+      "message": "Açık"
+   },
+   "click_action": {
+      "message": "İzin vermek için burayı tıklayın"
+   },
+   "confirm": {
+      "message": "Değişiklik"
+   },
+   "current": {
+      "message": "Geçerli favori simgesi:"
+   },
+   "last_change": {
+      "message": "Son değişiklik favicon"
+   },
+   "not_bookmark": {
+      "message": "Bu sayfa henüz yer işareti koymadı"
+   },
+   "preview": {
+      "message": "Favicon&#39;u önizleme:"
+   },
+   "success": {
+      "message": "Başarıyla kaydedildi!"
+   },
+   "you_need": {
+      "message": "Gerek"
+   }
+}

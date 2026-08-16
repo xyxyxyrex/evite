@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Page de tous les signets"
+   },
+   "allow_access": {
+      "message": "Autoriser l&#39;accès aux URL de fichier"
+   },
+   "allow_location": {
+      "message": "dans la page de configuration de l&#39;extension en premier"
+   },
+   "application_description": {
+      "message": "Un moyen plus simple de changer votre favicon de signet EDGE"
+   },
+   "application_title": {
+      "message": "Changeur de favoris de signet"
+   },
+   "cancel": {
+      "message": "Annuler"
+   },
+   "cant_change": {
+      "message": "Vous ne pouvez pas modifier cette URL"
+   },
+   "choose_new": {
+      "message": "Choisissez un nouveau favicon:"
+   },
+   "clear": {
+      "message": "Clair"
+   },
+   "click_action": {
+      "message": "Cliquez ici pour autoriser"
+   },
+   "confirm": {
+      "message": "Changement"
+   },
+   "current": {
+      "message": "Favicon actuel:"
+   },
+   "last_change": {
+      "message": "Favicon du dernier changement"
+   },
+   "not_bookmark": {
+      "message": "Cette page n&#39;est pas encore en signet"
+   },
+   "preview": {
+      "message": "Aperçu du favicon:"
+   },
+   "success": {
+      "message": "Enregistré avec succès!"
+   },
+   "you_need": {
+      "message": "Tu dois"
+   }
+}

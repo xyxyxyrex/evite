@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Pagina de marcaj"
+   },
+   "allow_access": {
+      "message": "Permiteți accesul la adresele URL ale fișierului"
+   },
+   "allow_location": {
+      "message": "în pagina de setare a extensiei mai întâi"
+   },
+   "application_description": {
+      "message": "O modalitate mai ușoară de a schimba marcajul favorit EDGE"
+   },
+   "application_title": {
+      "message": "Favicon Changer"
+   },
+   "cancel": {
+      "message": "Anulare"
+   },
+   "cant_change": {
+      "message": "Nu puteți schimba această adresă URL"
+   },
+   "choose_new": {
+      "message": "Alegeți un nou favicon:"
+   },
+   "clear": {
+      "message": "clar"
+   },
+   "click_action": {
+      "message": "Faceți clic aici pentru a permite"
+   },
+   "confirm": {
+      "message": "Schimbare"
+   },
+   "current": {
+      "message": "Flicic curent:"
+   },
+   "last_change": {
+      "message": "Ultima modificare favicon"
+   },
+   "not_bookmark": {
+      "message": "Această pagină nu este încă marcată"
+   },
+   "preview": {
+      "message": "Previzualizare favicon:"
+   },
+   "success": {
+      "message": "Salvat cu succes!"
+   },
+   "you_need": {
+      "message": "Trebuie să"
+   }
+}

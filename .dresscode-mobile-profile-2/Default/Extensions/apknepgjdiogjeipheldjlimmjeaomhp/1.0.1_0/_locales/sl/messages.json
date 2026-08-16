@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Vsa stran z zaznamki"
+   },
+   "allow_access": {
+      "message": "Dovoli dostop do naslovov datotek"
+   },
+   "allow_location": {
+      "message": "najprej na strani z nastavitvami razširitve"
+   },
+   "application_description": {
+      "message": "Enostavnejši način za spreminjanje oznake EDGE zaznamka"
+   },
+   "application_title": {
+      "message": "Zaznamek Favicon Changer"
+   },
+   "cancel": {
+      "message": "Preklic"
+   },
+   "cant_change": {
+      "message": "Tega URL-ja ne morete spremeniti"
+   },
+   "choose_new": {
+      "message": "Izberite nov favicon:"
+   },
+   "clear": {
+      "message": "Jasno"
+   },
+   "click_action": {
+      "message": "Kliknite tukaj, če želite dovoliti"
+   },
+   "confirm": {
+      "message": "Spremeni se"
+   },
+   "current": {
+      "message": "Trenutni favicon:"
+   },
+   "last_change": {
+      "message": "Zadnja sprememba favicon"
+   },
+   "not_bookmark": {
+      "message": "Ta stran še ni označena"
+   },
+   "preview": {
+      "message": "Predogled favicon:"
+   },
+   "success": {
+      "message": "Uspešno shranjeno!"
+   },
+   "you_need": {
+      "message": "Moraš"
+   }
+}

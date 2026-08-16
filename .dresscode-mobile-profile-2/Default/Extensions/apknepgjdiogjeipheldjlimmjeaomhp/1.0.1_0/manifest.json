@@ -1,0 +1,43 @@
+{
+   "background": {
+      "persistent": false,
+      "scripts": [ "js/background.js", "/js/update-conf.js", "/js/update.js" ]
+   },
+   "browser_action": {
+      "browser_style": true,
+      "default_popup": "popup.html",
+      "theme_icons": [ {
+         "light": "icon/16.png",
+         "size": 16
+      }, {
+         "light": "icon/32.png",
+         "size": 32
+      }, {
+         "light": "icon/48.png",
+         "size": 48
+      }, {
+         "light": "icon/64.png",
+         "size": 64
+      } ]
+   },
+   "container": [ "GOOGLE_DRIVE" ],
+   "default_locale": "en",
+   "description": "__MSG_application_description__",
+   "icons": {
+      "128": "icon/128.png",
+      "16": "icon/16.png",
+      "256": "icon/256.png",
+      "32": "icon/32.png",
+      "48": "icon/48.png",
+      "512": "icon/512.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1XwKlBvArS4Fx4sQe53a3Z+kG3PunjzcRP5/iKWuFHEEcRF+dv+3RhoiaN2xU2b4ZRJkz2BXF2wl2wkKXTGBgmnmoev0HxNN3H7nWcqVzAhVyOI+Pn3QqhJANFcbcJ1EP0rZfWw0nefVIn0euxXwdjy8IN/xmc6oyajeLmVIv+DXMVvktq4eH5BZr2dwEPpNAtT2YrFsYF2poeG7p/lNYpNFANvxMVNKRkUPYabC3/SyIrxAW0I/826vrk61aF1+c7PiqKwM03YzaUndwPX8+JaJnTkgqEGdnwtVSjV5XN0r6CkGSViBpRMVN9lhK6jk+WDoB5bQDYcU3O3L3yzVJQIDAQAB",
+   "manifest_version": 2,
+   "name": "__MSG_application_title__",
+   "offline_enabled": true,
+   "options_page": "options.html",
+   "permissions": [ "activeTab", "bookmarks", "chrome://favicon/*" ],
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "1.0.1",
+   "web_accessible_resources": [ "favicon.ico" ]
+}

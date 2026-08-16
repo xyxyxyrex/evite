@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Tots els favorits"
+   },
+   "allow_access": {
+      "message": "Permet l&#39;accés als URL dels fitxers"
+   },
+   "allow_location": {
+      "message": "a la pàgina de configuració de l’extensió primer"
+   },
+   "application_description": {
+      "message": "Una manera més fàcil de canviar el vostre favorit de favorit EDGE"
+   },
+   "application_title": {
+      "message": "Canviador Favicon del marcador"
+   },
+   "cancel": {
+      "message": "Cancel · lar"
+   },
+   "cant_change": {
+      "message": "No podeu canviar aquesta URL"
+   },
+   "choose_new": {
+      "message": "Trieu un favicon nou:"
+   },
+   "clear": {
+      "message": "Clar"
+   },
+   "click_action": {
+      "message": "Feu clic aquí per permetre-ho"
+   },
+   "confirm": {
+      "message": "Canviar"
+   },
+   "current": {
+      "message": "Favoric actual:"
+   },
+   "last_change": {
+      "message": "Últim canvi de favicon"
+   },
+   "not_bookmark": {
+      "message": "Aquesta pàgina encara no està marcada com a adreça d&#39;interès"
+   },
+   "preview": {
+      "message": "Vista prèvia de favicon:"
+   },
+   "success": {
+      "message": "S&#39;ha desat correctament"
+   },
+   "you_need": {
+      "message": "Tu necessites"
+   }
+}

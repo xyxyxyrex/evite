@@ -1,0 +1,56 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "icons/128.png",
+         "16": "icons/16.png",
+         "32": "icons/32.png",
+         "48": "icons/48.png"
+      },
+      "default_popup": "popup.html",
+      "default_title": "Popup"
+   },
+   "author": "Timeraa",
+   "background": {
+      "service_worker": "background.js",
+      "type": "module"
+   },
+   "content_scripts": [ {
+      "js": [ "content-scripts/content.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+   }, {
+      "js": [ "content-scripts/notification.js" ],
+      "matches": [ "\u003Call_urls>" ]
+   }, {
+      "js": [ "content-scripts/premid.js" ],
+      "matches": [ "https://beta.premid.app/*", "https://premid.app/*" ],
+      "run_at": "document_start"
+   } ],
+   "default_locale": "en",
+   "description": "__MSG_description__",
+   "devtools_page": "devtools.html",
+   "homepage_url": "https://premid.app",
+   "host_permissions": [ "*://*/*" ],
+   "icons": {
+      "128": "icons/128.png",
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3U3U7VGk+xJOJx4GL2CKJ1mSoozkhmgXv0LHLn5Wp7iTBQYhkkaNXZdryaVT08zKu2Koxj+eOsPAYyamlvmv0doPdpUfK9cN9cUu6ySgV9mR3yd3SIQ+41ECuX+31Owp7ShdUzBa6Mjqu1DJLqfJav2R6Df8FAfmuCviuBVDea/sAWGtc9hwsyDRdqG4C6PE4sVkyJbc3thz3Xoepc5zdaOmIOuzZHpIAWk0lceeec30cBVlIq+F6NAh5nanHIATOo+5rZO6yGi8eBV5HRjSQF0ajOHSz07na9jDf6rYJKQXbrhTiwBUKWKx5aAsvI4ltb4VvJlhiE2KABlgblKOOwIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "120",
+   "name": "PreMiD",
+   "permissions": [ "tabs", "storage", "unlimitedStorage", "alarms", "scripting", "idle", "userScripts" ],
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "2.13.1",
+   "web_accessible_resources": [ {
+      "matches": [ "*://*/*" ],
+      "resources": [ "variableGetterDependencies.js", "presences/*", "content-scripts/notification/*", "icons/PreMiD.png" ]
+   }, {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "content-scripts/notification.css" ],
+      "use_dynamic_url": true
+   } ]
+}

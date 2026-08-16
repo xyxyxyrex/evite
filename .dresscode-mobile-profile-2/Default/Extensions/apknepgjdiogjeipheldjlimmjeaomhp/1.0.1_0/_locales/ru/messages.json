@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Все закладки страницы"
+   },
+   "allow_access": {
+      "message": "Разрешить доступ к URL, файлов"
+   },
+   "allow_location": {
+      "message": "сначала на странице настроек расширения"
+   },
+   "application_description": {
+      "message": "Более простой способ изменить значок закладки EDGE"
+   },
+   "application_title": {
+      "message": "Закладка Favicon Changer"
+   },
+   "cancel": {
+      "message": "Отмена"
+   },
+   "cant_change": {
+      "message": "Вы не можете изменить этот URL"
+   },
+   "choose_new": {
+      "message": "Выберите новый значок:"
+   },
+   "clear": {
+      "message": "чистый"
+   },
+   "click_action": {
+      "message": "Нажмите здесь, чтобы разрешить"
+   },
+   "confirm": {
+      "message": "+ Изменить"
+   },
+   "current": {
+      "message": "Текущий значок:"
+   },
+   "last_change": {
+      "message": "Последнее изменение favicon"
+   },
+   "not_bookmark": {
+      "message": "Эта страница еще не добавлена в закладки"
+   },
+   "preview": {
+      "message": "Предварительный просмотр favicon:"
+   },
+   "success": {
+      "message": "Успешно сохранено!"
+   },
+   "you_need": {
+      "message": "Тебе надо"
+   }
+}

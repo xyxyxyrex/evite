@@ -1,0 +1,1 @@
+import{setState}from"./state-machine.js";import{stopTimer,formatTime}from"./timer-controller.js";import"./widget-main.js";export function destroy(){stopTimer(),setState("hidden")}export default{destroy,setState,formatTime};

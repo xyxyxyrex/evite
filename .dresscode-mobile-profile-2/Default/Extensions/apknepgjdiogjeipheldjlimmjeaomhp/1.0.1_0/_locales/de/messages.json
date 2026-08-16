@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Alle Lesezeichen Seite"
+   },
+   "allow_access": {
+      "message": "Ermöglichen Sie den Zugriff auf Datei-URLs"
+   },
+   "allow_location": {
+      "message": "zuerst auf der Einstellungsseite der Erweiterung"
+   },
+   "application_description": {
+      "message": "Eine einfachere Möglichkeit, Ihr EDGE-Lesezeichen-Favicon zu ändern"
+   },
+   "application_title": {
+      "message": "Lesezeichen Favicon Changer"
+   },
+   "cancel": {
+      "message": "Stornieren"
+   },
+   "cant_change": {
+      "message": "Sie können diese URL nicht ändern"
+   },
+   "choose_new": {
+      "message": "Wähle ein neues Favicon:"
+   },
+   "clear": {
+      "message": "klar"
+   },
+   "click_action": {
+      "message": "Klicken Sie hier, um dies zuzulassen"
+   },
+   "confirm": {
+      "message": "Veränderung"
+   },
+   "current": {
+      "message": "Aktuelles Favicon:"
+   },
+   "last_change": {
+      "message": "Letzte Änderung Favicon"
+   },
+   "not_bookmark": {
+      "message": "Diese Seite ist noch nicht mit einem Lesezeichen versehen"
+   },
+   "preview": {
+      "message": "Vorschau Favicon:"
+   },
+   "success": {
+      "message": "Erfolgreich gespeichert!"
+   },
+   "you_need": {
+      "message": "Du brauchst"
+   }
+}

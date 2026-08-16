@@ -97,8 +97,7 @@ const categories = Object.keys(GUESTS_DATA);
               style={isFirst ? "max-height: 2000px; opacity: 1;" : "max-height: 0px; opacity: 0;"}
             >
               <div class="roster-guest-grid">
-                {guests.map((name, guestIdx) => {
-                  const numStr = String(guestIdx + 1).padStart(2, '0');
+                {guests.map((name) => {
                   const slug = toHyphenatedSlug(name);
                   const isCurrent = currentGuestName && name.toLowerCase() === currentGuestName.toLowerCase();
 
@@ -108,7 +107,6 @@ const categories = Object.keys(GUESTS_DATA);
                       data-guest-name={name}
                       data-guest-slug={slug}
                     >
-                      <span class="guest-num font-serif">#{numStr}</span>
                       <span class="guest-name font-sans">{name}</span>
                       {isCurrent && (
                         <span class="vip-badge font-serif">YOU</span>
@@ -209,11 +207,13 @@ const categories = Object.keys(GUESTS_DATA);
   }
 
   .roster-category-card {
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    background: rgba(11, 19, 43, 0.65);
-    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    backdrop-filter: blur(14px) saturate(130%);
     border-radius: 14px;
     overflow: hidden;
+    box-shadow: var(--glass-shadow);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
@@ -354,14 +354,6 @@ const categories = Object.keys(GUESTS_DATA);
     background: rgba(212, 175, 55, 0.08);
     border-color: rgba(212, 175, 55, 0.3);
     transform: translateY(-1px);
-  }
-
-  .guest-num {
-    font-size: 0.75rem;
-    color: #D4AF37;
-    letter-spacing: 0.05em;
-    opacity: 0.85;
-    flex-shrink: 0;
   }
 
   .guest-name {

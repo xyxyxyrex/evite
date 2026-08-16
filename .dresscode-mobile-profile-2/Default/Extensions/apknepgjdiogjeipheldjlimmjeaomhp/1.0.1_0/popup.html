@@ -1,0 +1,75 @@
+﻿
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/popup.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+</head>
+
+
+
+<body>
+    <div class="app">
+        <div class="card">
+            <div class="card-header text-center">
+                <img src="/icon/32.png" /> <span data-loc="application_title"></span> <a href="javascript:;" class="text-muted" id="settings"><span data-loc="all_bookmark"></span> <img style="width:16px" src="/icon/expand.png" /></a>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <div id="isNotBookmarked" style="display: none;">
+                        <li class="list-group-item">
+                            <span data-loc="not_bookmark"></span>
+
+                        </li>
+                    </div>
+                    <div id="isBookmarked" style="display: none;">
+                        <li id="lastChange" style="display: none;" class="list-group-item">
+                            <span data-loc="last_change"></span>
+                            <img id="imgLastChange" />
+                            <div class="btn-group" role="group" aria-label="Basic example">
+
+                                <a href="javascript:;" id="clear" data-loc="clear"></a>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <span data-loc="choose_new"></span>
+                            <input type="file" id="input" />
+                        </li>
+                        <li id="btnList" class="list-group-item" style="display: none;">
+                            <span data-loc="preview"></span>
+                            <canvas id="canvas" width=16 height=16></canvas>
+                            <div>
+                                <button data-loc="confirm" type="button" id="change" class="btn btn-secondary"></button>
+                                <button data-loc="cancel" type="button" id="cancel" class="btn btn-secondary"></button>
+                            </div>
+
+                        </li>
+                        <textarea hidden=hidden id="file_output"></textarea>
+
+                    </div>
+
+                </ul>
+                <span id="toast"></span>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer text-center">
+
+        <small><span data-loc="you_need"></span> <b data-loc="allow_access"></b> <span data-loc="allow_location"></span> <a id="allow" href="javascript:;"><span data-loc="click_action"></span></a></small>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="#" target="_blank" id="drive" class="btn-sm btn-secondary">Drive feature</a>
+            <a href="#" target="_blank" id="rate" class="btn-sm btn-secondary">Rate us</a>
+            <a href="#" target="_blank" id="home" class="btn-sm btn-secondary">Homepage</a>
+        </div>
+    </div>
+    <script src="js/utils.js"></script>
+    <script src="js/popup.js"></script>
+
+</body>
+</html>
+

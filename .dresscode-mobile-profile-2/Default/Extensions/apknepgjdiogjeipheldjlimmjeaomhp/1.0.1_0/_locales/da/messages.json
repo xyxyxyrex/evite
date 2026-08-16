@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Alle bogmærkesider"
+   },
+   "allow_access": {
+      "message": "Tillad adgang til fil-URL&#39;er"
+   },
+   "allow_location": {
+      "message": "i udvidelsens indstillingsside først"
+   },
+   "application_description": {
+      "message": "En lettere måde at ændre dit EDGE-bogmærkefavicon på"
+   },
+   "application_title": {
+      "message": "Bogmærke&#39;s Favicon-skifter"
+   },
+   "cancel": {
+      "message": "Afbestille"
+   },
+   "cant_change": {
+      "message": "Du kan ikke ændre denne url"
+   },
+   "choose_new": {
+      "message": "Vælg nyt favorit:"
+   },
+   "clear": {
+      "message": "Klar"
+   },
+   "click_action": {
+      "message": "Klik her for at tillade det"
+   },
+   "confirm": {
+      "message": "Lave om"
+   },
+   "current": {
+      "message": "Nuværende favorit:"
+   },
+   "last_change": {
+      "message": "Sidste ændring favorit"
+   },
+   "not_bookmark": {
+      "message": "Denne side er ikke bogmærket endnu"
+   },
+   "preview": {
+      "message": "Vis eksempel på favicon:"
+   },
+   "success": {
+      "message": "Gemt med succes!"
+   },
+   "you_need": {
+      "message": "Du skal"
+   }
+}

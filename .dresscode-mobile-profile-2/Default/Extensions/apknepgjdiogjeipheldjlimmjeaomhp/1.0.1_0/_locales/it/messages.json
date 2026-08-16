@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Tutta la pagina dei segnalibri"
+   },
+   "allow_access": {
+      "message": "Consenti l&#39;accesso agli URL dei file"
+   },
+   "allow_location": {
+      "message": "nella prima pagina delle impostazioni dell&#39;estensione"
+   },
+   "application_description": {
+      "message": "Un modo più semplice per modificare la favicon dei segnalibri EDGE"
+   },
+   "application_title": {
+      "message": "Segnalibro Favicon Changer"
+   },
+   "cancel": {
+      "message": "Annulla"
+   },
+   "cant_change": {
+      "message": "Non puoi cambiare questo URL"
+   },
+   "choose_new": {
+      "message": "Scegli una nuova favicon:"
+   },
+   "clear": {
+      "message": "Chiaro"
+   },
+   "click_action": {
+      "message": "Clicca qui per consentire"
+   },
+   "confirm": {
+      "message": "Modificare"
+   },
+   "current": {
+      "message": "Favicon attuale:"
+   },
+   "last_change": {
+      "message": "Favicon ultima modifica"
+   },
+   "not_bookmark": {
+      "message": "Questa pagina non è ancora stata aggiunta ai preferiti"
+   },
+   "preview": {
+      "message": "Anteprima favicon:"
+   },
+   "success": {
+      "message": "Salvato con successo!"
+   },
+   "you_need": {
+      "message": "Devi"
+   }
+}

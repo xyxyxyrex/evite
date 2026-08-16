@@ -1,0 +1,2 @@
+const d=a=>a.type==="Failure";function p(a){return a.global_name||a.username}function m(a){const{userId:e,avatarHash:t,animated:r=!0,forceStatic:i=!1,size:s}=a;if(!t){const o=s?`?size=${s}`:"";return`https://cdn.discordapp.com/embed/avatars/${Number(BigInt(e)>>22n)%6}.png${o}`}const n=r&&!i&&t.startsWith("a_")?"gif":"png",c=s?`?size=${s}`:"";return`https://cdn.discordapp.com/avatars/${e}/${t}.${n}${c}`}export{m as a,p as g,d as i};
+//# sourceMappingURL=discord-CspLq3za.js.map

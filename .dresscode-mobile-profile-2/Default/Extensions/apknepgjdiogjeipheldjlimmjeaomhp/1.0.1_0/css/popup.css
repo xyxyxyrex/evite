@@ -1,0 +1,18 @@
+.app{
+  width:300px;
+  height:100%;
+}
+.app .card .card-body button{
+  background-color:#FFF;
+  color:#000;
+  font-size: 0.9rem;
+  
+}
+.app .card .card-body .btn-group-vertical button{
+  text-align: left;
+}
+.app .card .card-body button:hover{
+  background-color:#dedede;
+  
+  
+}

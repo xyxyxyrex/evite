@@ -1,0 +1,100 @@
+---
+---
+
+<div id="star-sparkle-layer" aria-hidden="true"></div>
+
+<script>
+  import type { Container, Engine } from "@tsparticles/engine";
+  import { starParticlesConfig } from "../config/starParticles";
+
+  const mobileQuery = window.matchMedia("(max-width: 768px)");
+  const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  let particlesContainer: Container | undefined;
+  let particlesEngine: Engine | undefined;
+  let refreshTimer = 0;
+  let destroyed = false;
+
+  const renderParticles = async () => {
+    if (!particlesEngine || destroyed) return;
+
+    particlesContainer?.destroy();
+    particlesContainer = await particlesEngine.load({
+      id: "star-sparkle-layer",
+      options: starParticlesConfig.createOptions({
+        mobile: mobileQuery.matches,
+        reducedMotion: reducedMotionQuery.matches,
+      }),
+    });
+  };
+
+  const scheduleRefresh = () => {
+    window.clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(() => void renderParticles(), 120);
+  };
+
+  const initializeParticles = async () => {
+    const [{ tsParticles }, { loadSlim }] = await Promise.all([
+      import("@tsparticles/engine"),
+      import("@tsparticles/slim"),
+    ]);
+
+    if (destroyed) return;
+
+    await loadSlim(tsParticles);
+    particlesEngine = tsParticles;
+    await renderParticles();
+
+    mobileQuery.addEventListener("change", scheduleRefresh);
+    reducedMotionQuery.addEventListener("change", scheduleRefresh);
+  };
+
+  const cleanup = () => {
+    destroyed = true;
+    window.clearTimeout(refreshTimer);
+    mobileQuery.removeEventListener("change", scheduleRefresh);
+    reducedMotionQuery.removeEventListener("change", scheduleRefresh);
+    particlesContainer?.destroy();
+  };
+
+  window.addEventListener("pagehide", cleanup, { once: true });
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(() => void initializeParticles(), { timeout: 1600 });
+  } else {
+    globalThis.setTimeout(() => void initializeParticles(), 350);
+  }
+</script>
+
+<style>
+  #star-sparkle-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  #star-sparkle-layer :global(canvas) {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    inset: 0 !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+    mix-blend-mode: screen;
+    filter:
+      brightness(1.35)
+      drop-shadow(0 0 3px rgba(255, 253, 240, 1))
+      drop-shadow(0 0 9px rgba(238, 206, 90, 0.9));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #star-sparkle-layer :global(canvas) {
+      filter: drop-shadow(0 0 2px rgba(255, 231, 153, 0.3));
+    }
+  }
+</style>

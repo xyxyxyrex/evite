@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "All bookmark page"
+   },
+   "allow_access": {
+      "message": "Allow access to file URLs"
+   },
+   "allow_location": {
+      "message": "in extension's setting page first"
+   },
+   "application_description": {
+      "message": "An easilier way to change your EDGE bookmark favicon"
+   },
+   "application_title": {
+      "message": "Bookmark's Favicon Changer"
+   },
+   "cancel": {
+      "message": "Cancel"
+   },
+   "cant_change": {
+      "message": "You can't change this url"
+   },
+   "choose_new": {
+      "message": "Choose new favicon: "
+   },
+   "clear": {
+      "message": "Clear"
+   },
+   "click_action": {
+      "message": "Click here to allow"
+   },
+   "confirm": {
+      "message": "Change"
+   },
+   "current": {
+      "message": "Current favicon: "
+   },
+   "last_change": {
+      "message": "Last change favicon"
+   },
+   "not_bookmark": {
+      "message": "This page is not bookmarked yet"
+   },
+   "preview": {
+      "message": "Preview favicon: "
+   },
+   "success": {
+      "message": "Successfully saved!"
+   },
+   "you_need": {
+      "message": "You need to"
+   }
+}

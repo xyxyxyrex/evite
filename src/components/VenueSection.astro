@@ -33,13 +33,13 @@ import LocationImg from "../assets/location.jpg";
           </p>
 
           <div class="venue-actions">
-            <button id="get-directions-btn" class="btn-gold">
+            <button id="get-directions-btn" class="btn-gold" type="button">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
                 <line x1="8" y1="2" x2="8" y2="18"/>
                 <line x1="16" y1="6" x2="16" y2="22"/>
               </svg>
-              <span>Get Directions ✦</span>
+              <span id="directions-btn-label">Get Directions ✦</span>
             </button>
           </div>
         </div>
@@ -52,7 +52,7 @@ import LocationImg from "../assets/location.jpg";
             <div class="map-gold-border"></div>
             
             <!-- Floating Venue Badge Top -->
-            <div class="map-badge font-serif" id="map-status-badge">✦ Alton Bar & Restaurant ✦</div>
+            <div class="map-badge font-serif" id="map-status-badge" role="status" aria-live="polite">✦ Alton Bar & Restaurant ✦</div>
 
             <!-- Floating Circular Venue Photo Badge Bottom-Left (Overlaid on Map) -->
             <div class="map-circular-photo-badge" id="map-photo-badge" title="Alton Bar and Restaurant Venue">
@@ -78,6 +78,7 @@ import LocationImg from "../assets/location.jpg";
             <iframe 
               id="venue-google-map"
               class="dark-styled-map-iframe"
+              title="Map showing Alton Bar and Restaurant"
               src="https://maps.google.com/maps?q=9.97898684714112,122.82095265173152&z=16&output=embed" 
               width="100%" 
               height="100%" 
@@ -112,18 +113,52 @@ import LocationImg from "../assets/location.jpg";
 
     const btn = document.getElementById('get-directions-btn');
     const mapWrapper = document.getElementById('map-card-wrapper');
+    const mapFrame = document.getElementById('venue-google-map') as HTMLIFrameElement | null;
+    const mapStatus = document.getElementById('map-status-badge');
+    const btnLabel = document.getElementById('directions-btn-label');
+
+    const setDirectionState = (label: string, status: string, isLoading = false) => {
+      if (btnLabel) btnLabel.textContent = label;
+      if (mapStatus) mapStatus.textContent = status;
+      if (btn instanceof HTMLButtonElement) {
+        btn.disabled = isLoading;
+        btn.setAttribute('aria-busy', String(isLoading));
+      }
+    };
+
+    const showEmbeddedRoute = (originLat: number, originLng: number) => {
+      if (!mapFrame || !mapWrapper) return;
+
+      const routeUrl = new URL('https://maps.google.com/maps');
+      routeUrl.searchParams.set('saddr', `${originLat},${originLng}`);
+      routeUrl.searchParams.set('daddr', `${destLat},${destLng}`);
+      routeUrl.searchParams.set('dirflg', 'd');
+      routeUrl.searchParams.set('output', 'embed');
+
+      mapWrapper.classList.add('showing-route', 'map-pulse-active');
+      mapFrame.title = 'Driving directions to Alton Bar and Restaurant';
+      mapFrame.src = routeUrl.toString();
+      setDirectionState('Route Displayed ✓', '✦ Your Route to Alton ✦');
+      setTimeout(() => mapWrapper.classList.remove('map-pulse-active'), 1200);
+      mapWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
 
     if (btn) {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (mapWrapper) {
-          mapWrapper.classList.add('map-pulse-active');
-          setTimeout(() => mapWrapper.classList.remove('map-pulse-active'), 1200);
+
+        if (!navigator.geolocation) {
+          setDirectionState('Location Unavailable', '✦ Geolocation Is Not Supported ✦');
+          return;
         }
 
-        // Open Google Maps Directions safely in a new tab to avoid iOS WebKit iframe navigation errors
-        const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destLat},${destLng}`;
-        window.open(mapsUrl, '_blank', 'noopener,noreferrer');
+        setDirectionState('Finding Your Location…', '✦ Preparing Your Route… ✦', true);
+
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => showEmbeddedRoute(coords.latitude, coords.longitude),
+          () => setDirectionState('Try Directions Again', '✦ Location Access Needed ✦'),
+          { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 },
+        );
       });
     }
   });
@@ -211,6 +246,11 @@ import LocationImg from "../assets/location.jpg";
     gap: 1rem;
   }
 
+  #get-directions-btn:disabled {
+    cursor: wait;
+    opacity: 0.78;
+  }
+
   /* Custom Map Wrapper */
   .venue-map-col {
     width: 100%;
@@ -232,6 +272,13 @@ import LocationImg from "../assets/location.jpg";
   .custom-map-wrapper.map-pulse-active {
     transform: scale(1.02);
     box-shadow: 0 0 35px rgba(212, 175, 55, 0.7);
+  }
+
+  .custom-map-wrapper.showing-route .center-gold-pin,
+  .custom-map-wrapper.showing-route .map-circular-photo-badge {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .map-gold-border {
@@ -276,7 +323,7 @@ import LocationImg from "../assets/location.jpg";
     border: 2.5px solid var(--gold-400);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.95), 0 0 20px rgba(212, 175, 55, 0.5);
     background: #060b19;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease, opacity 0.3s ease;
     pointer-events: auto;
   }
 
@@ -311,6 +358,7 @@ import LocationImg from "../assets/location.jpg";
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: opacity 0.3s ease;
   }
 
   .pin-head {

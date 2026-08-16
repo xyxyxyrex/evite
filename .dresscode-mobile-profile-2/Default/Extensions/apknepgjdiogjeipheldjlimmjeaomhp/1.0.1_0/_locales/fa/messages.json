@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "تمام صفحه نشانک"
+   },
+   "allow_access": {
+      "message": "دسترسی به URL های پرونده را مجاز کنید"
+   },
+   "allow_location": {
+      "message": "ابتدا در صفحه تنظیمات افزودنی"
+   },
+   "application_description": {
+      "message": "راهی آسان برای تغییر موارد دلخواه نشانک EDGE شما"
+   },
+   "application_title": {
+      "message": "Favicon Changer"
+   },
+   "cancel": {
+      "message": "لغو کردن"
+   },
+   "cant_change": {
+      "message": "شما نمی توانید این آدرس را تغییر دهید"
+   },
+   "choose_new": {
+      "message": "موارد دلخواه جدید را انتخاب کنید:"
+   },
+   "clear": {
+      "message": "پاک کردن"
+   },
+   "click_action": {
+      "message": "اینجا را کلیک کنید تا اجازه دهید"
+   },
+   "confirm": {
+      "message": "تغییر دادن"
+   },
+   "current": {
+      "message": "موارد دلخواه فعلی:"
+   },
+   "last_change": {
+      "message": "آخرین تغییر مورد علاقه"
+   },
+   "not_bookmark": {
+      "message": "این صفحه هنوز علامت گذاری نشده است"
+   },
+   "preview": {
+      "message": "پیش نمایش favicon:"
+   },
+   "success": {
+      "message": "با موفقیت ذخیره شد!"
+   },
+   "you_need": {
+      "message": "شما باید"
+   }
+}

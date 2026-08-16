@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Kaikki kirjanmerkkisivut"
+   },
+   "allow_access": {
+      "message": "Oikeuttaa pääsy tiedosto linkkeihin"
+   },
+   "allow_location": {
+      "message": "ensin laajennuksen asetussivulla"
+   },
+   "application_description": {
+      "message": "Helpoin tapa muuttaa EDGE-kirjanmerkkisi faviconia"
+   },
+   "application_title": {
+      "message": "Kirjanmerkin Favicon Changer"
+   },
+   "cancel": {
+      "message": "Peruuttaa"
+   },
+   "cant_change": {
+      "message": "Et voi muuttaa tätä URL-osoitetta"
+   },
+   "choose_new": {
+      "message": "Valitse uusi favicon:"
+   },
+   "clear": {
+      "message": "Asia selvä"
+   },
+   "click_action": {
+      "message": "Napsauta tätä salliaksesi"
+   },
+   "confirm": {
+      "message": "Muuttaa"
+   },
+   "current": {
+      "message": "Nykyinen favicon:"
+   },
+   "last_change": {
+      "message": "Viimeisin muutos favicon"
+   },
+   "not_bookmark": {
+      "message": "Tätä sivua ei ole vielä merkitty kirjanmerkkeihin"
+   },
+   "preview": {
+      "message": "Esikatselu favicon:"
+   },
+   "success": {
+      "message": "Tallennettu onnistuneesti!"
+   },
+   "you_need": {
+      "message": "Sinun täytyy"
+   }
+}

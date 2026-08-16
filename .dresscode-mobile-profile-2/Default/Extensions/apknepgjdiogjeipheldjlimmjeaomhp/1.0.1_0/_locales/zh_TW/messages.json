@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "所有書籤頁面"
+   },
+   "allow_access": {
+      "message": "允許打開文件中的鏈接"
+   },
+   "allow_location": {
+      "message": "首先在擴展程序的設置頁面中"
+   },
+   "application_description": {
+      "message": "更改EDGE書籤圖標的簡便方法"
+   },
+   "application_title": {
+      "message": "書籤的Favicon轉換器"
+   },
+   "cancel": {
+      "message": "取消"
+   },
+   "cant_change": {
+      "message": "您無法更改此網址"
+   },
+   "choose_new": {
+      "message": "選擇新的圖標："
+   },
+   "clear": {
+      "message": "明確"
+   },
+   "click_action": {
+      "message": "點擊此處允許"
+   },
+   "confirm": {
+      "message": "更改"
+   },
+   "current": {
+      "message": "當前圖標："
+   },
+   "last_change": {
+      "message": "最後更改圖標"
+   },
+   "not_bookmark": {
+      "message": "此頁面尚未收藏"
+   },
+   "preview": {
+      "message": "預覽收藏夾圖標："
+   },
+   "success": {
+      "message": "成功保存！"
+   },
+   "you_need": {
+      "message": "你需要"
+   }
+}

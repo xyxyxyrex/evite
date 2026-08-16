@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Усі сторінки закладки"
+   },
+   "allow_access": {
+      "message": "Дозволити доступ до URL-адрес файлів"
+   },
+   "allow_location": {
+      "message": "на сторінці налаштування розширення спочатку"
+   },
+   "application_description": {
+      "message": "Легший спосіб змінити свій закладку EDGE у закладці EDGE"
+   },
+   "application_title": {
+      "message": "Favicon Changer із закладки"
+   },
+   "cancel": {
+      "message": "скасувати"
+   },
+   "cant_change": {
+      "message": "Ви не можете змінити цю URL-адресу"
+   },
+   "choose_new": {
+      "message": "Виберіть новий фавікон:"
+   },
+   "clear": {
+      "message": "Ясно"
+   },
+   "click_action": {
+      "message": "Натисніть тут, щоб дозволити"
+   },
+   "confirm": {
+      "message": "Зміна"
+   },
+   "current": {
+      "message": "Поточний фавікон:"
+   },
+   "last_change": {
+      "message": "Остання зміна фавікону"
+   },
+   "not_bookmark": {
+      "message": "Ця сторінка ще не є закладкою"
+   },
+   "preview": {
+      "message": "Попередній перегляд Favicon:"
+   },
+   "success": {
+      "message": "Успішно збережено!"
+   },
+   "you_need": {
+      "message": "Тобі потрібно"
+   }
+}

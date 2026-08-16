@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Všetky záložky"
+   },
+   "allow_access": {
+      "message": "Povoliť prístup k adresám URL súborov"
+   },
+   "allow_location": {
+      "message": "najskôr na stránke nastavenia rozšírenia"
+   },
+   "application_description": {
+      "message": "Jednoduchší spôsob, ako zmeniť svoju záložku EDGE záložiek"
+   },
+   "application_title": {
+      "message": "Bookmark&#39;s Favicon Changer"
+   },
+   "cancel": {
+      "message": "Zrušiť"
+   },
+   "cant_change": {
+      "message": "Túto adresu URL nemôžete zmeniť"
+   },
+   "choose_new": {
+      "message": "Vyberte si nový favicon:"
+   },
+   "clear": {
+      "message": "jasný"
+   },
+   "click_action": {
+      "message": "Kliknutím sem povolíte"
+   },
+   "confirm": {
+      "message": "zmena"
+   },
+   "current": {
+      "message": "Aktuálny favicon:"
+   },
+   "last_change": {
+      "message": "Posledná zmena favicon"
+   },
+   "not_bookmark": {
+      "message": "Táto stránka ešte nie je označená záložkou"
+   },
+   "preview": {
+      "message": "Náhľad favicon:"
+   },
+   "success": {
+      "message": "Úspešne uložené!"
+   },
+   "you_need": {
+      "message": "Musíte"
+   }
+}

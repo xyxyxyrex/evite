@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "כל עמוד הסימניות"
+   },
+   "allow_access": {
+      "message": "אפשר גישה לכתובות URL של קבצים"
+   },
+   "allow_location": {
+      "message": "בדף ההגדרה של התוסף תחילה"
+   },
+   "application_description": {
+      "message": "דרך קלה יותר לשנות את favicon הסימניות שלך ב- EDGE"
+   },
+   "application_title": {
+      "message": "מחליף Favicon של הסימניות"
+   },
+   "cancel": {
+      "message": "לְבַטֵל"
+   },
+   "cant_change": {
+      "message": "אינך יכול לשנות את כתובת האתר הזו"
+   },
+   "choose_new": {
+      "message": "בחר favicon חדש:"
+   },
+   "clear": {
+      "message": "ברור"
+   },
+   "click_action": {
+      "message": "לחץ כאן כדי להתיר"
+   },
+   "confirm": {
+      "message": "שינוי"
+   },
+   "current": {
+      "message": "Favicon נוכחי:"
+   },
+   "last_change": {
+      "message": "השינוי האחרון"
+   },
+   "not_bookmark": {
+      "message": "דף זה טרם סימניה"
+   },
+   "preview": {
+      "message": "תצוגה מקדימה של favicon:"
+   },
+   "success": {
+      "message": "נשמר בהצלחה!"
+   },
+   "you_need": {
+      "message": "אתה צריך"
+   }
+}

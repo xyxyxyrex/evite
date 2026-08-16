@@ -1,0 +1,69 @@
+{
+  "retcode": 200,
+  "data": {
+    "version": 4,
+    "update_interval_hours": 6,
+    "settings": {
+      "tierbase_search_timeout": 15000,
+      "mainbase_search_timeout": 20000,
+      "tierbase_api_timeout": 35000,
+      "mainbase_api_timeout": 30000,
+      "proxy_search_timeout": 30000,
+      "mirror_timeout": 20000,
+      "base_ttl_days": 90,
+      "bs_consequtive_fails": 42
+    },
+    "uibase": [
+      "https://account1.hoxx.com",
+      "https://account2.hoxx.com",
+      "https://account3.hoxx.com",
+      "https://account4.hoxx.com",
+      "https://account5.hoxx.com",
+      "https://account6.hoxx.com",
+      "https://account7.hoxx.com",
+      "https://account8.hoxx.com",
+      "https://account9.hoxx.com",
+      "https://account10.hoxx.com",
+      "https://account11.hoxx.com",
+      "https://account12.hoxx.com",
+      "https://account13.hoxx.com",
+      "https://account14.hoxx.com",
+      "https://account15.hoxx.com"
+    ],
+    "mainbase": [
+      "https://nvne.spoken.fun",
+      "https://nytw.chester.run",
+      "https://bwxm.chester.run",
+      "https://eggx.sciences.run",
+      "https://pkcw.chester.run",
+      "https://vsxm.chester.run",
+      "https://3rd2j.severity.uk",
+      "https://tcqnm.sublimity.uk",
+      "https://2.flyingsq.uk",
+      "https://2.therewego.uk",
+      "https://sizs8.openips.cc",
+      "https://1.saferip.uk"
+    ],
+    "tierbase": [
+      "https://okog.chester.run",
+      "https://fhhb.spoken.fun",
+      "https://api.doneverdrop.com",
+      "https://solarsie.com",
+      "https://scandiums.org",
+      "https://vanadiums.org",
+      "https://2.phosphorusonline.com",
+      "https://lpggs.annual2025.uk",
+      "https://vpwlz.timeout8.uk"
+    ],
+    "t": 1737201810098,
+    "mirrors": [
+      "https://tierbase3.fra1.cdn.digitaloceanspaces.com/tiershx.json",
+      "https://tierbase4.s3.amazonaws.com/tiershx.json",
+      "https://pub-8029ed10cf4e4db0b3757e6b82ef7a40.r2.dev/tiershx.json",
+      "https://ams1.vultrobjects.com/tierupdate2/tiershx.json",
+      "https://mirror4.es-mad-1.linodeobjects.com/tiershx.json",
+      "https://raw.githubusercontent.com/the7c/update/master/src/js/data.json",
+      "https://bitbucket.org/the7c/update/raw/master/ip/ens4/data.json"
+    ]
+  }
+}

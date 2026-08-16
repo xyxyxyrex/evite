@@ -1,0 +1,1822 @@
+"use strict";
+(self["webpackChunkdotvpn"] = self["webpackChunkdotvpn"] || []).push([["src_js_common_js"],{
+
+/***/ "./src/js/common.js"
+/*!**************************!*\
+  !*** ./src/js/common.js ***!
+  \**************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _settings_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./settings.js */ "./src/js/settings.js");
+/* harmony import */ var _proxy_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./proxy.js */ "./src/js/proxy.js");
+/* harmony import */ var _proxy_persite_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./proxy-persite.js */ "./src/js/proxy-persite.js");
+/* harmony import */ var _locations_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./locations.js */ "./src/js/locations.js");
+/* harmony import */ var tldts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tldts */ "./node_modules/tldts/dist/es6/index.js");
+
+
+
+
+
+
+const WINDOW_ID_NONE = chrome ? -1 : null;
+
+async function tabOnActivatedHandler(activeInfo) {
+	//console.log('tabOnActivatedHandler');
+	/*var premium = await settings.get("premium");
+	if (premium) {
+		return;
+	}*/
+	
+	setIconForTab(activeInfo.tabId);
+}
+async function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+async function tabOnUpdateHandler(tabId, changeInfo, tab) {
+	//console.log('tabOnUpdateHandler', changeInfo)
+
+	//console.log(tab);
+
+	var queryOptions = { active: true, lastFocusedWindow: true };
+	var [activeTab] = await chrome.tabs.query(queryOptions);
+
+	if ("url" in tab && activeTab && tabId == activeTab.id) {
+		setIconForTab(tabId);
+	}
+}
+
+async function winOnFocusChanged(windowId) {
+	if (windowId === WINDOW_ID_NONE) {
+		return;
+	}
+
+	var [tab] = await chrome.tabs.query({
+		active: true,
+		windowId: windowId
+	});
+
+	if (tab) {
+		setIconForTab(tab.id);
+	}
+}
+
+async function setIconForTab(tabId) {
+	try {
+		var tab = await chrome.tabs.get(tabId);
+	//console.log("setIconForTab")
+		if ("url" in tab) {
+			var proxyDomains = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("proxyDomains");
+	//console.log(tab)
+			var url = (0,tldts__WEBPACK_IMPORTED_MODULE_4__.parse)(tab.url);
+			if (url.domain && proxyDomains.has(url.domain)) {
+				//console.log("found", url.domain)
+				common.setIcon(proxyDomains.get(url.domain).country);
+				return;
+			}
+		}
+	} catch(e) {}
+
+	common.setIcon('logo-inactive');
+}
+
+var common = {
+	iconDisconnectingTimer: null,
+	iconConnectingTimer: null,
+	iconNumber: 1,
+	connectDelay: 1000,
+	//proxy: new proxy(),
+	//proxyPerSite: new proxyPerSite(),
+
+	setIcon: function(name) {
+		chrome.action.setIcon(
+			{ path: {	'16': '/i/icons/32/' + name + '.png',
+						'32': '/i/icons/32/' + name + '.png' } });
+	},
+
+	setTransparentIcon: function() {
+		//this.stopIconAnimation();
+		this.setIcon('trans');
+	},
+
+	getUnixtime: function() {
+		return Math.round((new Date()).getTime() / 1000);
+	},
+
+	getNavigator: function() {
+		var nav = null;
+		for (var ua of [['OPR', 'opr'], ['Chrome', 'crm'], ['Firefox', 'ffx']]) {
+			if (new RegExp(ua[0] + '\/').test(navigator.userAgent)) {
+				nav = ua[1];
+				break;
+			}
+		}
+
+		return nav;
+	},
+
+	addTabListeners: function() {
+		if (!chrome.tabs.onActivated.hasListener(tabOnActivatedHandler)) {
+			chrome.tabs.onActivated.addListener(tabOnActivatedHandler);
+		}
+
+		if (!chrome.tabs.onUpdated.hasListener(tabOnUpdateHandler)) {
+			chrome.tabs.onUpdated.addListener(tabOnUpdateHandler);
+		}
+
+		if (!chrome.windows.onFocusChanged.hasListener(winOnFocusChanged)) {
+			chrome.windows.onFocusChanged.addListener(winOnFocusChanged);
+		}
+	},
+
+	removeTabListeners: function() {
+		chrome.tabs.onActivated.removeListener(tabOnActivatedHandler);
+		chrome.tabs.onUpdated.removeListener(tabOnUpdateHandler);
+		chrome.windows.onFocusChanged.removeListener(winOnFocusChanged);
+	},
+
+	rotateApiEndpoints: async function() {
+
+	},
+
+	updateUserInfo: async function(callback) {
+		var location = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('location');
+
+		try {
+			var response = await fetch(await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('apiHost') + '/3/user/info', {
+				headers: { 'Content-Type': 'application/json' },
+				method: 'POST',
+				//tryCount: 0,
+				//retryLimit: 3,
+				body: JSON.stringify({
+					token: await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('token'),
+					type: this.getNavigator(),
+					version: chrome.runtime.getManifest().version,
+				}),
+			});
+
+			if (!response.ok) {
+				// sendFailMetric
+				return;
+			}
+
+			var data = await response.json();
+
+			if (data.code != 0) {
+				return;
+			}
+
+			var premium = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('premium');
+			if (premium != !!data.premium) {
+				this.init();
+			}
+
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('bwGroup', data.bwGroup);
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('name', data.name);
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('email', data.email);
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('premium', !!data.premium);
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('accType', data.accType);
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('userLocation', data.userCountryCode);
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('freeTime', data.freeTime);
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('regDate', data.regDate);
+
+			var bwStat = new Map();
+			for (const key in data.bwStat) {
+				bwStat.set(key, data.bwStat[key]);
+			}
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('bwStat', bwStat);
+
+			/*settings.set('connectionInfo', {
+				userIp: data.userIp,
+				userCountry: data.userCountry,
+				userCountryLat: data.userCountryLat,
+				userCountryLon: data.userCountryLon
+			});*/
+
+			//await settings.set('directHosts', data.hosts);
+
+			/*if (await settings.get('enabled')) {
+				var nodes = await settings.get('nodes');
+				var backupNodes = await settings.get('backupNodes');
+				//var location = await settings.get('location');
+
+				this.proxy.setProxyEnabled(
+					true,
+					//nodes[location],
+					//backupNodes[location],
+					//data.hosts
+				);
+			}*/
+
+			/*if (!await settings.get('premium')) {
+				for (var cn of bwStat.keys()) {
+					if (locations[cn].free) {
+						await settings.set("location", cn);
+						break;
+					}
+				}
+			}
+
+			if (await settings.get('enabled') &&
+				await settings.get('email') == null &&
+				!await settings.get('premium') &&
+				!locations[location].free) {
+				this.disableProxy();
+
+				//var location = 'nl';
+				//settings.set('location', location);
+			}*/
+
+			if (data.token2) {
+				_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('token', data.token2);
+			}
+
+			if (data.premium) {
+				this.unregisterContentScript();
+			} else {
+				this.registerContentScript();
+			}
+
+			if (callback) {
+				callback();
+			}
+		} catch(e) {
+			console.log(e);
+			// retry
+		}
+	},
+
+	getNode: async function(location, callback, errCallback) {//await wait(10000);
+		try {
+			var response = await fetch(await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('apiHost') + '/3/user/get-node', {
+				headers: { 'Content-Type': 'application/json' },
+				method: 'POST',
+				//tryCount: 0,
+				//retryLimit: 3,
+				body: JSON.stringify({
+					token: await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('token'),
+					location: location,
+					type: this.getNavigator(),
+				}),
+			});
+
+			if (!response.ok) {
+				// sendFailMetric
+				if (errCallback) {
+					errCallback();
+				}
+				return;
+			}
+
+			var data = await response.json();
+
+			if (data.code == 0 /*&& settings.get('enabled')*/) {
+				var nodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('nodes');
+				//var location = await settings.get('location');
+
+				nodes[location] = data.node;
+				await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('nodes', nodes);
+
+				var backupNodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('backupNodes');
+				backupNodes[location] = data.backupNode;
+				await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('backupNodes', backupNodes);
+
+				var nodesIps = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('nodesIps');
+				nodesIps[location] = data.ip;
+				await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('nodesIps', nodesIps);
+
+				var backupNodesIps = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('backupNodesIps');
+				backupNodesIps[location] = data.backupIp;
+				await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('backupNodesIps', backupNodesIps);
+
+				callback(data.node, data.backupNode);
+			}
+		} catch(e) {
+			console.log(e);
+			if (errCallback) {
+				errCallback();
+			}
+			// retry
+		}
+	},
+
+	perSiteAddDomain: async function(domain, location) {
+		var nodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('nodes');
+		var backupNodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('backupNodes');
+
+		if (nodes[location] && backupNodes[location]) {
+			this.getNode(location, async () => {
+				_proxy_persite_js__WEBPACK_IMPORTED_MODULE_2__["default"].addHost(domain, domain, location);
+				//proxyPerSite.updateProxySettings();
+			});
+		} else {
+			await this.getNode(location, async () => {//console.log('update proxy seettings')
+				_proxy_persite_js__WEBPACK_IMPORTED_MODULE_2__["default"].addHost(domain, domain, location);
+				//proxyPerSite.updateProxySettings();
+
+				if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('firstConnect')) {
+					_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('firstConnect', true);
+					//installInit('connect');
+				}
+			}, async () => {
+				//
+			});
+		}
+
+		if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('hideAppIcon')) {
+			this.setIcon(location);
+		}
+	},
+
+	perSiteDeleteDomain: async function(domain) {
+		var proxyDomains = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("proxyDomains");
+		//proxyDomains = proxyDomains.filter(item => item !== tab.hostname);
+		proxyDomains.delete(domain);
+		await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("proxyDomains", proxyDomains);
+
+		var perSiteProxyHosts = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('perSiteProxyHosts');
+		perSiteProxyHosts = new Map(
+				[...perSiteProxyHosts].filter(([k, v]) => v.origin != domain)
+			);
+		await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("perSiteProxyHosts", perSiteProxyHosts);
+
+		_proxy_persite_js__WEBPACK_IMPORTED_MODULE_2__["default"].updateProxySettings();
+
+		if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('hideAppIcon')) {
+			this.setIcon('logo-inactive');
+		}
+	},
+
+	enableProxy: async function(callback) {
+		var nodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('nodes');
+		var backupNodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('backupNodes');
+		var location = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('location');
+
+		if (location == 'fn') {
+			location = 'us';
+		}
+
+		if (nodes[location] && backupNodes[location]) {
+			_proxy_js__WEBPACK_IMPORTED_MODULE_1__["default"].enable(nodes[location], backupNodes[location]);
+			this._updateUI(callback);
+
+			this.getNode(location, async (node, backupNode) => {
+				if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('enabled')) {
+					_proxy_js__WEBPACK_IMPORTED_MODULE_1__["default"].enable(node, backupNode);
+				}
+			});
+
+			if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('blockWebRTC')) {
+				this.disableWebRTC();
+			}
+		} else {
+			await this.getNode(location, async (node, backupNode) => {
+				_proxy_js__WEBPACK_IMPORTED_MODULE_1__["default"].enable(node, backupNode);
+
+				if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('firstConnect')) {
+					_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('firstConnect', true);
+					//installInit('connect');
+				}
+				this._updateUI(callback);
+
+				if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('blockWebRTC')) {
+					this.disableWebRTC();
+				}
+			}, async () => {
+				_proxy_js__WEBPACK_IMPORTED_MODULE_1__["default"].disable();
+				this.disableProxy(callback);
+			});
+		}
+	},
+
+	_updateUI: async function(callback) {
+		_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('enabled', true);
+		_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('lastConnectTime', this.getUnixtime());
+
+		if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('hideAppIcon')) {
+			//this.startIconConnectingAnimation();
+			var location = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('location');
+			this.setIcon(location);
+		}
+
+		if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('firstRun')) {
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('firstRun', false);
+		}
+
+		/*setTimeout(async function() {
+			if (await settings.get('enabled') && !await settings.get('hideAppIcon')) {
+				//chrome.action.setTitle({
+				//	title: chrome.i18n.getMessage('connected')
+				//});
+
+				if (await settings.get('firstRun')) {
+					settings.set('firstRun', false);
+				}
+
+				//setTimeout(function() {
+				//  if (settings.firstRun) {
+				//	settings.firstRun = false;
+
+				//	chrome.tabs.create(
+				//	  {'url': 'https://dotvpn.com/mobile/'});
+				//  }
+				//}, 40 * 1000);
+			}
+		}, this.connectDelay);*/
+
+		/*chrome.webRequest.onErrorOccurred.addListener(
+			requestErrorHandler, {urls: ['<all_urls>']});*/
+
+		/*setTimeout(function() {
+			if (settings.lastSpOfferShow < getUnixtime() - 3600 * 12 &&
+				settings.accType == 'free' && settings.email) {
+				settings.lastSpOfferShow = getUnixtime();
+
+				chrome.tabs.create(
+					{'url': 'https://dotvpn.com/?token=' +
+					encodeURIComponent(settings.token)});
+			}
+		}, 5 * 1000);*/
+
+		if (callback) {
+			callback();
+		}
+	},
+
+	disableProxy: async function(callback) {
+		_proxy_js__WEBPACK_IMPORTED_MODULE_1__["default"].disable();
+		await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('enabled', false);
+
+		if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('hideAppIcon')) {
+			//this.startIconDisconnectingAnimation();
+			this.setIcon('logo-inactive');
+
+			/*chrome.action.setTitle({
+				title: chrome.i18n.getMessage('disconnected')
+			});*/
+		}
+
+		/*chrome.webRequest.onErrorOccurred.removeListener(
+			requestErrorHandler);*/
+
+		if (callback) {
+			callback();
+		}
+
+		if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('blockWebRTC')) {
+			this.enableWebRTC();
+		}
+	},
+
+	init: async function(callback) {
+		if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('token') == null) {
+			return;
+		}
+//await settings.set('apiHost', 'https://dot-security-systems.com');
+
+		if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('hideAppIcon')) {
+			this.setIcon('logo-inactive');
+		} else {
+			chrome.action.setTitle({
+				title: ' '
+			});
+		}
+
+		if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("premium")) {
+			this.removeTabListeners();
+			_proxy_persite_js__WEBPACK_IMPORTED_MODULE_2__["default"].uninit();
+			_proxy_js__WEBPACK_IMPORTED_MODULE_1__["default"].init();
+
+			if (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('enabled')) {
+				await this.enableProxy();
+			}
+		} else {
+			this.addTabListeners();
+			await _proxy_persite_js__WEBPACK_IMPORTED_MODULE_2__["default"].init();
+		}
+
+		if (callback) {
+			callback();
+		}
+	},
+
+	installInit: async function(p) {
+		var path = '/init?id=' + (await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('installId')) + (p ? '&' + p : '');
+
+		for (var host of [
+			'dotvpn.com',
+			'auth-secure-socket.com',
+			'dot-security-systems.com',
+			'apache-iv.com',
+			'tellmar.com']) {
+			try {
+				var response = await fetch('https://' + host + path, {
+					headers: { 'Content-Type': 'application/json' }
+				});
+
+				if (!response.ok) {
+					// sendFailMetric
+					return;
+				}
+
+				switch (host) {
+					case 'apache-iv.com':
+					case 'auth-secure-socket.com':
+					case 'dot-security-systems.com':
+						_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('apiHost', 'https://' + host);
+						//settings.set('apiHost', 'https://dot-security-systems.com');
+						break;
+				}
+			} catch (e) { }
+		}
+	},
+
+	saveAction: async function(action, value) {
+		try {
+			var response = await fetch((await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('apiHost')) + '/3/user/action', {
+				headers: { 'Content-Type': 'application/json' },
+				method: 'POST',
+				body: JSON.stringify({
+					id: await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('installId'),
+					action: action,
+					value: value
+				}),				
+			});
+
+			if (!response.ok) {
+				// sendFailMetric
+				return;
+			}
+		} catch (e) { }
+	},
+
+	checkNotifications: async function() {
+		var token = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('token');
+		if (token == null) {
+			return;
+		}
+
+		try {
+			var response = await fetch(await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('apiHost') + '/3/user/notification', {
+				headers: { 'Content-Type': 'application/json' },
+				method: 'POST',
+				//tryCount: 0,
+				//retryLimit : 3,
+				body: JSON.stringify({
+					token: token,
+				}),
+			});
+
+			if (!response.ok) {
+				// sendFailMetric
+				return;
+			}
+
+			var data = await response.json();
+			if (!data.event) {
+				return;
+			}
+
+			if (data.event != _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].event) {
+				_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('event', data.event);
+				_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('eventView', false);
+			}
+
+			_settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('eventExpire', data.eventExpire);
+		} catch(e) {
+			console.log(e);
+			// retry
+		}
+	},
+
+	updateNotification: async function(event, action, info, callback) {
+		try {
+			var response = await fetch((await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("apiHost")) + "/3/user/notification", {
+				headers: { "Content-Type": "application/json" },
+				method: "POST",
+				//tryCount: 0,
+				//retryLimit : 3,
+				body: JSON.stringify({
+					token: await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("token"),
+					event: event,
+					action: action,
+					info: info,
+				}),
+			});
+
+			if (!response.ok) {
+				// sendFailMetric
+				return;
+			}
+
+			callback();
+		} catch (e) {}
+	},
+
+	/*startIconDisconnectingAnimation: function() {
+		this.stopIconAnimation();
+		this.iconNumber = 14;
+
+		this.iconDisconnectingTimer = setInterval(() => {
+			this.setIcon(this.iconNumber);
+
+			if (this.iconNumber == 1) {
+				this.stopIconAnimation();
+			}
+
+			this.iconNumber--;
+		}, 50);
+	},
+
+	startIconConnectingAnimation: function() {
+		this.stopIconAnimation();
+
+		this.iconConnectingTimer = setInterval(() => {
+			this.setIcon(this.iconNumber);
+
+			if (this.iconNumber == 14) {
+				this.stopIconAnimation();
+			}
+
+			this.iconNumber++;
+		}, 50);
+	},
+
+	stopIconAnimation: function() {
+		clearInterval(this.iconDisconnectingTimer);
+		clearInterval(this.iconConnectingTimer);
+
+		this.iconNumber = 1;
+	},*/
+
+	isNumber: function(evt) {
+		evt = (evt) ? evt : window.event;
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+		if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+			evt.preventDefault();
+		}
+	},
+
+	enableWebRTC: function() {
+		try {
+			chrome.privacy.network.webRTCIPHandlingPolicy.set({
+				value: 'default'
+			});
+		} catch (e) { console.log(e) }
+	},
+
+	disableWebRTC: function() {
+		try {
+			chrome.privacy.network.webRTCIPHandlingPolicy.set({
+				value: 'disable_non_proxied_udp'
+			});
+		} catch (e) { console.log(e) }
+	},
+
+	registerContentScript: async function() {
+		if (!await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('enabled')) {
+			return;
+		}
+
+		chrome.scripting.registerContentScripts([{
+			id: "test",
+			matches: [ "http://*/*", "https://*/*"],
+			runAt: "document_start",
+			js: [ "js/content.js" ],
+		}]).catch(() => {});
+
+		console.log('registerContentScript');
+	},
+
+	unregisterContentScript: async function() {
+		var scripts = await chrome.scripting.getRegisteredContentScripts();
+	    var scriptIds = scripts.map(script => script.id);
+
+		if (scriptIds.includes('test')) {
+			chrome.scripting.unregisterContentScripts({ids: ['test']});
+
+			console.log('unregisterContentScript');
+		}
+	},
+
+	getCurrentTabDomain: async function() {
+		let queryOptions = { active: true, lastFocusedWindow: true };
+		// `tab` will either be a `tabs.Tab` instance or `undefined`.
+		let [tab] = await chrome.tabs.query(queryOptions);
+
+		if (!tab) {
+			return null;
+		}
+
+		var url = (0,tldts__WEBPACK_IMPORTED_MODULE_4__.parse)(tab.url);
+		//var url = parse(tab.url, { allowPrivateDomains: true });
+		//console.log(url);
+
+		if (!url.domain) {
+			return null;
+		}
+
+		return url.domain;
+	}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (common);
+
+/***/ },
+
+/***/ "./src/js/locations.js"
+/*!*****************************!*\
+  !*** ./src/js/locations.js ***!
+  \*****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({'ca': {
+	continent: 'na',
+	country: 'Canada',
+	countryCode: 'ca',
+	city: 'Toronto',
+	tz: 'America/Toronto',
+	ping: 42,
+	free: false
+}, 'de': {
+	continent: 'eu',
+	country: 'Germany',
+	countryCode: 'de',
+	city: 'Frankfurt',
+	tz: 'Europe/Berlin',
+	ping: 52,
+	free: false
+}, 'fr': {
+	continent: 'eu',
+	country: 'France',
+	countryCode: 'fr',
+	city: 'Paris',
+	tz: 'Europe/Paris',
+	ping: 121,
+	free: true
+}, 'jp': {
+	continent: 'as',
+	country: 'Japan',
+	countryCode: 'jp',
+	city: 'Tokyo',
+	tz: 'Asia/Tokyo',
+	ping: 143,
+	free: false
+}, 'nl': {
+	continent: 'eu',
+	country: 'Netherlands',
+	countryCode: 'nl',
+	city: 'Amsterdam',
+	tz: 'Europe/Amsterdam',
+	ping: 52,
+	free: true
+}, 'sg': {
+	continent: 'as',
+	country: 'Singapore',
+	countryCode: 'sg',
+	city: 'Singapore',
+	tz: 'Asia/Singapore',
+	ping: 52,
+	free: false
+}, 'es': {
+	continent: 'eu',
+	country: 'Spain',
+	countryCode: 'es',
+	city: 'Madrid',
+	tz: 'Europe/Madrid',
+	ping: 52,
+	free: false
+}, 'se': {
+	continent: 'eu',
+	country: 'Sweden',
+	countryCode: 'se',
+	city: 'Stockholm',
+	tz: 'Europe/Stockholm',
+	ping: 52,
+	free: false
+}, 'ch': {
+	continent: 'eu',
+	country: 'Switzerland',
+	countryCode: 'ch',
+	city: 'Zurich',
+	tz: 'Europe/Zurich',
+	ping: 52,
+	free: false
+}, 'lt': {
+	continent: 'eu',
+	country: 'Lithuania',
+	countryCode: 'lt',
+	city: 'Vilnius',
+	tz: 'Europe/Vilnius',
+	ping: 52,
+	free: false
+}, 'uk': {
+	continent: 'eu',
+	country: 'Great Britain',
+	countryCode: 'uk',
+	city: 'London',
+	tz: 'Europe/London',
+	ping: 52,
+	free: false
+}, 'us': {
+	continent: 'na',
+	country: 'USA',
+	countryCode: 'us',
+	city: 'New York',
+	tz: 'America/New_York',
+	ping: 52,
+	free: true
+}, 'us-ca': {
+	continent: 'na',
+	country: 'USA',
+	countryCode: 'us-ca',
+	city: 'California',
+	tz: 'America/Los_Angeles',
+	ping: 52,
+	free: false
+}, 'in': {
+	continent: 'as',
+	country: 'India',
+	countryCode: 'in',
+	city: 'Bangalore',
+	tz: 'Asia/Kolkata',
+	ping: 52,
+	free: false
+}, 'be': {
+	continent: 'eu',
+	country: 'Belgium',
+	countryCode: 'be',
+	city: 'Brussels',
+	tz: 'Europe/Brussels',
+	ping: 52,
+	free: false
+}, 'hk': {
+	continent: 'as',
+	country: 'Hong Kong',
+	countryCode: 'hk',
+	city: 'Hong Kong',
+	tz: 'Asia/Hong_Kong',
+	ping: 52,
+	free: false
+}, 'at': {
+	continent: 'eu',
+	country: 'Austria',
+	countryCode: 'at',
+	city: 'Vienna',
+	tz: 'Europe/Vienna',
+	ping: 52,
+	free: false
+}, 'il': {
+	continent: 'eu',
+	country: 'Israel',
+	countryCode: 'il',
+	city: 'Tel Aviv',
+	tz: 'Asia/Jerusalem',
+	ping: 52,
+	free: false
+}, 'pl': {
+	continent: 'eu',
+	country: 'Poland',
+	countryCode: 'pl',
+	city: 'Warsaw',
+	tz: 'Europe/Warsaw',
+	ping: 52,
+	free: false
+}, 'it': {
+	continent: 'eu',
+	country: 'Italy',
+	countryCode: 'it',
+	city: 'Milan',
+	tz: 'Europe/Rome',
+	ping: 52,
+	free: false
+}, 'si': {
+	continent: 'eu',
+	country: 'Slovenia',
+	countryCode: 'si',
+	city: 'Ljubljana',
+	tz: 'Europe/Belgrade',
+	ping: 52,
+	free: false
+}, 'is': {
+	continent: 'eu',
+	country: 'Iceland',
+	countryCode: 'is',
+	city: 'Hafnarfjordur',
+	tz: 'Atlantic/Reykjavik',
+	ping: 52,
+	free: false
+},/* 'im': {
+	continent: 'eu',
+	country: 'Isle of Man',
+	countryCode: 'im',
+	city: 'Douglas',
+	tz: 'Europe/London',
+	ping: 52,
+	free: false
+},*/ 'ro': {
+	continent: 'eu',
+	country: 'Romania',
+	countryCode: 'ro',
+	city: 'Bucharest',
+	tz: 'Europe/Bucharest',
+	ping: 52,
+	free: false
+}, 'dk': {
+	continent: 'eu',
+	country: 'Denmark',
+	countryCode: 'dk',
+	city: 'Copenhagen',
+	tz: 'Europe/Copenhagen',
+	ping: 52,
+	free: false
+}, 'tr': {
+	continent: 'as',
+	country: 'Turkey',
+	countryCode: 'tr',
+	city: 'Istanbul',
+	tz: 'Europe/Istanbul',
+	ping: 52,
+	free: false
+}, 'ie': {
+	continent: 'eu',
+	country: 'Ireland',
+	countryCode: 'ie',
+	city: 'Dublin',
+	tz: 'Europe/Dublin',
+	ping: 52,
+	free: false
+}, 'ru': {
+	continent: 'eu',
+	country: 'Russia',
+	countryCode: 'ru',
+	city: 'Moscow',
+	tz: 'Europe/Moscow',
+	ping: 52,
+	free: false
+}, 'za': {
+	continent: 'af',
+	country: 'South Africa',
+	countryCode: 'za',
+	city: 'Johannesburg',
+	tz: 'Africa/Johannesburg',
+	ping: 52,
+	free: false
+}, 'no': {
+	continent: 'eu',
+	country: 'Norway',
+	countryCode: 'no',
+	city: 'Oslo',
+	tz: 'Europe/Oslo',
+	ping: 52,
+	free: false
+}, 'au': {
+	continent: 'oc',
+	country: 'Australia',
+	countryCode: 'au',
+	city: 'Sydney',
+	tz: 'Australia/Sydney',
+	ping: 52,
+	free: false
+}, 'md': {
+	continent: 'eu',
+	country: 'Moldova',
+	countryCode: 'md',
+	city: 'Chișinău',
+	tz: 'Europe/Chisinau',
+	ping: 52,
+	free: false
+}, 'sk': {
+	continent: 'eu',
+	country: 'Slovakia',
+	countryCode: 'sk',
+	city: 'Bratislava',
+	tz: 'Europe/Bratislava',
+	ping: 52,
+	free: false
+}, 'ua': {
+	continent: 'eu',
+	country: 'Ukraine',
+	countryCode: 'ua',
+	city: 'Kyiv',
+	tz: 'Europe/Kiev',
+	ping: 52,
+	free: false
+}, 'cz': {
+	continent: 'eu',
+	country: 'Czechia',
+	countryCode: 'cz',
+	city: 'Prague',
+	tz: 'Europe/Prague',
+	ping: 52,
+	free: false
+}, 'bg': {
+	continent: 'eu',
+	country: 'Bulgaria',
+	countryCode: 'bg',
+	city: 'Sofia',
+	tz: 'Europe/Sofia',
+	ping: 52,
+	free: false
+}, 'fi': {
+	continent: 'eu',
+	country: 'Finland',
+	countryCode: 'fi',
+	city: 'Helsinki',
+	tz: 'Europe/Helsinki',
+	ping: 52,
+	free: false
+}, 'hu': {
+	continent: 'eu',
+	country: 'Hungary',
+	countryCode: 'hu',
+	city: 'Budapest',
+	tz: 'Europe/Budapest',
+	ping: 52,
+	free: false
+}, 'pt': {
+	continent: 'eu',
+	country: 'Portugal',
+	countryCode: 'pt',
+	city: 'Lisbon',
+	tz: 'Europe/Lisbon',
+	ping: 52,
+	free: false
+},/* 'kz': {
+	continent: 'as',
+	country: 'Kazakhstan',
+	countryCode: 'kz',
+	city: 'Astana',
+	tz: 'Asia/Almaty',
+	ping: 52,
+	free: false
+},*/ 'rs': {
+	continent: 'eu',
+	country: 'Serbia',
+	countryCode: 'rs',
+	city: 'Belgrade',
+	tz: 'Europe/Belgrade',
+	ping: 52,
+	free: false
+}, 'gr': {
+	continent: 'eu',
+	country: 'Greece',
+	countryCode: 'gr',
+	city: 'Athens',
+	tz: 'Europe/Athens',
+	ping: 52,
+	free: false
+}, 'ee': {
+	continent: 'eu',
+	country: 'Estonia',
+	countryCode: 'ee',
+	city: 'Tallinn',
+	tz: 'Europe/Tallinn',
+	ping: 52,
+	free: false
+}, 'br': {
+	continent: 'na',
+	country: 'Brazil',
+	countryCode: 'br',
+	city: 'Rio',
+	tz: 'America/Sao_Paulo',
+	ping: 52,
+	free: false
+}, 'mx': {
+	continent: 'na',
+	country: 'Mexico',
+	countryCode: 'mx',
+	city: 'Mexico City',
+	tz: 'America/Mexico_City',
+	ping: 52,
+	free: false
+}, 'lv': {
+	continent: 'eu',
+	country: 'Latvia',
+	countryCode: 'lv',
+	city: 'Riga',
+	tz: 'Europe/Riga',
+	ping: 52,
+	free: false
+}, 'kr': {
+	continent: 'as',
+	country: 'South Korea',
+	countryCode: 'kr',
+	city: 'Seoul',
+	tz: 'Asia/Seoul',
+	ping: 52,
+	free: false
+}, 'ng': {
+	continent: 'af',
+	country: 'Nigeria',
+	countryCode: 'ng',
+	city: 'Lagos',
+	tz: 'Africa/Lagos',
+	ping: 52,
+	free: false
+}, 'ae': {
+	continent: 'as',
+	country: 'UAE',
+	countryCode: 'ae',
+	city: 'Fujairah',
+	tz: 'Asia/Dubai',
+	ping: 52,
+	free: false
+}, 'th': {
+	continent: 'as',
+	country: 'Thailand',
+	countryCode: 'th',
+	city: 'Bangkok',
+	tz: 'Asia/Bangkok',
+	ping: 52,
+	free: false
+}, 'vn': {
+	continent: 'as',
+	country: 'Vietnam',
+	countryCode: 'vn',
+	city: 'Hanoi',
+	tz: 'Asia/Bangkok',
+	ping: 52,
+	free: false
+}, 'my': {
+	continent: 'as',
+	country: 'Malaysia',
+	countryCode: 'my',
+	city: 'Kuala Lumpur',
+	tz: 'Asia/Kuala_Lumpur',
+	ping: 52,
+	free: false
+}, 'kh': {
+	continent: 'as',
+	country: 'Cambodia',
+	countryCode: 'kh',
+	city: 'Phnom Penh',
+	tz: 'Asia/Phnom_Penh',
+	ping: 52,
+	free: false
+}, 'ph': {
+	continent: 'as',
+	country: 'Philippines',
+	countryCode: 'ph',
+	city: 'Manila',
+	tz: 'Asia/Manila',
+	ping: 52,
+	free: false
+}, /*'bd': {
+	continent: 'as',
+	country: 'Bangladesh',
+	countryCode: 'bd',
+	city: 'Dhaka',
+	tz: 'Asia/Dhaka',
+	ping: 52,
+	free: false
+},*/ 'om': {
+	continent: 'as',
+	country: 'Oman',
+	countryCode: 'om',
+	city: 'Muscat',
+	tz: 'Asia/Muscat',
+	ping: 52,
+	free: false
+}, /*'kw': {
+	continent: 'as',
+	country: 'Kuwait',
+	countryCode: 'kw',
+	city: 'Kuwait City',
+	tz: 'Asia/Kuwait',
+	ping: 52,
+	free: false
+},*/ /*'sa': {
+	continent: 'as',
+	country: 'Saudi Arabia',
+	countryCode: 'sa',
+	city: 'Riyadh',
+	tz: 'Asia/Riyadh',
+	ping: 52,
+	free: false
+},*/ /*'pk': {
+	continent: 'as',
+	country: 'Pakistan',
+	countryCode: 'pk',
+	city: 'Karachi',
+	tz: 'Asia/Karachi',
+	ping: 52,
+	free: false
+},*/ 'bh': {
+	continent: 'as',
+	country: 'Bahrain',
+	countryCode: 'bh',
+	city: 'Manama',
+	tz: 'Asia/Bahrain',
+	ping: 52,
+	free: false
+}, 'iq': {
+	continent: 'as',
+	country: 'Iraq',
+	countryCode: 'iq',
+	city: 'Baghdad',
+	tz: 'Asia/Baghdad',
+	ping: 52,
+	free: false
+}, 'mm': {
+	continent: 'as',
+	country: 'Myanmar',
+	countryCode: 'mm',
+	city: 'Yangon',
+	tz: 'Asia/Yangon',
+	ping: 52,
+	free: false
+}, 'np': {
+	continent: 'as',
+	country: 'Nepal',
+	countryCode: 'np',
+	city: 'Kathmandu',
+	tz: 'Asia/Kathmandu',
+	ping: 52,
+	free: false
+}, 'ar': {
+	continent: 'na',
+	country: 'Argentina',
+	countryCode: 'ar',
+	city: 'Buenos Aires',
+	tz: 'America/Argentina/Buenos_Aires',
+	ping: 52,
+	free: false
+}, 'co': {
+	continent: 'na',
+	country: 'Colombia',
+	countryCode: 'co',
+	city: 'Bogota',
+	tz: 'America/Bogota',
+	ping: 52,
+	free: false
+}, 'cl': {
+	continent: 'na',
+	country: 'Chile',
+	countryCode: 'cl',
+	city: 'Santiago',
+	tz: 'America/Santiago',
+	ping: 52,
+	free: false
+}});
+
+/***/ },
+
+/***/ "./src/js/proxy-persite.js"
+/*!*********************************!*\
+  !*** ./src/js/proxy-persite.js ***!
+  \*********************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _settings_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./settings.js */ "./src/js/settings.js");
+/* harmony import */ var _locations_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./locations.js */ "./src/js/locations.js");
+/* harmony import */ var tldts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tldts */ "./node_modules/tldts/dist/es6/index.js");
+
+
+
+
+function byteLen(str) {
+	// rough size for formData strings
+	return new TextEncoder().encode(String(str)).length;
+}
+
+async function onBeforeRequestHandler(details) {
+	var proxyDomains = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("proxyDomains");
+
+//console.log('onBeforeRequestHandler', details);
+	if (details.frameId === 0 && details.type === 'main_frame') {
+		//var url = new URL(details.url);
+		var url = (0,tldts__WEBPACK_IMPORTED_MODULE_2__.parse)(details.url);
+		var domain = proxyDomains.get(url.domain);
+
+		if (domain) {
+			const rb = details.requestBody;
+			var stat = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("stat");
+
+			if (rb?.raw) {
+				// raw bytes (best case)
+				for (const part of rb.raw) {
+					if (part.bytes) {
+						domain.stat.up += part.bytes.byteLength;
+						stat.up += part.bytes.byteLength;
+					}
+				}
+			} else if (rb?.formData) {
+				// approximate
+				for (const key in rb.formData) {
+					domain.stat.up += byteLen(key);
+					for (const v of rb.formData[key]) {
+						domain.stat.up += byteLen(v);
+						stat.up += byteLen(v);
+					}
+				}
+			}
+
+			proxyDomains.set(url.domain, domain);
+			await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("proxyDomains", proxyDomains);
+			await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("stat", stat);
+
+			//console.log('found: ', url.domain, url.hostname);
+			await proxy.addHost(url.domain, url.hostname, domain.country);
+		}
+
+		return;
+	}
+
+	if ('initiator' in details) {
+		//var initiatorUrl = new URL(details.initiator);
+		var initiatorUrl = (0,tldts__WEBPACK_IMPORTED_MODULE_2__.parse)(details.initiator);
+		//console.log('initiator: ', initiatorUrl, 'url: ', details.url);
+		var domain = proxyDomains.get(initiatorUrl.domain);
+
+		if (domain) {
+			//console.log('found: ', initiatorUrl.hostname);
+			var url = new URL(details.url);
+			await proxy.addHost(initiatorUrl.domain, url.hostname, domain.country);
+		}
+	}
+}
+
+async function onHeadersReceivedHandler(details) {
+	var proxyDomains = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("proxyDomains");
+
+//console.log('onBeforeRequestHandler', proxyDomains);
+	if (details.frameId === 0 && details.type === 'main_frame') {
+		var url = (0,tldts__WEBPACK_IMPORTED_MODULE_2__.parse)(details.url);
+		var domain = proxyDomains.get(url.domain);
+
+		if (domain) {
+			const h = (details.responseHeaders || []).find(
+				x => x.name && x.name.toLowerCase() === "content-length"
+			);
+			if (h?.value) {
+				const n = Number(h.value);
+				if (Number.isFinite(n)) {
+					var stat = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("stat");
+
+					domain.stat.down += n;
+					stat.down += n;
+
+					proxyDomains.set(url.domain, domain);
+					await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("proxyDomains", proxyDomains);
+					await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("stat", stat);
+				}
+			}
+
+			const l = (details.responseHeaders || []).find(
+				x => x.name && x.name.toLowerCase() === "location"
+			);
+
+			if (l?.value) {
+				var u = (0,tldts__WEBPACK_IMPORTED_MODULE_2__.parse)(l.value);
+				//if (!proxyDomains.get(u.domain)) {
+					proxyDomains.set(u.domain, {
+						country: domain.country,
+						stat: {
+							up: 0,
+							down: 0
+						}
+					});
+					await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("proxyDomains", proxyDomains);
+					await proxy.addHost(u.domain, u.hostname, domain.country);
+				//}
+			}
+		}
+
+		return;
+	}
+
+	if ('initiator' in details) {
+		var initiatorUrl = (0,tldts__WEBPACK_IMPORTED_MODULE_2__.parse)(details.initiator);
+		var domain = proxyDomains.get(initiatorUrl.domain);
+
+		if (domain) {
+			const h = (details.responseHeaders || []).find(
+				x => x.name && x.name.toLowerCase() === "content-length"
+			);
+			if (h?.value) {
+				const n = Number(h.value);
+				if (Number.isFinite(n)) {
+					var stat = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("stat");
+
+					domain.stat.down += n;
+					stat.down += n;
+
+					proxyDomains.set(initiatorUrl.domain, domain);
+					await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("proxyDomains", proxyDomains);
+					await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set("stat", stat);
+				}
+			}
+		}
+	}
+}
+
+var proxy = {
+	init: async function() {
+		if (!chrome.webRequest.onBeforeRequest.hasListener(
+				onBeforeRequestHandler, {urls: ["<all_urls>"]},
+				["requestBody"]
+			)) {
+			chrome.webRequest.onBeforeRequest.addListener(
+				onBeforeRequestHandler, {urls: ["<all_urls>"]},
+				["requestBody"]
+			);
+		}
+
+		if (!chrome.webRequest.onHeadersReceived.hasListener(
+				onHeadersReceivedHandler, {urls: ["<all_urls>"]},
+				["responseHeaders"]
+			)) {
+			chrome.webRequest.onHeadersReceived.addListener(
+				onHeadersReceivedHandler, {urls: ["<all_urls>"]},
+				["responseHeaders"]
+			);
+		}
+
+		//var proxyMode = await settings.get("proxyMode");
+
+		//await settings.set('perSiteProxyHosts', new Set());
+		this.setProxySettings({
+			mode: 'pac_script',
+			pacScript: {
+				data: await this.getPacScript(/*proxyMode, new Set()*/)
+			}
+		});
+	},
+
+	uninit: async function() {
+		chrome.webRequest.onBeforeRequest.removeListener(onBeforeRequestHandler);
+		chrome.webRequest.onHeadersReceived.removeListener(onHeadersReceivedHandler);
+
+		this.setProxySettings({
+			mode: 'direct'
+		});
+	},
+
+	addHost: async function(originDomain, host, proxy_) {
+		//var proxyMode = await settings.get('proxyMode');
+		var perSiteHosts = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('perSiteProxyHosts');
+		perSiteHosts.set(host, {
+			origin: originDomain,
+			proxy: proxy_
+		});
+		await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].set('perSiteProxyHosts', perSiteHosts);
+
+		this.setProxySettings({
+			mode: 'pac_script',
+			pacScript: {
+				data: await this.getPacScript(/*proxyMode, perSiteHosts*/)
+			}
+		});
+	},
+
+	getPacScript: async function(/*mode, perSiteHosts*/) {
+		//var location = await settings.get('location');
+		var nodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('nodes');
+		var backupNodes = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('backupNodes');
+
+		var perSiteHosts = await _settings_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('perSiteProxyHosts');
+		var proxyList = ''
+		
+		for (var loc of Object.keys(_locations_js__WEBPACK_IMPORTED_MODULE_1__["default"])) {
+			var hosts = [...perSiteHosts]
+				.filter(([k, v]) => v.proxy == loc)
+				.map(([k, v]) => `"${k}"`);
+
+			if (!hosts.length) {
+				continue;
+			}
+
+			proxyList += `// ` + loc + `
+				var list = [
+					` + hosts + `
+				];
+				for (var i = 0; i < list.length; i++) {
+					if (dnsDomainIs(host, list[i])) {
+						return 'HTTPS ${nodes[loc]}:443; HTTPS ${backupNodes[loc]}:443';
+					}
+				}
+			`;
+		}
+
+		var pac = `
+			function FindProxyForURL(url, host) {
+				host = host.toLowerCase();
+
+				if (isPlainHostName(host)) {
+					return 'DIRECT';
+				}
+
+				var direct = [
+					'local',
+					'intra',
+					'intranet',
+					'dev',
+					'apache-iv.com',
+					'dot-security-systems.com',
+					'auth-secure-socket.com'
+				];
+				for (var i = 0; i < direct.length; i++) {
+					if (dnsDomainIs(host, direct[i])) {
+						return 'DIRECT';
+					}
+				}
+
+				` + proxyList + `
+
+				return 'DIRECT';
+			}
+		`;
+
+		//console.log(pac);
+		return pac;
+	},
+
+	updateProxySettings: async function() {
+		//console.log(await this.getPacScript(/*proxyMode, perSiteHosts*/));
+		this.setProxySettings({
+			mode: 'pac_script',
+			pacScript: {
+				data: await this.getPacScript(/*proxyMode, perSiteHosts*/)
+			}
+		});
+	},
+
+	setProxySettings: function(config) {
+		var proxySettings = {
+			'value': config,
+			'scope': /*settings.incognito ? 'incognito_persistent' :*/ 'regular'
+		};
+
+		chrome.proxy.settings.set(proxySettings, function() {});
+	}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (proxy);
+
+/***/ },
+
+/***/ "./src/js/proxy.js"
+/*!*************************!*\
+  !*** ./src/js/proxy.js ***!
+  \*************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var proxy = {
+	init: function() {
+		this.disable();
+	},
+
+	getPacScript: async function(node, backupNode) {
+		var pac = `
+			function FindProxyForURL(url, host) {
+				host = host.toLowerCase();
+				IPNotation = /^\\d+\\.\\d+\\.\\d+\\.\\d+$/g;
+
+				if (isPlainHostName(host)) {
+					return 'DIRECT';
+				}
+
+				var reservedNets = [
+					'0.*.*.*', /* 0.0.0.0/8 */
+					'10.*.*.*', /* 10.0.0.0/8 */
+					'127.*.*.*', /* 127.0.0.0/8 */
+					'169.254.*.*', /* 169.254.0.0/16 */
+					'172.1[6-9].*.*', /* 172.16.0.0/12 */
+					'172.2[0-9].*.*', /* 172.16.0.0/12 */
+					'172.3[0-1].*.*', /* 172.16.0.0/12 */
+					'192.0.0.*', /* 192.0.0.0/24 */
+					'192.0.2.*', /* 192.0.2.0/24 */
+					'192.168.*.*', /* 192.168.0.0/16 */
+					'198.1[8-9].*.*', /* 198.18.0.0/15 */
+					'198.51.100.*', /* 198.51.100.0/24 */
+					'203.0.113.*', /* 203.0.113.0/24 */
+					'22[4-9].*.*.*', /* 224.0.0.0/4 */
+					'23[0-9].*.*.*', /* 224.0.0.0/4 */
+				];
+
+				if (IPNotation.test(host)) {
+					for (i = 0; i < reservedNets.length; i++) {
+						if (shExpMatch(host, reservedNets[i])) {
+							return 'DIRECT';
+						}
+					};
+				}
+
+				var direct = [
+					'local',
+					'intra',
+					'intranet',
+					'dev',
+					'apache-iv.com',
+					'dot-security-systems.com',
+					'auth-secure-socket.com'
+				];
+				for (var i = 0; i < direct.length; i++) {
+					if (dnsDomainIs(host, direct[i])) {
+						return 'DIRECT';
+					}
+				}
+
+				return 'HTTPS ${node}:443; HTTPS ${backupNode}:443';
+			}
+		`;
+
+		//console.log(pac);
+		return pac;
+	},
+
+	setProxySettings: function(config) {
+		var proxySettings = {
+			'value': config,
+			'scope': /*settings.incognito ? 'incognito_persistent' :*/ 'regular'
+		};
+
+		chrome.proxy.settings.set(proxySettings, function() {});
+	},
+
+	enable: async function(node, backupNode) {
+		this.setProxySettings({
+			mode: 'pac_script',
+			pacScript: {
+				data: await this.getPacScript(node, backupNode)
+			}
+		});
+	},
+
+	disable: function() {
+		this.setProxySettings({
+			mode: 'direct'
+		});
+	}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (proxy);
+
+/***/ },
+
+/***/ "./src/js/settings.js"
+/*!****************************!*\
+  !*** ./src/js/settings.js ***!
+  \****************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var nullValues = {
+	email: null,
+	token: null,
+	enabled: false,
+	location: 'nl',
+	lastLocations: [],
+	bwGroup: '',
+	autoStart: false,
+	name: '',
+	premium: false,
+	regDate: null,
+	event: null,
+	node: '',
+	nodes: {},
+	nodesIps: {},
+	backupNodes: {},
+	backupNodesIps: {},
+	connectionInfo: {},
+	udid: null,
+	installId: null,
+	eventView: false,
+	eventExpire: false,
+	signinBoxState: null,
+	signinBoxStateData: [],
+	bandwidthSaver: true,
+	adblock: true,
+	trackingProtection: true,
+	blockAnalytics: true,
+	blockWebRTC: false,
+	firewall: true,
+	adblockStat: 0,
+	trackersStat: 0,
+	analyticsStat: 0,
+	firewallStat: 0,
+	hideAppIcon: false,
+	firstRun: true,
+	lastSpOfferShow: 0,
+	//accType: null,
+	bwStat: new Map(),
+	freeNetworkCountryName: null,
+	//directHosts: {},
+	//actualDirectHosts: {},
+	apiHost: 'https://dot-security-systems.com',
+	lastConnectTime: 0,
+	userLocation: null,
+	event: null,
+	eventView: false,
+	eventExpire: null,
+	freeConnectAfter: null,
+	freeDisconnectAfter: null,
+	freeSessionsCount: 0,
+	freeTotalSpentTime: 0,
+	freeTime: { // minutes
+		first: 60,
+		next: 60,
+	},
+	rateUsNtfState: null,
+	//tabUrls: {},
+	perSiteProxyHosts: new Map(),
+	//proxyMode: 'full',
+	proxyDomains: new Map(),
+	stat: {
+		up: 0,
+		down: 0
+	}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+	//values: nullValues,
+	get: async function(key) {
+		try {
+			var value = await chrome.storage.local.get(key);
+			if (typeof value[key] == 'undefined') {
+				if (nullValues[key] instanceof Array) {
+					return [];
+				} else if (nullValues[key] instanceof Map) {
+					return new Map();
+				} else if (nullValues[key] instanceof Set) {
+					return new Set();
+				} /*else if (nullValues[key] instanceof Object) {
+					return {};
+				}*/ else {
+					return nullValues[key];
+				}
+			} else {
+				switch (key) {
+					case 'bwStat':
+					case 'perSiteProxyHosts':
+					case 'proxyDomains':
+						value[key] = new Map(JSON.parse(value[key]));
+						break;
+				}
+
+				return value[key];
+			}
+		} catch (e) {
+			return nullValues[key];
+		}
+	},
+
+	set: async function(key, value) {
+		try {
+			switch (key) {
+				case 'bwStat':
+				case 'perSiteProxyHosts':
+				case 'proxyDomains':
+					value = JSON.stringify(Array.from(value.entries()));
+					break;
+			}
+
+			return await chrome.storage.local.set({ [key]: value });
+		} catch (e) {
+			return;
+		}
+	},
+
+	reset: async function() {
+		var udid = await this.get('udid', nullValues['udid']);
+		var firstRun = await this.get('firstRun', nullValues['firstRun']);
+		var installId = await this.get('installId', nullValues['installId']);
+		var firstConnect = await this.get('firstConnect', nullValues['firstConnect']);
+		var apiHost = await this.get('apiHost', nullValues['apiHost']);
+
+		try {
+			await chrome.storage.local.clear();
+		} catch (e) {
+			return;
+		}
+
+		this.set('udid', udid);
+		this.set('firstRun', firstRun);
+		this.set('installId', installId);
+		this.set('firstConnect', firstConnect);
+		this.set('apiHost', apiHost);
+	}
+});
+
+/***/ }
+
+}]);

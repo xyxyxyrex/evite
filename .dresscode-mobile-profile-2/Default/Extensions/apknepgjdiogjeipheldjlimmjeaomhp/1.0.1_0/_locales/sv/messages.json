@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Alla bokmärkesidor"
+   },
+   "allow_access": {
+      "message": "Tillåt åtkomst till fil-URL: er"
+   },
+   "allow_location": {
+      "message": "i tilläggets inställningssida först"
+   },
+   "application_description": {
+      "message": "Ett enklare sätt att ändra ditt EDGE-bokmärke-favorit"
+   },
+   "application_title": {
+      "message": "Bokmärkets Favicon-växlare"
+   },
+   "cancel": {
+      "message": "Annullera"
+   },
+   "cant_change": {
+      "message": "Du kan inte ändra denna url"
+   },
+   "choose_new": {
+      "message": "Välj nytt favicon:"
+   },
+   "clear": {
+      "message": "Klar"
+   },
+   "click_action": {
+      "message": "Klicka här för att tillåta"
+   },
+   "confirm": {
+      "message": "Förändra"
+   },
+   "current": {
+      "message": "Aktuell favorit:"
+   },
+   "last_change": {
+      "message": "Sista ändring favorit"
+   },
+   "not_bookmark": {
+      "message": "Den här sidan är inte bokmärkt ännu"
+   },
+   "preview": {
+      "message": "Förhandsgranska favicon:"
+   },
+   "success": {
+      "message": "Sparad!"
+   },
+   "you_need": {
+      "message": "Du behöver"
+   }
+}

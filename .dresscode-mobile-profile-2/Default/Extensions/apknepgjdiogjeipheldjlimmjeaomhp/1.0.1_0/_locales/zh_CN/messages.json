@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "所有书签页面"
+   },
+   "allow_access": {
+      "message": "允许打开文件中的链接"
+   },
+   "allow_location": {
+      "message": "首先在扩展程序的设置页面中"
+   },
+   "application_description": {
+      "message": "更改EDGE书签图标的简便方法"
+   },
+   "application_title": {
+      "message": "书签的Favicon转换器"
+   },
+   "cancel": {
+      "message": "取消"
+   },
+   "cant_change": {
+      "message": "您无法更改此网址"
+   },
+   "choose_new": {
+      "message": "选择新的图标："
+   },
+   "clear": {
+      "message": "明确"
+   },
+   "click_action": {
+      "message": "点击此处允许"
+   },
+   "confirm": {
+      "message": "更改"
+   },
+   "current": {
+      "message": "当前图标："
+   },
+   "last_change": {
+      "message": "最后更改图标"
+   },
+   "not_bookmark": {
+      "message": "此页面尚未收藏"
+   },
+   "preview": {
+      "message": "预览收藏夹图标："
+   },
+   "success": {
+      "message": "成功保存！"
+   },
+   "you_need": {
+      "message": "你需要"
+   }
+}

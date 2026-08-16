@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Semua halaman penanda buku"
+   },
+   "allow_access": {
+      "message": "Benarkan akses ke URL fail"
+   },
+   "allow_location": {
+      "message": "di halaman tetapan pelanjutan terlebih dahulu"
+   },
+   "application_description": {
+      "message": "Kaedah yang lebih mudah untuk menukar favicon penanda buku EDGE anda"
+   },
+   "application_title": {
+      "message": "Favicon Changer penanda buku"
+   },
+   "cancel": {
+      "message": "Batal"
+   },
+   "cant_change": {
+      "message": "Anda tidak boleh menukar url ini"
+   },
+   "choose_new": {
+      "message": "Pilih favicon baru:"
+   },
+   "clear": {
+      "message": "Jelas"
+   },
+   "click_action": {
+      "message": "Klik di sini untuk membenarkan"
+   },
+   "confirm": {
+      "message": "Ubah"
+   },
+   "current": {
+      "message": "Favicon semasa:"
+   },
+   "last_change": {
+      "message": "Favicon perubahan terakhir"
+   },
+   "not_bookmark": {
+      "message": "Halaman ini belum ditanda buku"
+   },
+   "preview": {
+      "message": "Pratonton favicon:"
+   },
+   "success": {
+      "message": "Berjaya disimpan!"
+   },
+   "you_need": {
+      "message": "Anda perlu"
+   }
+}

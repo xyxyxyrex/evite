@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Цяла страница с отметки"
+   },
+   "allow_access": {
+      "message": "Разрешаване на достъп до URL файлове"
+   },
+   "allow_location": {
+      "message": "първо в страницата за настройка на разширението"
+   },
+   "application_description": {
+      "message": "По-лесен начин да промените своя отметка от EDGE"
+   },
+   "application_title": {
+      "message": "Favicon Changer на Bookmark"
+   },
+   "cancel": {
+      "message": "Отказ"
+   },
+   "cant_change": {
+      "message": "Не можете да промените този URL адрес"
+   },
+   "choose_new": {
+      "message": "Изберете нов фавикон:"
+   },
+   "clear": {
+      "message": "ясно"
+   },
+   "click_action": {
+      "message": "Кликнете тук, за да разрешите"
+   },
+   "confirm": {
+      "message": "промяна"
+   },
+   "current": {
+      "message": "Текущ фавикон:"
+   },
+   "last_change": {
+      "message": "Последна промяна фавикон"
+   },
+   "not_bookmark": {
+      "message": "Тази страница все още не е отбелязана с отметки"
+   },
+   "preview": {
+      "message": "Визуализация favicon:"
+   },
+   "success": {
+      "message": "Успешно запазено!"
+   },
+   "you_need": {
+      "message": "Ти трябва да"
+   }
+}

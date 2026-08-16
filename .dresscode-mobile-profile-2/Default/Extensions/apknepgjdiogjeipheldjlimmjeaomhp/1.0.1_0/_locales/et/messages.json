@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Kogu järjehoidjate leht"
+   },
+   "allow_access": {
+      "message": "Luba juurdepääs faili URL-idele"
+   },
+   "allow_location": {
+      "message": "kõigepealt laienduse seadete lehel"
+   },
+   "application_description": {
+      "message": "Lihtsam viis oma EDGE-järjehoidja faviconi muutmiseks"
+   },
+   "application_title": {
+      "message": "Järjehoidja Faviconi muutja"
+   },
+   "cancel": {
+      "message": "tühistama"
+   },
+   "cant_change": {
+      "message": "Te ei saa seda URL-i muuta"
+   },
+   "choose_new": {
+      "message": "Valige uus favicon:"
+   },
+   "clear": {
+      "message": "Selge"
+   },
+   "click_action": {
+      "message": "Lubamiseks klõpsake siin"
+   },
+   "confirm": {
+      "message": "Muuta"
+   },
+   "current": {
+      "message": "Praegune favicon:"
+   },
+   "last_change": {
+      "message": "Viimane muutus favicon"
+   },
+   "not_bookmark": {
+      "message": "Sellel lehel pole veel järjehoidjaid"
+   },
+   "preview": {
+      "message": "Faviconi eelvaade:"
+   },
+   "success": {
+      "message": "Salvestatud!"
+   },
+   "you_need": {
+      "message": "Sa pead"
+   }
+}

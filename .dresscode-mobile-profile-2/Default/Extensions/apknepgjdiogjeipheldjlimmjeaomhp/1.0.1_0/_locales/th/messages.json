@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "หน้าบุ๊คมาร์คทั้งหมด"
+   },
+   "allow_access": {
+      "message": "อนุญาตให้เข้าถึง URL ไฟล์"
+   },
+   "allow_location": {
+      "message": "ในหน้าการตั้งค่าส่วนขยายก่อน"
+   },
+   "application_description": {
+      "message": "วิธีที่ง่ายกว่าในการเปลี่ยนไอคอน Fav บุ๊คมาร์ค EDGE ของคุณ"
+   },
+   "application_title": {
+      "message": "บุ๊คมาร์ค Favicon Changer"
+   },
+   "cancel": {
+      "message": "ยกเลิก"
+   },
+   "cant_change": {
+      "message": "คุณไม่สามารถเปลี่ยน URL นี้"
+   },
+   "choose_new": {
+      "message": "เลือก favicon ใหม่:"
+   },
+   "clear": {
+      "message": "ชัดเจน"
+   },
+   "click_action": {
+      "message": "คลิกที่นี่เพื่ออนุญาต"
+   },
+   "confirm": {
+      "message": "เปลี่ยนแปลง"
+   },
+   "current": {
+      "message": "favicon ปัจจุบัน:"
+   },
+   "last_change": {
+      "message": "favicon การเปลี่ยนแปลงล่าสุด"
+   },
+   "not_bookmark": {
+      "message": "หน้านี้ยังไม่ได้คั่นหน้า"
+   },
+   "preview": {
+      "message": "ดูตัวอย่าง favicon:"
+   },
+   "success": {
+      "message": "บันทึกสำเร็จแล้ว!"
+   },
+   "you_need": {
+      "message": "คุณจำเป็นต้อง"
+   }
+}

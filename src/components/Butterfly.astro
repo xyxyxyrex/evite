@@ -1,0 +1,143 @@
+---
+import butterflySource from "../../butterfly.txt?raw";
+
+export interface Props {
+  side?: "left" | "right";
+  tone?: "violet" | "gold" | "red";
+}
+
+const { side = "right", tone = "violet" } = Astro.props;
+const butterflyId = `butterfly-${Math.random().toString(36).slice(2, 10)}`;
+const wingColors = {
+  violet: "#7c3aed",
+  gold: "#eab308",
+  red: "#dc143c",
+};
+const svgStart = butterflySource.indexOf("<svg");
+const svgEnd = butterflySource.indexOf("</svg>", svgStart) + 6;
+const butterflyDefinitions = butterflySource
+  .slice(svgStart, svgEnd)
+  .replaceAll("style=\"fill:#1cb1f2;\"", "fill=\"currentColor\"")
+  .replace(/id="([^"]+)"/g, `id="${butterflyId}-$1"`)
+  .replace(/url\(#([^\)]+)\)/g, `url(#${butterflyId}-$1)`)
+  .replace(/href="#([^"]+)"/g, `href="#${butterflyId}-$1"`);
+---
+
+<span
+  class:list={["perched-butterfly", `is-${side}`, `tone-${tone}`]}
+  style={`--butterfly-color:${wingColors[tone]}`}
+  aria-hidden="true"
+>
+  <span class="butterfly-definitions" set:html={butterflyDefinitions}></span>
+  <span class="butterfly-tilt">
+    <span class="butterfly-body">
+      <svg class="butterfly-wing wing-left" viewBox="0 0 119.744 148.477">
+        <use href={`#${butterflyId}-shape-moth`} fill={wingColors[tone]} color={wingColors[tone]}></use>
+      </svg>
+      <svg class="butterfly-wing wing-right" viewBox="0 0 119.744 148.477">
+        <use href={`#${butterflyId}-shape-moth`} fill={wingColors[tone]} color={wingColors[tone]}></use>
+      </svg>
+    </span>
+  </span>
+</span>
+
+<style>
+  .perched-butterfly {
+    position: absolute;
+    z-index: 8;
+    top: -30px;
+    width: 70px;
+    height: 70px;
+    pointer-events: none;
+    perspective: 280px;
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.45));
+  }
+
+  .perched-butterfly.is-right {
+    right: -18px;
+    transform: rotate(14deg);
+  }
+
+  .perched-butterfly.is-left {
+    left: -18px;
+    transform: rotate(-14deg) scaleX(-1);
+  }
+
+  .butterfly-definitions {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .butterfly-tilt,
+  .butterfly-body {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+
+  .butterfly-tilt {
+    transform: rotate3d(1, 0.5, 0, 52deg);
+  }
+
+  .butterfly-wing {
+    position: absolute;
+    top: 0;
+    width: 35px;
+    height: 70px;
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+    color: var(--butterfly-color);
+  }
+
+  .wing-left {
+    left: 0;
+    transform-origin: 35px 35px;
+    animation: butterfly-left-flap 1.15s ease-in-out infinite;
+  }
+
+  .wing-right {
+    left: 0;
+    transform-origin: 35px 35px;
+    animation: butterfly-right-flap 1.15s ease-in-out infinite;
+  }
+
+  @keyframes butterfly-left-flap {
+    0%, 100% { transform: rotate3d(0, 1, 0, 58deg); }
+    50% { transform: rotate3d(0, 1, 0, -68deg); }
+  }
+
+  @keyframes butterfly-right-flap {
+    0%, 100% { transform: scaleX(-1) rotate3d(0, 1, 0, 58deg); }
+    50% { transform: scaleX(-1) rotate3d(0, 1, 0, -68deg); }
+  }
+
+  @media (max-width: 600px) {
+    .perched-butterfly {
+      top: -24px;
+      width: 58px;
+      height: 58px;
+    }
+
+    .perched-butterfly.is-right { right: -10px; }
+    .perched-butterfly.is-left { left: -10px; }
+
+    .butterfly-wing {
+      width: 29px;
+      height: 58px;
+    }
+
+    .wing-left { transform-origin: 29px 29px; }
+    .wing-right { transform-origin: 29px 29px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .butterfly-wing {
+      animation: none;
+    }
+
+    .wing-left { transform: rotate3d(0, 1, 0, 28deg); }
+    .wing-right { transform: scaleX(-1) rotate3d(0, 1, 0, 28deg); }
+  }
+</style>

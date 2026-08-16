@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Página de todos os favoritos"
+   },
+   "allow_access": {
+      "message": "Permitir acesso a URLs de arquivos"
+   },
+   "allow_location": {
+      "message": "na página de configuração da extensão primeiro"
+   },
+   "application_description": {
+      "message": "Uma maneira mais fácil de alterar seu favicon de favoritos EDGE"
+   },
+   "application_title": {
+      "message": "Favicon Changer do marcador"
+   },
+   "cancel": {
+      "message": "Cancelar"
+   },
+   "cant_change": {
+      "message": "Você não pode alterar este URL"
+   },
+   "choose_new": {
+      "message": "Escolha o novo favicon:"
+   },
+   "clear": {
+      "message": "Claro"
+   },
+   "click_action": {
+      "message": "Clique aqui para permitir"
+   },
+   "confirm": {
+      "message": "mudança"
+   },
+   "current": {
+      "message": "Favicon atual:"
+   },
+   "last_change": {
+      "message": "Favicon da última alteração"
+   },
+   "not_bookmark": {
+      "message": "Esta página ainda não está marcada"
+   },
+   "preview": {
+      "message": "Visualizar favicon:"
+   },
+   "success": {
+      "message": "Salva com sucesso!"
+   },
+   "you_need": {
+      "message": "Você precisa"
+   }
+}

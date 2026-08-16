@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Alle bladwijzerpagina"
+   },
+   "allow_access": {
+      "message": "Sta toegang tot bestands-URL&#39;s toe"
+   },
+   "allow_location": {
+      "message": "op de instellingenpagina van de extensie eerst"
+   },
+   "application_description": {
+      "message": "Een gemakkelijkere manier om uw EDGE-bladwijzerfavicon te wijzigen"
+   },
+   "application_title": {
+      "message": "Favicon Changer van Bookmark"
+   },
+   "cancel": {
+      "message": "Annuleer"
+   },
+   "cant_change": {
+      "message": "Je kunt deze URL niet wijzigen"
+   },
+   "choose_new": {
+      "message": "Kies een nieuw favicon:"
+   },
+   "clear": {
+      "message": "Doorzichtig"
+   },
+   "click_action": {
+      "message": "Klik hier om toe te staan"
+   },
+   "confirm": {
+      "message": "Verandering"
+   },
+   "current": {
+      "message": "Huidige favicon:"
+   },
+   "last_change": {
+      "message": "Laatste wijziging favicon"
+   },
+   "not_bookmark": {
+      "message": "Deze pagina heeft nog geen bladwijzer"
+   },
+   "preview": {
+      "message": "Voorbeeld favicon:"
+   },
+   "success": {
+      "message": "Succesvol opgeslagen!"
+   },
+   "you_need": {
+      "message": "Je moet"
+   }
+}

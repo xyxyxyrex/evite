@@ -47,6 +47,21 @@ test("landing emits the concise moonlit letter and layered portrait scene", () =
   assert.doesNotMatch(html, /You are invited to my 18th Birthday Debut!/);
 });
 
+test("page stacks purple Vanta clouds between the image background and stars", () => {
+  const html = readFileSync("dist/lara-espanola/index.html", "utf8");
+  assert.match(html, /id="vanta-cloud-layer"[\s\S]*id="star-sparkle-layer"/);
+
+  const cloudScriptPath = html.match(/<script type="module" src="([^"]*VantaCloudBackground[^"]+\.js)"/)?.[1];
+  assert.ok(cloudScriptPath, "page references the Vanta cloud browser bundle");
+  const cloudScript = readFileSync(`dist${cloudScriptPath}`, "utf8");
+  assert.match(cloudScript, /gyroControls:!0|gyroControls:true/);
+
+  const stylesheetPath = html.match(/<link rel="stylesheet" href="([^"]+\.css)"/)?.[1];
+  assert.ok(stylesheetPath, "page references the generated stylesheet");
+  const stylesheet = readFileSync(`dist${stylesheetPath}`, "utf8");
+  assert.match(stylesheet, /#vanta-cloud-layer[^}]*opacity:\.?56/);
+});
+
 test("landing emits the enchanted unsealing layers", () => {
   const html = readFileSync("dist/lara-espanola/index.html", "utf8");
   assert.match(html, /id="opening-veil"/);

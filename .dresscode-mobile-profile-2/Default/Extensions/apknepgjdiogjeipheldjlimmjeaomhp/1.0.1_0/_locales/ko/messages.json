@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "모든 북마크 페이지"
+   },
+   "allow_access": {
+      "message": "파일 URL에 대한 액세스 허용"
+   },
+   "allow_location": {
+      "message": "확장 프로그램 설정 페이지에서"
+   },
+   "application_description": {
+      "message": "EDGE 북마크 파비콘을 변경하는 더 쉬운 방법"
+   },
+   "application_title": {
+      "message": "북마크의 Favicon 체인저"
+   },
+   "cancel": {
+      "message": "취소"
+   },
+   "cant_change": {
+      "message": "이 URL을 변경할 수 없습니다"
+   },
+   "choose_new": {
+      "message": "새로운 파비콘을 선택하십시오 :"
+   },
+   "clear": {
+      "message": "명확한"
+   },
+   "click_action": {
+      "message": "허용하려면 여기를 클릭하십시오"
+   },
+   "confirm": {
+      "message": "변화"
+   },
+   "current": {
+      "message": "현재 파비콘 :"
+   },
+   "last_change": {
+      "message": "마지막 변경 파비콘"
+   },
+   "not_bookmark": {
+      "message": "이 페이지는 아직 북마크되지 않았습니다"
+   },
+   "preview": {
+      "message": "파비콘 미리보기 :"
+   },
+   "success": {
+      "message": "성공적으로 저장되었습니다!"
+   },
+   "you_need": {
+      "message": "당신은 필요"
+   }
+}

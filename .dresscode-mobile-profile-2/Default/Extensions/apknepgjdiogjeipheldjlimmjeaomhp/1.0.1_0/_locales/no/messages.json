@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Alle bokmerke-siden"
+   },
+   "allow_access": {
+      "message": "Tillat tilgang til fil-URL-er"
+   },
+   "allow_location": {
+      "message": "i innstillingssiden for utvidelsen først"
+   },
+   "application_description": {
+      "message": "En enklere måte å endre EDGE-bokmerke-favoritten på"
+   },
+   "application_title": {
+      "message": "Bokmerke&#39;s Favicon-veksler"
+   },
+   "cancel": {
+      "message": "Avbryt"
+   },
+   "cant_change": {
+      "message": "Du kan ikke endre denne url"
+   },
+   "choose_new": {
+      "message": "Velg nytt favoritt:"
+   },
+   "clear": {
+      "message": "Klar"
+   },
+   "click_action": {
+      "message": "Klikk her for å tillate det"
+   },
+   "confirm": {
+      "message": "Endring"
+   },
+   "current": {
+      "message": "Nåværende favoritt:"
+   },
+   "last_change": {
+      "message": "Siste endring favoritt"
+   },
+   "not_bookmark": {
+      "message": "Denne siden er ikke bokmerke enda"
+   },
+   "preview": {
+      "message": "Forhåndsvisning favicon:"
+   },
+   "success": {
+      "message": "Lagret!"
+   },
+   "you_need": {
+      "message": "Du trenger å"
+   }
+}

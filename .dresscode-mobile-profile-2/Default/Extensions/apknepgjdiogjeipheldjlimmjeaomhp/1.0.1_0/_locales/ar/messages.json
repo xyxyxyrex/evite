@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "كل صفحة الإشارة المرجعية"
+   },
+   "allow_access": {
+      "message": "السماح بالوصول إلى عناوين URL للملفات"
+   },
+   "allow_location": {
+      "message": "في صفحة إعداد الإضافة أولاً"
+   },
+   "application_description": {
+      "message": "طريقة أسهل لتغيير أيقونة إشارة EDGE المفضلة لديك"
+   },
+   "application_title": {
+      "message": "مفضلة فافيكون المرجعية"
+   },
+   "cancel": {
+      "message": "إلغاء"
+   },
+   "cant_change": {
+      "message": "لا يمكنك تغيير عنوان url هذا"
+   },
+   "choose_new": {
+      "message": "اختر رمز المفضلة الجديد:"
+   },
+   "clear": {
+      "message": "واضح"
+   },
+   "click_action": {
+      "message": "انقر هنا للسماح"
+   },
+   "confirm": {
+      "message": "يتغيرون"
+   },
+   "current": {
+      "message": "الرمز المفضل:"
+   },
+   "last_change": {
+      "message": "التغيير الأخير المفضل"
+   },
+   "not_bookmark": {
+      "message": "لم يتم وضع إشارة مرجعية على هذه الصفحة حتى الآن"
+   },
+   "preview": {
+      "message": "معاينة الرمز المفضل:"
+   },
+   "success": {
+      "message": "حفظ بنجاح!"
+   },
+   "you_need": {
+      "message": "تحتاج إلى"
+   }
+}

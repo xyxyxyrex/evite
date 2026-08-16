@@ -1,0 +1,40 @@
+{
+   "action": {
+      "default_icon": "images/symbol-disabled48.png",
+      "default_popup": "popup.html"
+   },
+   "background": {
+      "service_worker": "js/service-worker.js"
+   },
+   "content_security_policy": {
+      "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+   },
+   "declarative_net_request": {
+      "rule_resources": [ {
+         "enabled": true,
+         "id": "rule_1",
+         "path": "assets/rule.json"
+      } ]
+   },
+   "description": "Hoxx VPN Proxy service to unblock blocked websites and encrypt your connection.",
+   "externally_connectable": {
+      "matches": [ "\u003Call_urls>" ]
+   },
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "images/symbol128.png",
+      "16": "images/symbol16.png",
+      "48": "images/symbol48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyBOGQWu4k68N8UGboJvTkJtQVwAxK63tVL+D3SvTpJKivWCtRI9ktwACMbf6FktASUEkLY4IH/Sqn3J+S92kbgTIPi7nO7ZtMrQMnFocpFErVn54lftj+5q+RC7k58Inx7yAjWJiPNiegHJ9igafDwQo9AnOTh+5zux9oeAVvNLRCjrFmsGKksQGIKKoGed3LYpTgWwQVryenCe8RO0nty6otzG62DnYBRpISEhQszkx5x41z6NICGT+WM9H0iq2cnoz6lN8co1FxXzJGN2Cj445/bwl2JWPvLCsYjGVhwwg9EhU0yI7o2C0VSvtnlYVihjKWgXH/UR3m+YpTvqrHQIDAQAB",
+   "manifest_version": 3,
+   "name": "Hoxx VPN Proxy",
+   "permissions": [ "declarativeNetRequest", "alarms", "proxy", "storage", "webRequest", "webRequestAuthProvider", "notifications", "tabs", "management" ],
+   "short_name": "Hoxx VPN",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "3.50.6",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "resources/*" ]
+   } ]
+}

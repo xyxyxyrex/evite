@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Tất cả trang đánh dấu"
+   },
+   "allow_access": {
+      "message": "Cho phép truy cập vào URL tập tin"
+   },
+   "allow_location": {
+      "message": "trong trang cài đặt của phần mở rộng trước"
+   },
+   "application_description": {
+      "message": "Một cách dễ dàng hơn để thay đổi biểu tượng yêu thích dấu trang EDGE của bạn"
+   },
+   "application_title": {
+      "message": "Thay đổi Favicon của Bookmark"
+   },
+   "cancel": {
+      "message": "Hủy"
+   },
+   "cant_change": {
+      "message": "Bạn không thể thay đổi url này"
+   },
+   "choose_new": {
+      "message": "Chọn favicon mới:"
+   },
+   "clear": {
+      "message": "Thông thoáng"
+   },
+   "click_action": {
+      "message": "Nhấn vào đây để cho phép"
+   },
+   "confirm": {
+      "message": "Thay đổi"
+   },
+   "current": {
+      "message": "Favicon hiện tại:"
+   },
+   "last_change": {
+      "message": "Thay đổi cuối cùng favicon"
+   },
+   "not_bookmark": {
+      "message": "Trang này chưa được đánh dấu"
+   },
+   "preview": {
+      "message": "Xem trước favicon:"
+   },
+   "success": {
+      "message": "Lưu thành công!"
+   },
+   "you_need": {
+      "message": "Bạn cần phải"
+   }
+}

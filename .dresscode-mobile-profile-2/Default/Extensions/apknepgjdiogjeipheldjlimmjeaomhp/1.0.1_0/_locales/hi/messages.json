@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "सभी बुकमार्क पृष्ठ"
+   },
+   "allow_access": {
+      "message": "फ़ाइल यूआरएल के उपयोग की अनुमति"
+   },
+   "allow_location": {
+      "message": "विस्तार के सेटिंग पृष्ठ में पहले"
+   },
+   "application_description": {
+      "message": "अपने EDGE बुकमार्क फ़ेविकॉन को बदलने का एक आसान तरीका"
+   },
+   "application_title": {
+      "message": "बुकमार्क के फ़ेविकॉन परिवर्तक"
+   },
+   "cancel": {
+      "message": "रद्द करना"
+   },
+   "cant_change": {
+      "message": "आप इस url को बदल नहीं सकते हैं"
+   },
+   "choose_new": {
+      "message": "नया फ़ेविकॉन चुनें:"
+   },
+   "clear": {
+      "message": "स्पष्ट"
+   },
+   "click_action": {
+      "message": "अनुमति देने के लिए यहां क्लिक करें"
+   },
+   "confirm": {
+      "message": "परिवर्तन"
+   },
+   "current": {
+      "message": "वर्तमान फ़ेविकॉन:"
+   },
+   "last_change": {
+      "message": "अंतिम परिवर्तन फेविकॉन"
+   },
+   "not_bookmark": {
+      "message": "यह पृष्ठ अभी तक बुकमार्क नहीं किया गया है"
+   },
+   "preview": {
+      "message": "फ़ेविकॉन का पूर्वावलोकन करें:"
+   },
+   "success": {
+      "message": "सफलतापूर्वक संचित कर लिया गया है!"
+   },
+   "you_need": {
+      "message": "आपको"
+   }
+}

@@ -1,4 +1,29 @@
 ---
+import { Image } from 'astro:assets';
+import whiteAccent from '../assets/white-accent.png';
+import whiteAttire from '../assets/white-attire.png';
+import whiteShades from '../assets/white-shades.png';
+
+const attireLooks = [
+  {
+    image: whiteAttire,
+    title: 'White Attire',
+    description: 'Full white gowns, suits, and polished formal separates.',
+    alt: 'Formal white attire inspiration with two menswear and two dress options',
+  },
+  {
+    image: whiteShades,
+    title: 'Shades of White',
+    description: 'Ivory, cream, off-white, champagne, and alabaster tones.',
+    alt: 'Formal ivory and cream attire inspiration with two menswear and two dress options',
+  },
+  {
+    image: whiteAccent,
+    title: 'White Details',
+    description: 'Deep navy attire finished with white accents, embroidery, or patterns.',
+    alt: 'Navy formal attire inspiration featuring white accents and details',
+  },
+];
 ---
 
 <section class="section-padding dresscode-standalone-section" id="dresscode-section">
@@ -21,62 +46,29 @@
           </p>
         </div>
 
-        <!-- Centered 3-Card Layout with Pure Vector Swatches (Zero Box Artifacts) -->
-        <div class="palette-swatches-container">
-          
-          <!-- Option 1: Solid Pure White -->
-          <div class="swatch-card glass-card">
-            <div class="swatch-circle-glow white-glow">
-              <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="34" cy="34" r="32" fill="#FFFFFF" stroke="#D4AF37" stroke-width="2.5"/>
-              </svg>
-            </div>
-            <h4 class="swatch-name font-serif">White Attire</h4>
-            <p class="swatch-desc font-sans">Full White Gowns, Suits, or Formal Dresses</p>
-          </div>
-
-          <!-- Option 2: Animated Moving Gradient of All White Shades -->
-          <div class="swatch-card glass-card">
-            <div class="swatch-circle-glow shades-glow">
-              <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="movingWhiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FFFFFF">
-                      <animate attributeName="stop-color" values="#FFFFFF; #FFFDF0; #F5F5E6; #FFF8E7; #FFFFFF" dur="6s" repeatCount="indefinite" />
-                    </stop>
-                    <stop offset="50%" stop-color="#FFFDF0">
-                      <animate attributeName="stop-color" values="#FFFDF0; #F5F5E6; #FFF8E7; #FFFFFF; #FFFDF0" dur="6s" repeatCount="indefinite" />
-                    </stop>
-                    <stop offset="100%" stop-color="#F5F5E6">
-                      <animate attributeName="stop-color" values="#F5F5E6; #FFF8E7; #FFFFFF; #FFFDF0; #F5F5E6" dur="6s" repeatCount="indefinite" />
-                    </stop>
-                  </linearGradient>
-                </defs>
-                <circle cx="34" cy="34" r="32" fill="url(#movingWhiteGrad)" stroke="#D4AF37" stroke-width="2.5"/>
-              </svg>
-            </div>
-            <h4 class="swatch-name font-serif">Shades of White</h4>
-            <p class="swatch-desc font-sans">Ivory, Cream, Off-White, or Alabaster Tones</p>
-          </div>
-
-          <!-- Option 3: With White Details -->
-          <div class="swatch-card glass-card">
-            <div class="swatch-circle-glow details-glow">
-              <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <radialGradient id="detailsRadial" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#FFFFFF"/>
-                    <stop offset="55%" stop-color="#CBD5E1"/>
-                    <stop offset="100%" stop-color="#0B132B"/>
-                  </radialGradient>
-                </defs>
-                <circle cx="34" cy="34" r="32" fill="url(#detailsRadial)" stroke="#FFFFFF" stroke-width="2.5"/>
-              </svg>
-            </div>
-            <h4 class="swatch-name font-serif">With White Details</h4>
-            <p class="swatch-desc font-sans">Attire featuring White Accents, Embroidery, or Patterns</p>
-          </div>
-
+        <div class="attire-look-list">
+          {attireLooks.map((look, index) => (
+            <article class="attire-look-card">
+              <div class="look-image-stage">
+                <Image
+                  class="look-image"
+                  src={look.image}
+                  alt={look.alt}
+                  widths={[420, 640, 820]}
+                  sizes="(max-width: 700px) 100vw, 720px"
+                  quality={88}
+                  format="webp"
+                  loading="lazy"
+                />
+              </div>
+              <div class="look-copy">
+                <span class="look-number font-serif">LOOK 0{index + 1}</span>
+                <h4 class="look-name font-serif">{look.title}</h4>
+                <span class="look-rule" aria-hidden="true"></span>
+                <p class="look-description font-sans">{look.description}</p>
+              </div>
+            </article>
+          ))}
         </div>
 
       </div>
@@ -91,6 +83,7 @@
     z-index: 1;
     padding-top: 2rem;
     padding-bottom: 4rem;
+    overflow: hidden;
   }
 
   .text-center { text-align: center; }
@@ -108,9 +101,17 @@
   .section-desc { font-size: 1.15rem; color: var(--starlight-dim); }
 
   .dresscode-hero-card {
+    width: 100%;
+    min-width: 0;
     padding: 2.5rem 2rem;
     border: 1px solid rgba(212, 175, 55, 0.4);
     box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 255, 255, 0.15);
+  }
+
+  .dresscode-content-layout,
+  .dresscode-header-box {
+    width: 100%;
+    min-width: 0;
   }
 
   .theme-tag {
@@ -122,9 +123,11 @@
   }
 
   .dresscode-title {
+    max-width: 100%;
     font-size: 2.75rem;
     line-height: 1.15;
     margin-bottom: 0.75rem;
+    overflow-wrap: anywhere;
   }
 
   .dresscode-lead {
@@ -135,71 +138,215 @@
     font-style: italic;
   }
 
-  /* Centered Flex Layout for 3 Swatch Cards */
-  .palette-swatches-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1.5rem;
-    max-width: 1000px;
-    margin: 0 auto;
+  .attire-look-list {
+    display: grid;
+    gap: 1.25rem;
     width: 100%;
+    max-width: 1000px;
+    min-width: 0;
+    margin: 0 auto;
   }
 
-  .swatch-card {
-    flex: 1 1 260px;
-    max-width: 310px;
-    padding: 2rem 1.25rem;
+  .attire-look-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 2.45fr) minmax(230px, 0.8fr);
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    backdrop-filter: blur(14px) saturate(130%);
+    box-shadow: var(--glass-shadow);
+    transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+  }
+
+  .attire-look-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 12% auto;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255, 240, 190, 0.72), transparent);
+  }
+
+  .attire-look-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(238, 206, 90, 0.68);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.52), 0 0 22px rgba(212, 175, 55, 0.12);
+  }
+
+  .look-image-stage {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 0.65rem 0.7rem 0.35rem;
+    background:
+      radial-gradient(ellipse at 50% 52%, rgba(255, 255, 255, 0.22), rgba(240, 224, 181, 0.07) 54%, transparent 76%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent 56%);
+  }
+
+  .attire-look-card:nth-child(2) .look-image-stage {
+    background:
+      radial-gradient(ellipse at 50% 52%, rgba(255, 245, 218, 0.24), rgba(217, 190, 130, 0.08) 55%, transparent 77%),
+      linear-gradient(135deg, rgba(255, 246, 220, 0.035), transparent 58%);
+  }
+
+  .attire-look-card:nth-child(3) .look-image-stage {
+    background:
+      radial-gradient(ellipse at 50% 52%, rgba(151, 184, 238, 0.2), rgba(54, 85, 137, 0.08) 55%, transparent 77%),
+      linear-gradient(135deg, rgba(105, 143, 207, 0.045), transparent 58%);
+  }
+
+  .look-image {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.36));
+  }
+
+  .look-copy {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    border: 1px solid rgba(212, 175, 55, 0.35);
-    background: rgba(11, 19, 43, 0.75) !important;
-    border-radius: 16px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .swatch-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.3);
-  }
-
-  /* Perfect Round Circle Glow Wrapper (Zero Square Filter Artifacts) */
-  .swatch-circle-glow {
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
-    margin-bottom: 1.1rem;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    overflow: hidden;
+    padding: 1.5rem 1.25rem;
+    border-left: 1px solid rgba(212, 175, 55, 0.2);
+    text-align: center;
+    background: linear-gradient(145deg, rgba(31, 45, 82, 0.48), rgba(5, 10, 25, 0.62));
   }
 
-  .white-glow {
-    box-shadow: 0 0 22px rgba(255, 255, 255, 0.9), 0 0 12px rgba(212, 175, 55, 0.8);
+  .attire-look-card:nth-child(even) {
+    grid-template-columns: minmax(230px, 0.8fr) minmax(0, 2.45fr);
   }
 
-  .shades-glow {
-    box-shadow: 0 0 22px rgba(255, 255, 240, 0.9), 0 0 12px rgba(212, 175, 55, 0.8);
+  .attire-look-card:nth-child(even) .look-image-stage {
+    grid-column: 2;
+    grid-row: 1;
   }
 
-  .details-glow {
-    box-shadow: 0 0 22px rgba(255, 255, 255, 0.8), 0 0 12px rgba(212, 175, 55, 0.8);
+  .attire-look-card:nth-child(even) .look-copy {
+    grid-column: 1;
+    grid-row: 1;
+    border-right: 1px solid rgba(212, 175, 55, 0.2);
+    border-left: 0;
   }
 
-  .swatch-name {
-    font-size: 1.25rem;
-    color: var(--gold-200);
-    margin-bottom: 0.35rem;
+  .look-number {
+    margin-bottom: 0.55rem;
+    color: var(--gold-400);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
   }
 
-  .swatch-desc {
-    font-size: 0.9rem;
-    color: var(--starlight-dim);
-    line-height: 1.4;
+  .look-name {
+    color: var(--gold-100);
+    font-size: clamp(1.12rem, 2vw, 1.42rem);
+    line-height: 1.25;
+  }
+
+  .look-rule {
+    width: 52px;
+    height: 1px;
+    margin: 0.85rem 0;
+    background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+  }
+
+  .look-description {
+    max-width: 230px;
+    color: rgba(234, 239, 252, 0.76);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 700px) {
+    .dresscode-standalone-section {
+      padding-top: 1.5rem;
+      padding-bottom: 3rem;
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+    }
+
+    .section-title {
+      max-width: 100%;
+      font-size: clamp(1.7rem, 8vw, 2rem);
+      line-height: 1.18;
+      overflow-wrap: anywhere;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+    }
+
+    .dresscode-hero-card {
+      padding: 1.6rem 0.75rem 0.85rem;
+      border-radius: 16px;
+    }
+
+    .dresscode-title {
+      padding: 0 0.25rem;
+      font-size: clamp(1.85rem, 9.5vw, 2.2rem);
+      line-height: 1.08;
+    }
+
+    .dresscode-lead {
+      margin-bottom: 1.65rem;
+      padding: 0 0.4rem;
+      font-size: 1.02rem;
+    }
+
+    .attire-look-list {
+      gap: 0.9rem;
+    }
+
+    .attire-look-card,
+    .attire-look-card:nth-child(even) {
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      border-radius: 14px;
+    }
+
+    .attire-look-card:nth-child(even) .look-image-stage,
+    .attire-look-card:nth-child(even) .look-copy {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    .look-image-stage {
+      width: 100%;
+      min-height: 0;
+      padding: 0.45rem 0.15rem 0.1rem;
+    }
+
+    .look-copy,
+    .attire-look-card:nth-child(even) .look-copy {
+      padding: 1rem 1rem 1.2rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.18);
+      border-right: 0;
+      border-left: 0;
+    }
+
+    .look-number {
+      margin-bottom: 0.35rem;
+    }
+
+    .look-rule {
+      margin: 0.55rem 0;
+    }
+
+    .look-description {
+      max-width: 300px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
   }
 </style>

@@ -1,0 +1,3043 @@
+<!DOCTYPE html>
+<html lang="en" class="dir-ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DotVPN - Free Per-Site VPN Protection</title>
+<link href="assets/main.css" rel="stylesheet">
+<link href="assets/flags.css" rel="stylesheet">
+<script src="assets/icons.js"></script>
+<script src="assets/controllers.js"></script>
+<script src="js/popup-bridge.js"></script>
+</head>
+<body>
+<div id="appRoot" class="w-full h-full bg-white flex flex-col relative app-loading">
+ <!-- Header Component - Elegant Variant -->
+ <!-- Features gradient background with centered logo text -->
+ <header id="headerVariantContainer" class="bg-gradient-to-t from-gray-50 to-white px-4 py-2.5 flex border-b border-gray-100 items-center justify-between relative z-20">
+  <!-- App Icon -->
+ <div class="flex items-center gap-2.5 w-16">
+ <img 
+  src="assets/logo.png" 
+  alt="DotVPN Logo" 
+  class="w-8 h-8 object-contain"
+  />
+ </div>
+  
+  <!-- App Title (Centered) -->
+ <div class="flex items-center justify-center flex-1">
+ <div class="flex items-center gap-2">
+ <h1 class="text-base font-bold text-gray-900 tracking-tight" data-i18n="app.name">DotVPN</h1>
+ <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full" data-i18n="header.free">Free</span>
+ </div>
+ </div>
+  
+  <!-- Premium Crown Button -->
+ <button 
+  id="premiumCrownBtn" 
+  class="relative bg-transparent border-0 p-0 outline-none cursor-pointer transition-transform duration-200 w-16 flex justify-end rtl:justify-start"
+  aria-label="Upgrade to Premium"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  data-i18n-attr="aria-label" data-i18n="header.upgrade"
+  >
+ <div class="w-9 h-9 bg-orange-100 rounded-2xl flex items-center justify-center transition-all duration-300 hover:bg-orange-50 hover:scale-105 shadow-xs shadow-orange-300/80">
+ <i data-icon="crown" class="w-4 h-4 text-orange-600"></i>
+ </div>
+  <!-- Premium indicator dot -->
+ <div class="absolute -top-0.5 -right-0.5 rtl:right-auto rtl:-left-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-sm"></div>
+ </button>
+ </header> <!-- Premium Overlay - Variant A: Value-Focused (Optimized for 510x302px) -->
+ 
+ <div id="premiumOverlayWrapper" class="absolute top-14 z-50 hidden left-0 right-0 bottom-0">
+   <div id="premiumOverlayContainer" class="w-full h-full bg-white p-4 pb-5 flex flex-col">
+     <!-- Header -->
+     <div class="flex items-center justify-between mb-6">
+       <div class="flex items-center gap-2.5 min-w-0">
+         <div class="w-9 h-9 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
+           <i data-icon="crown" class="w-5 h-5 text-white"></i>
+         </div>
+         <div class="min-w-0">
+           <h3 class="text-sm font-semibold text-gray-900 truncate" data-i18n="premiumOverlay.title">Premium Access</h3>
+           <p class="text-xs text-gray-600 truncate" data-i18n="premiumOverlay.subtitle">Everything unlimited</p>
+         </div>
+       </div>
+       <button
+         id="closePremiumOverlay"
+         class="w-8 h-8 flex-shrink-0 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded-xl transition-all duration-200"
+         aria-label="Close premium overlay"
+       >
+         <i data-icon="x" class="w-5 h-5"></i>
+       </button>
+     </div>
+ 
+     <!-- Features List -->
+     <ul class="space-y-2 mb-3 flex-1">
+       <li class="flex items-center gap-2.5 rounded-lg px-1 py-1.5 hover:bg-gray-50 transition-colors duration-200">
+         <div class="w-8 h-8 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+           <i data-icon="globe" class="w-4 h-4 text-green-600"></i>
+         </div>
+         <div class="min-w-0 flex-1">
+           <p class="font-semibold text-gray-900 text-sm leading-tight" data-i18n="premiumOverlay.feature1Title">70+ Global Locations</p>
+           <p class="text-xs text-gray-500 leading-tight truncate" data-i18n="premiumOverlay.feature1Desc">Access servers worldwide</p>
+         </div>
+       </li>
+       <li class="flex items-center gap-2.5 rounded-lg px-1 py-1.5 hover:bg-gray-50 transition-colors duration-200">
+         <div class="w-8 h-8 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+           <i data-icon="infinity" class="w-4 h-4 text-blue-600"></i>
+         </div>
+         <div class="min-w-0 flex-1">
+           <p class="font-semibold text-gray-900 text-sm leading-tight" data-i18n="premiumOverlay.feature2Title">Unlimited Bandwidth</p>
+           <p class="text-xs text-gray-500 leading-tight truncate" data-i18n="premiumOverlay.feature2Desc">No data caps or throttling</p>
+         </div>
+       </li>
+       <li class="flex items-center gap-2.5 rounded-lg px-1 py-1.5 hover:bg-gray-50 transition-colors duration-200">
+         <div class="w-8 h-8 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
+           <i data-icon="zap" class="w-4 h-4 text-purple-600"></i>
+         </div>
+         <div class="min-w-0 flex-1">
+           <p class="font-semibold text-gray-900 text-sm leading-tight" data-i18n="premiumOverlay.feature3Title">Lightning Fast 1Gbps+</p>
+           <p class="text-xs text-gray-500 leading-tight truncate" data-i18n="premiumOverlay.feature3Desc">Premium high-speed servers</p>
+         </div>
+       </li>
+     </ul>
+ 
+     <!-- Pricing -->
+     <div class="relative bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-300 rounded-xl p-3 pt-5 mb-3">
+       <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap" data-i18n="premiumOverlay.saveLabel">
+         Save $60/year
+       </div>
+       <div class="flex items-baseline justify-center gap-1.5 mb-1.5">
+         <span class="text-3xl font-bold text-gray-900 whitespace-nowrap" data-i18n="premiumOverlay.priceAmount">$4.99</span>
+         <span class="text-sm text-gray-600 font-semibold whitespace-nowrap" data-i18n="premiumOverlay.perMonth">/month</span>
+       </div>
+       <div class="flex flex-col items-center justify-center gap-3 text-xs text-gray-700">
+         <div class="flex items-center gap-1 whitespace-nowrap">
+           <i data-icon="check-circle" class="w-3.5 h-3.5 text-green-600"></i>
+           <span class="font-medium" data-i18n="premiumOverlay.cancelAnytime">Cancel anytime</span>
+         </div>
+         <div class="flex items-center gap-1 whitespace-nowrap">
+           <i data-icon="shield-check" class="w-3.5 h-3.5 text-blue-600"></i>
+           <span class="font-medium" data-i18n="premiumOverlay.guarantee">30-day guarantee</span>
+         </div>
+       </div>
+     </div>
+ 
+     <!-- CTA Button -->
+     <button
+       id="upgradeToPremiumBtn"
+       class="group w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2.5 text-base"
+       aria-label="Upgrade to premium plan"
+       data-i18n="premiumOverlay.cta"
+     >
+       <i data-icon="sparkles" class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300"></i>
+       <span>Start Premium Today</span>
+     </button>
+   </div>
+ </div> 
+<main class="flex-1 min-h-0 relative overflow-x-hidden">
+ <!-- Per-Site Tab -->
+<div 
+ id="perSiteTabContainer"
+ data-tab="perSite"
+ class="tab-container absolute inset-0 transition-all duration-300 ease-out opacity-100 translate-x-0 rtl:translate-x-0 pointer-events-auto" >
+ <!-- Per-Site Tab Content -->
+ <div class="h-full flex flex-col overflow-hidden">
+     <div class="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+ 
+         <!-- No Site State (initial/empty state) -->
+         <div id="perSiteNoSite" class="per-site-state" hidden>
+             <!-- Per-Site No Site State - Compact Variant -->
+             <div class="modal-container-fullscreen" id="noSiteContainer">
+             <div class="flex flex-col h-full px-4 pt-4 pb-3 overflow-y-auto">
+             <div class="flex flex-col items-center text-center mb-5">
+             <div class="w-16 h-16 mb-4 rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-200">
+             <i data-icon="globe" class="w-8 h-8 text-white" aria-hidden="true"></i>
+             </div>
+             
+             <h2 class="text-lg font-black text-gray-900 mb-1.5" data-i18n="noSite.title">Per-Site VPN</h2>
+             <p class="text-[13px] text-gray-500 font-medium leading-snug max-w-[280px]" data-i18n="noSite.description">
+              Protect only this website while keeping the rest of your browsing on your regular connection.
+             </p>
+             </div>
+             
+             <div class="flex-1 flex items-center justify-center">
+             <div class="w-full max-w-sm space-y-3">
+             <div class="relative">
+             <label for="noSiteDomainInput" class="sr-only" data-i18n="noSite.inputPlaceholder">Website domain</label>
+             
+             <div class="absolute inset-y-0 left-0 rtl:left-auto rtl:right-0 pl-3.5 rtl:pl-0 rtl:pr-3.5 flex items-center pointer-events-none">
+             <i
+              data-icon="link"
+              class="w-4 h-4 text-gray-400 transition-colors duration-200"
+              id="noSiteInputIcon"
+              aria-hidden="true"
+              ></i>
+             </div>
+             <input
+              type="text"
+              id="noSiteDomainInput"
+              placeholder="example.com"
+              autocomplete="off"
+              autocapitalize="none"
+              autocorrect="off"
+              spellcheck="false"
+              autofocus
+              aria-label="Website domain"
+              aria-describedby="noSiteDomainError"
+              data-i18n-attr="placeholder" data-i18n="noSite.inputPlaceholder"
+              class="w-full pl-10 rtl:pl-4 rtl:pr-10 pr-4 py-3 bg-white border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 shadow-sm"
+              />
+             </div>
+             
+             <div
+              id="noSiteDomainError"
+              class="min-h-[1.25rem] text-xs font-medium text-red-500 px-1 transition-opacity duration-150 opacity-0"
+              aria-live="polite"
+              ></div>
+             
+             <div id="noSiteCountryCard" aria-live="polite" class="space-y-3">
+             <button
+              type="button"
+              id="noSiteQuickConnectBtn"
+              class="w-full bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-xl p-3 cursor-pointer transition-all duration-200 hover:border-indigo-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 active:scale-[0.98]"
+              aria-label="Change VPN location"
+              >
+             <div class="flex items-center gap-2">
+             <div class="text-2xl flex-shrink-0 leading-none" id="noSiteRecommendedFlag">
+             <span class="flag-icon us"></span>
+             </div>
+             
+             <div class="flex-1 min-w-0 text-left rtl:text-right">
+             <div class="text-[11px] leading-tight text-indigo-600 font-bold uppercase tracking-wide truncate" data-i18n="noSite.quickConnect" data-i18n-attr="textContent,title">Quick Connect</div>
+             <div class="text-sm font-black text-gray-800 truncate" id="noSiteRecommendedCountry">United States</div>
+             </div>
+             
+             <!-- Runtime latency VALUE only: intentionally no data-i18n (see split.html note). -->
+             <div class="text-xs font-bold text-green-600 flex-shrink-0 whitespace-nowrap tabular-nums" id="noSiteRecommendedPing">—</div>
+             
+             <i data-icon="chevron-right" class="w-4 h-4 text-indigo-400 flex-shrink-0 ltr:rotate-0 rtl:rotate-180" aria-hidden="true"></i>
+             </div>
+             </button>
+             
+             <button
+              id="noSiteActivateBtn"
+              disabled
+              class="group w-full py-4 px-5 bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 hover:from-indigo-600 hover:via-purple-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-md active:scale-[0.98] flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none disabled:active:scale-100"
+              aria-label="Activate VPN for this domain"
+              >
+             <i
+              data-icon="shield-check"
+              class="w-5 h-5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+              id="noSiteActivateBtnIcon"
+              aria-hidden="true"
+              ></i>
+             <span class="text-base text-center leading-tight" id="noSiteActivateBtnText" data-i18n="noSite.activate">Activate VPN</span>
+             </button>
+             </div>
+             </div>
+             </div>
+             </div>
+             </div>        </div>
+ 
+         <!-- Available State (ready to connect) -->
+         <div id="perSiteAvailable" class="per-site-state" hidden>
+             <!-- Per-Site Available State - Split Variant -->
+             <div class="modal-container-fullscreen" id="perSiteAvailableVariantContainer">
+             <div class="flex flex-col h-full px-4 pt-5 pb-4">
+             <div class="text-center pt-1 pb-5">
+             <div class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-200">
+             <img
+              src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22128%22%20height%3D%22128%22%20viewBox%3D%220%200%20128%20128%22%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22%23F3F4F6%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%228%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M64%2028a36%2036%200%201%201-25.5%2010.5%22%3E%3CanimateTransform%20attributeName%3D%22transform%22%20type%3D%22rotate%22%20from%3D%220%2064%2064%22%20to%3D%22360%2064%2064%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%2F%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+              alt="Site favicon"
+              class="w-full h-full object-contain"
+              id="splitSiteFavicon"
+              width="80"
+              height="80"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+              />
+             </div>
+             <div id="splitSiteDomain" class="text-xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-1 truncate max-w-full">
+              example.com
+             </div>
+             <p class="text-xs text-gray-500 font-medium" data-i18n="available.title">Select the best VPN location for this site</p>
+             </div>
+             
+             <div class="space-y-3.5 flex-1">
+             <div class="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm">
+             <div class="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 rounded-xl p-3 mb-3">
+             <div class="flex items-center gap-2.5">
+             <div class="text-2xl flex-shrink-0 leading-none" id="splitRecommendedFlag">
+             <span class="flag-icon us"></span>
+             </div>
+             <div class="flex-1 min-w-0">
+             <div class="text-[11px] leading-tight text-indigo-600 font-bold uppercase tracking-wide truncate" data-i18n="available.quickConnect">Quick Connect</div>
+             <div class="text-sm font-black text-gray-800 truncate" id="splitRecommendedCountry">United States</div>
+             </div>
+             <!--
+               NOTE: no data-i18n here on purpose.
+               This element holds a runtime latency VALUE (e.g. "25ms") rendered by
+               PerSiteController.updateRecommendedCountry(). Adding data-i18n made the i18n pass
+               overwrite the value with the "latency" LABEL, which also broke the row layout.
+             -->
+             <div class="text-xs font-bold text-green-600 flex-shrink-0 whitespace-nowrap tabular-nums" id="splitRecommendedPing">—</div>
+             </div>
+             </div>
+             
+             <button
+              id="splitConnectBtn"
+              class="group w-full py-4 px-5 bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 hover:from-indigo-600 hover:via-purple-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-md flex items-center justify-center gap-2.5"
+              >
+             <i data-icon="shield-check" class="w-5 h-5 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"></i>
+             <span class="text-base text-center leading-tight" data-i18n="available.connect">Connect Now</span>
+             </button>
+             </div>
+             
+             <button
+              id="splitChangeLocationBtn"
+              data-modal-trigger="selectCountry"
+              class="w-full py-4 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium text-sm rounded-xl transition-colors duration-200 flex items-center justify-center gap-2 border border-gray-200"
+              >
+             <i data-icon="map-pin" class="w-4 h-4 flex-shrink-0"></i>
+             <span class="text-center leading-tight" data-i18n="available.changeLocation">Choose Different Location</span>
+             </button>
+             </div>
+             </div>
+             </div>        </div>
+ 
+         <!-- Connecting State (establishing connection) -->
+         <div id="perSiteConnecting" class="per-site-state" hidden>
+             <!-- Per-Site Connecting State (Variant Router) -->
+             <div class="modal-container-fullscreen">
+                 <!-- Connecting State Variant Slot -->
+                 <div 
+                     id="perSiteConnectingVariantContainer" 
+                     data-variant-group="perSiteConnecting" 
+                     data-active-variant="compact"
+                     data-variant-path="./variants"
+                 >
+                     <!-- Per-Site Connecting State - Compact Variant -->
+                     <div class="modal-container-fullscreen">
+                     <div class="px-4 pt-5 pb-4">
+                     <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden">
+                     <div class="absolute top-0 right-0 rtl:right-auto rtl:left-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16 rtl:-translate-x-16"></div>
+                     <div class="relative flex items-center gap-4">
+                     <div class="w-16 h-16 flex-shrink-0 rounded-xl flex items-center justify-center overflow-hidden relative bg-white/10">
+                     <div class="absolute inset-0 rounded-xl border border-white/25"></div>
+                     
+                     <img
+                      src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22128%22%20height%3D%22128%22%20viewBox%3D%220%200%20128%20128%22%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22%23F3F4F6%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%228%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M64%2028a36%2036%200%201%201-25.5%2010.5%22%3E%3CanimateTransform%20attributeName%3D%22transform%22%20type%3D%22rotate%22%20from%3D%220%2064%2064%22%20to%3D%22360%2064%2064%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%2F%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                      alt="Site favicon"
+                      class="w-full h-full object-contain p-2 relative z-10"
+                      id="compactConnectingFavicon"
+                      width="64"
+                      height="64"
+                      loading="lazy"
+                      decoding="async"
+                      referrerpolicy="no-referrer"
+                      />
+                     </div>
+                     
+                     <div class="flex-1 min-w-0">
+                     <div class="flex items-center gap-2 mb-1.5">
+                     <span class="text-xs font-bold uppercase tracking-wider opacity-95" data-i18n="connecting.connecting">Connecting</span>
+                     </div>
+                     <div id="compactConnectingDomain" class="text-xl font-black truncate">
+                      example.com
+                     </div>
+                     </div>
+                     </div>
+                     
+                     <div class="relative mt-4 flex items-center justify-between bg-white/15 backdrop-blur-sm rounded-xl p-3 border border-white/25">
+                     <div class="flex items-center gap-3 min-w-0">
+                     <span id="compactConnectingFlag" class="text-2xl flex-shrink-0"></span>
+                     <div class="min-w-0">
+                     <div class="text-[10px] opacity-80 uppercase tracking-wider font-semibold mb-0.5" data-i18n="connecting.connectingTo">Connecting to</div>
+                     <div id="compactConnectingCountry" class="text-sm font-bold truncate">United States</div>
+                     </div>
+                     </div>
+                     
+                     <div class="text-right rtl:text-left">
+                     <div class="text-[10px] opacity-80 uppercase tracking-wider font-semibold mb-0.5" data-i18n="connecting.status">Status</div>
+                     <div class="text-sm font-bold tabular-nums" data-i18n="connecting.inProgress">In progress</div>
+                     </div>
+                     </div>
+                     </div>
+                     </div>
+                     
+                     <div class="px-4 pb-5">
+                     <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                     <div class="mb-3">
+                     <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                     <div class="h-full w-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full animate-pulse motion-reduce:animate-none"></div>
+                     </div>
+                     </div>
+                     
+                     <div class="flex items-center gap-2">
+                     <i data-icon="wifi" class="w-4 h-4 text-indigo-600"></i>
+                     <p class="text-sm text-gray-900 font-semibold" data-i18n="connecting.establishing">
+                      Establishing secure connection…
+                     </p>
+                     </div>
+                     
+                     <p class="text-xs text-gray-600 leading-relaxed mt-1" data-i18n="connecting.tunnel">
+                      Creating an encrypted tunnel to protect your traffic.
+                     </p>
+                     </div>
+                     </div>
+                     </div>    </div>
+             </div>
+         </div>
+ 
+         <!-- Active State (connected) -->
+         <div id="perSiteActive" class="per-site-state" hidden>
+             <!-- Per-Site Active State - Compact Variant -->
+             <div class="modal-container-fullscreen">
+             <div class="px-4 pt-5 pb-4">
+             <div class="bg-gradient-to-br from-green-500 via-green-600 to-green-700 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden">
+             <div class="absolute top-0 right-0 rtl:right-auto rtl:left-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16 rtl:-translate-x-16"></div>
+             <div class="absolute bottom-0 left-0 rtl:left-auto rtl:right-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12 rtl:translate-x-12"></div>
+             
+             <div class="relative flex items-center gap-4 mb-4">
+             <div class="w-16 h-16 flex-shrink-0 rounded-xl flex items-center justify-center overflow-hidden bg-white/10">
+             <img
+              src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22128%22%20height%3D%22128%22%20viewBox%3D%220%200%20128%20128%22%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22%23F3F4F6%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%228%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M64%2028a36%2036%200%201%201-25.5%2010.5%22%3E%3CanimateTransform%20attributeName%3D%22transform%22%20type%3D%22rotate%22%20from%3D%220%2064%2064%22%20to%3D%22360%2064%2064%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%2F%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+              alt="Site favicon"
+              class="w-full h-full object-contain p-1"
+              id="compactActiveFavicon"
+              width="64"
+              height="64"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+              />
+             </div>
+             
+             <div class="flex-1 min-w-0">
+             <div class="flex items-center gap-2 mb-1.5">
+             <div class="w-2 h-2 bg-white rounded-full animate-pulse motion-reduce:animate-none shadow-sm"></div>
+             <span class="text-xs font-bold uppercase tracking-wider opacity-90" data-i18n="active.connected">Connected</span>
+             </div>
+             <div id="compactActiveDomain" class="text-xl font-black truncate drop-shadow-sm">
+              example.com
+             </div>
+             </div>
+             </div>
+             
+             <div class="relative flex items-center justify-between bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+             <div class="flex items-center gap-3">
+             <span id="compactActiveFlag" class="text-3xl"></span>
+             <div>
+             <div class="text-[10px] opacity-75 uppercase tracking-wider font-semibold mb-0.5" data-i18n="active.location">Location</div>
+             <div id="compactActiveCountry" class="text-sm font-bold">United States</div>
+             </div>
+             </div>
+             <div class="text-right rtl:text-left">
+             <div class="text-[10px] opacity-75 uppercase tracking-wider font-semibold mb-0.5" data-i18n="active.duration">Duration</div>
+             <div id="compactTimer" class="text-sm font-bold font-mono tabular-nums">00:00:00</div>
+             </div>
+             </div>
+             </div>
+             </div>
+             
+             <div class="px-4 pb-4">
+             <div class="grid grid-cols-2 gap-2">
+             <div class="border border-gray-200 rounded-lg p-2.5 text-center bg-white">
+             <div class="flex items-center justify-center gap-1.5 mb-1">
+             <i data-icon="activity" class="w-3.5 h-3.5 text-blue-600"></i>
+             <div class="text-[10px] text-blue-700 font-semibold uppercase tracking-wide" data-i18n="active.data">Data</div>
+             </div>
+             <div id="compactDataUsed" class="text-base font-bold text-blue-900">0 MB</div>
+             </div>
+             <div class="border border-gray-200 rounded-lg p-2.5 text-center bg-white">
+             <div class="flex items-center justify-center gap-1.5 mb-1">
+             <i data-icon="wifi" class="w-3.5 h-3.5 text-green-600"></i>
+             <div class="text-[10px] text-green-700 font-semibold uppercase tracking-wide" data-i18n="active.latency">Latency</div>
+             </div>
+             <div id="compactPing" class="text-base font-bold text-green-900">—</div>
+             </div>
+             </div>
+             </div>
+             
+             <div class="px-4">
+             <div class="space-y-3.5">
+             <button
+              id="compactChangeCountryBtn"
+              class="w-full py-4 px-4 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-800 font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2.5 active:scale-[0.98] shadow-sm"
+              >
+             <i data-icon="map-pin" class="w-4 h-4"></i>
+             <span data-i18n="active.changeLocation">Change Location</span>
+             </button>
+             
+             <button
+              id="compactDisconnectBtn"
+              class="w-full py-4 px-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2.5 active:scale-[0.98] shadow-sm"
+              >
+             <i data-icon="power" class="w-5 h-5"></i>
+             <span data-i18n="active.disconnect">Disconnect</span>
+             </button>
+             </div>
+             </div>
+             </div>        </div>
+ 
+         <!-- Cooldown State (site session exhausted) -->
+         <div id="perSiteCooldown" class="per-site-state" hidden>
+             <!-- Per-Site Cooldown State - Compact Variant -->
+             <div class="modal-container-fullscreen" role="dialog" aria-modal="true" aria-labelledby="compactCooldownTitle" aria-describedby="compactCooldownReason">
+             <div class="px-4 pt-5 pb-4">
+             <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden">
+             <div class="absolute top-0 right-0 rtl:right-auto rtl:left-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16 rtl:-translate-x-16"></div>
+             <div class="absolute bottom-0 left-0 rtl:left-auto rtl:right-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12 rtl:translate-x-12"></div>
+             
+             <div class="relative flex items-center gap-4 mb-4">
+             <div class="w-16 h-16 flex-shrink-0 rounded-xl flex items-center justify-center overflow-hidden bg-white/10">
+             <img
+              src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22128%22%20height%3D%22128%22%20viewBox%3D%220%200%20128%20128%22%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22%23F3F4F6%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%228%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M64%2028a36%2036%200%201%201-25.5%2010.5%22%3E%3CanimateTransform%20attributeName%3D%22transform%22%20type%3D%22rotate%22%20from%3D%220%2064%2064%22%20to%3D%22360%2064%2064%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%2F%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+              alt="Site favicon"
+              class="w-full h-full object-contain p-2"
+              id="compactCooldownFavicon"
+              width="64"
+              height="64"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+              />
+             </div>
+             
+             <div class="flex-1 min-w-0">
+             <div class="flex items-center gap-2 mb-1.5">
+             <div class="w-2 h-2 bg-white rounded-full animate-pulse motion-reduce:animate-none shadow-sm"></div>
+             <span class="text-xs font-bold uppercase tracking-wider opacity-90" data-i18n="cooldown.title">Cooldown</span>
+             </div>
+             <div id="compactCooldownDomain" class="text-xl font-black truncate drop-shadow-sm">
+              example.com
+             </div>
+             </div>
+             </div>
+             
+             <div class="relative flex items-center justify-between bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+             <div class="flex items-center gap-3 min-w-0">
+             <span id="compactCooldownFlag" class="text-3xl flex-shrink-0"></span>
+             <div class="min-w-0">
+             <div class="text-[10px] opacity-75 uppercase tracking-wider font-semibold mb-0.5" data-i18n="cooldown.location">Location</div>
+             <div id="compactCooldownCountry" class="text-sm font-bold truncate">United States</div>
+             </div>
+             </div>
+             <div class="text-right rtl:text-left">
+             <div class="text-[10px] opacity-75 uppercase tracking-wider font-semibold mb-0.5" data-i18n="cooldown.cooldownTimerLabel">Cooldown</div>
+             <div id="compactCooldownTimer" class="text-sm font-bold font-mono tabular-nums">--:--:--</div>
+             </div>
+             </div>
+             </div>
+             </div>
+             
+             <div class="px-4 pb-5">
+             <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+             <div class="mb-3">
+             <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+             <div class="h-full w-full bg-gradient-to-r from-amber-500 to-red-500 rounded-full animate-pulse motion-reduce:animate-none"></div>
+             </div>
+             </div>
+             
+             <div class="flex items-center gap-2">
+             <i data-icon="shield-alert" class="w-4 h-4 text-amber-600"></i>
+             <p id="compactCooldownTitle" class="text-sm text-gray-900 font-semibold" data-i18n="cooldown.limitReached">
+              This site has reached its free-session limit.
+             </p>
+             </div>
+             
+             <p id="compactCooldownReason" class="text-xs text-gray-600 leading-relaxed mt-1" data-i18n="cooldown.description">
+              The site is cooling down right now. You can wait for reconnect access to return, or upgrade for unlimited time on every site.
+             </p>
+             </div>
+             </div>
+             </div>        </div>
+ 
+         <!-- Disconnecting State (terminating connection) -->
+         <div id="perSiteDisconnecting" class="per-site-state" hidden>
+             <!-- Per-Site Disconnecting State (Variant Router) -->
+             <div class="modal-container-fullscreen">
+                 <!-- Disconnecting State Variant Slot -->
+                 <div 
+                     id="perSiteDisconnectingVariantContainer" 
+                     data-variant-group="perSiteDisconnecting" 
+                     data-active-variant="compact"
+                     data-variant-path="./variants"
+                 >
+                     <!-- Per-Site Disconnecting State - Compact Variant -->
+                     <div class="modal-container-fullscreen">
+                     <div class="px-4 pt-5 pb-4">
+                     <div class="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden">
+                     <div class="absolute top-0 right-0 rtl:right-auto rtl:left-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16 rtl:-translate-x-16"></div>
+                     <div class="relative flex items-center gap-4">
+                     <div class="w-16 h-16 flex-shrink-0 rounded-xl flex items-center justify-center overflow-hidden relative bg-white/10">
+                     <div class="absolute inset-0 rounded-xl border border-white/25"></div>
+                     <img
+                      src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22128%22%20height%3D%22128%22%20viewBox%3D%220%200%20128%20128%22%3E%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2224%22%20fill%3D%22%23F3F4F6%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%228%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M64%2028a36%2036%200%201%201-25.5%2010.5%22%3E%3CanimateTransform%20attributeName%3D%22transform%22%20type%3D%22rotate%22%20from%3D%220%2064%2064%22%20to%3D%22360%2064%2064%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%2F%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                      alt="Site favicon"
+                      class="w-full h-full object-contain p-2 relative z-10 opacity-75"
+                      id="compactDisconnectingFavicon"
+                      width="64"
+                      height="64"
+                      loading="lazy"
+                      decoding="async"
+                      referrerpolicy="no-referrer"
+                      />
+                     </div>
+                     
+                     <div class="flex-1 min-w-0">
+                     <div class="flex items-center gap-2 mb-1.5">
+                     <span class="text-xs font-bold uppercase tracking-wider opacity-95" data-i18n="disconnecting.disconnecting">Disconnecting</span>
+                     </div>
+                     <div id="compactDisconnectingDomain" class="text-xl font-black truncate">
+                      example.com
+                     </div>
+                     </div>
+                     </div>
+                     
+                     <div class="relative mt-4 flex items-center justify-between bg-white/15 backdrop-blur-sm rounded-xl p-3 border border-white/25">
+                     <div class="flex items-center gap-3 min-w-0">
+                     <span id="compactDisconnectingFlag" class="text-2xl opacity-80 flex-shrink-0"></span>
+                     <div class="min-w-0">
+                     <div class="text-[10px] opacity-80 uppercase tracking-wider font-semibold mb-0.5" data-i18n="disconnecting.disconnectingFrom">Disconnecting from</div>
+                     <div id="compactDisconnectingCountry" class="text-sm font-bold truncate">United States</div>
+                     </div>
+                     </div>
+                     
+                     <div class="text-right rtl:text-left">
+                     <div class="text-[10px] opacity-80 uppercase tracking-wider font-semibold mb-0.5" data-i18n="disconnecting.status">Status</div>
+                     <div class="text-sm font-bold tabular-nums" data-i18n="disconnecting.closing">Closing</div>
+                     </div>
+                     </div>
+                     </div>
+                     </div>
+                     
+                     <div class="px-4 pb-4">
+                     <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                     <div class="mb-3">
+                     <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                     <div class="h-full w-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full animate-pulse motion-reduce:animate-none"></div>
+                     </div>
+                     </div>
+                     
+                     <div class="flex items-center gap-2">
+                     <i data-icon="power" class="w-4 h-4 text-orange-600"></i>
+                     <p class="text-sm text-gray-900 font-semibold" data-i18n="disconnecting.closingConnection">
+                      Closing secure connection…
+                     </p>
+                     </div>
+                     
+                     <p class="text-xs text-gray-600 leading-relaxed mt-1" data-i18n="disconnecting.terminating">
+                      Safely terminating the encrypted tunnel.
+                     </p>
+                     </div>
+                     </div>
+                     
+                     <div class="px-4 pb-5">
+                     <div class="bg-orange-50 border border-orange-200 rounded-xl p-3">
+                     <div class="flex items-start gap-2">
+                     <i data-icon="shield-alert" class="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5"></i>
+                     <p class="text-xs text-orange-900 leading-relaxed font-medium" data-i18n="disconnecting.waitMessage">
+                     <strong class="font-semibold">Please wait:</strong> finishing secure shutdown to avoid data leaks.
+                     </p>
+                     </div>
+                     </div>
+                     </div>
+                     </div>    </div>
+             </div>
+         </div>
+ 
+     </div>
+ </div></div>
+ 
+ <!-- Locations Tab -->
+<div 
+ id="locationsTabContainer"
+ data-tab="vpnLocations"
+ class="tab-container absolute inset-0 transition-all duration-300 ease-out opacity-0 rtl:translate-x-full rtl:opacity-0 translate-x-full rtl:-translate-x-full pointer-events-none" >
+ <!-- Locations Tab Content -->
+ <div class="h-full flex flex-col overflow-hidden">
+     <div class="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+ <div class="p-4 space-y-4">
+             
+             <!-- Hero Block -->
+             <!-- Minimal Hero Variant -->
+             <div class="text-center py-4 mb-3">
+             <div class="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+             <i data-icon="crown" class="w-7 h-7 text-white"></i>
+             </div>
+                 <h2 class="text-lg font-bold text-gray-800 mb-1" data-i18n="locations.title">Premium Network</h2>
+                 <p class="text-sm text-gray-600" data-i18n="locations.subtitle">70+ Countries Available</p>
+             </div>
+             <!-- Features Block -->
+             <!-- Features Compact Variant (Horizontal Strip) -->
+             <div class="bg-white rounded-lg border border-gray-200 px-2 py-2.5 mb-4">
+             <div class="flex items-center justify-around text-center">
+             <div class="flex-1">
+             <div class="flex items-center justify-center gap-1 mb-1">
+             <i data-icon="globe" class="w-4 h-4 text-purple-600"></i>
+                             <span class="font-semibold text-purple-600">70</span>
+             </div>
+                         <div class="text-xs text-gray-600" data-i18n="locations.countries">Countries</div>
+             </div>
+                     
+             <div class="w-px h-8 bg-gray-200"></div>
+                     
+                     <div class="flex-1">
+                         <div class="flex items-center justify-center gap-1 mb-1">
+                             <i data-icon="server" class="w-4 h-4 text-blue-600"></i>
+             <span class="font-semibold text-blue-600">500</span>
+             </div>
+                         <div class="text-xs text-gray-600" data-i18n="locations.servers">Servers</div>
+             </div>
+                     
+             <div class="w-px h-8 bg-gray-200"></div>
+                     
+                     <div class="flex-1">
+                         <div class="flex items-center justify-center gap-1 mb-1">
+                             <i data-icon="zap" class="w-4 h-4 text-green-600"></i>
+                             <span class="font-semibold text-green-600">10Gb</span>
+             </div>
+                         <div class="text-xs text-gray-600" data-i18n="locations.speed">Speed</div>
+             </div>
+                 </div>
+             </div>
+             <!-- Locations List Block -->
+             <!-- Locations Detailed Variant -->
+             <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-4">
+              <!-- Header -->
+             <div class="px-4 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-gray-100">
+             <h3 class="text-sm font-bold text-gray-800" data-i18n="locations.popularLocations">Popular Locations</h3>
+             <p class="text-xs text-gray-600" data-i18n="locations.availablePremium">Available with Premium</p>
+             </div>
+             
+              <!-- Locations List -->
+             <div class="divide-y divide-gray-100">
+              <!-- United States -->
+             <button
+              class="w-full px-4 py-3 flex items-center gap-3 opacity-75 hover:bg-indigo-50/50 transition-colors motion-reduce:transition-none location-premium-trigger"
+              data-location="United States"
+              data-country-code="US"
+              >
+             <span class="flag-icon us"></span>
+             <div class="flex-1 text-left rtl:text-right">
+             <p class="text-sm font-semibold text-gray-800" data-i18n="countries.names.us">United States</p>
+             <p class="text-xs text-gray-500" data-i18n="locations.descriptions.us">50+ servers • Ultra Fast</p>
+             </div>
+             <i data-icon="lock" class="w-4 h-4 text-gray-400"></i>
+             </button>
+             
+              <!-- United Kingdom -->
+             <button
+              class="w-full px-4 py-3 flex items-center gap-3 opacity-75 hover:bg-indigo-50/50 transition-colors motion-reduce:transition-none location-premium-trigger"
+              data-location="United Kingdom"
+              data-country-code="UK"
+              >
+             <span class="flag-icon uk"></span>
+             <div class="flex-1 text-left rtl:text-right">
+             <p class="text-sm font-semibold text-gray-800" data-i18n="countries.names.uk">United Kingdom</p>
+             <p class="text-xs text-gray-500" data-i18n="locations.descriptions.uk">30+ servers • Fast</p>
+             </div>
+             <i data-icon="lock" class="w-4 h-4 text-gray-400"></i>
+             </button>
+             
+              <!-- Germany -->
+             <button
+              class="w-full px-4 py-3 flex items-center gap-3 opacity-75 hover:bg-indigo-50/50 transition-colors motion-reduce:transition-none location-premium-trigger"
+              data-location="Germany"
+              data-country-code="DE"
+              >
+             <span class="flag-icon de"></span>
+             <div class="flex-1 text-left rtl:text-right">
+             <p class="text-sm font-semibold text-gray-800" data-i18n="countries.names.de">Germany</p>
+             <p class="text-xs text-gray-500" data-i18n="locations.descriptions.de">25+ servers • Fast</p>
+             </div>
+             <i data-icon="lock" class="w-4 h-4 text-gray-400"></i>
+             </button>
+             
+              <!-- Japan -->
+             <button
+              class="w-full px-4 py-3 flex items-center gap-3 opacity-75 hover:bg-indigo-50/50 transition-colors motion-reduce:transition-none location-premium-trigger"
+              data-location="Japan"
+              data-country-code="JP"
+              >
+             <span class="flag-icon jp"></span>
+             <div class="flex-1 text-left rtl:text-right">
+             <p class="text-sm font-semibold text-gray-800" data-i18n="countries.names.jp">Japan</p>
+             <p class="text-xs text-gray-500" data-i18n="locations.descriptions.jp">20+ servers • Fast</p>
+             </div>
+             <i data-icon="lock" class="w-4 h-4 text-gray-400"></i>
+             </button>
+             
+              <!-- Australia -->
+             <button
+              class="w-full px-4 py-3 flex items-center gap-3 opacity-75 hover:bg-indigo-50/50 transition-colors motion-reduce:transition-none location-premium-trigger"
+              data-location="Australia"
+              data-country-code="AU"
+              >
+             <span class="flag-icon au"></span>
+             <div class="flex-1 text-left rtl:text-right">
+             <p class="text-sm font-semibold text-gray-800" data-i18n="countries.names.au">Australia</p>
+             <p class="text-xs text-gray-500" data-i18n="locations.descriptions.au">15+ servers • Fast</p>
+             </div>
+             <i data-icon="lock" class="w-4 h-4 text-gray-400"></i>
+             </button>
+             
+              <!-- More Countries -->
+             <div class="px-4 py-3 text-center bg-gray-50">
+             <p class="text-xs font-semibold text-indigo-600" data-i18n="locations.moreCountries">+65 More Countries</p>
+             </div>
+             </div>
+             </div>            
+             <!-- Benefits Block -->
+             <!-- Benefits Premium Variant -->
+             <div class="bg-black rounded-xl p-5 shadow-lg text-white mb-4">
+                 <!-- Header -->
+                 <div class="flex items-center gap-2 mb-4">
+                     <i data-icon="sparkles" class="w-5 h-5"></i>
+                     <h3 class="text-base font-bold" data-i18n="locations.premiumBenefits">Premium Benefits</h3>
+                 </div>
+             
+                 <!-- Benefits List -->
+                 <ul class="space-y-2.5 mb-4">
+                     <li class="flex items-center gap-2.5 text-sm">
+                         <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                             <i data-icon="check" class="w-3 h-3"></i>
+                         </div>
+                         <span data-i18n="locations.benefits.access">Access all 70+ countries</span>
+                     </li>
+                     <li class="flex items-center gap-2.5 text-sm">
+                         <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                             <i data-icon="check" class="w-3 h-3"></i>
+                         </div>
+                         <span data-i18n="locations.benefits.bandwidth">Unlimited bandwidth</span>
+                     </li>
+                     <li class="flex items-center gap-2.5 text-sm">
+                         <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                             <i data-icon="check" class="w-3 h-3"></i>
+                         </div>
+                         <span data-i18n="locations.benefits.speed">Maximum connection speed</span>
+                     </li>
+                     <li class="flex items-center gap-2.5 text-sm">
+                         <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                             <i data-icon="check" class="w-3 h-3"></i>
+                         </div>
+                         <span data-i18n="locations.benefits.ads">Ad-free experience</span>
+                     </li>
+                     <li class="flex items-center gap-2.5 text-sm">
+                         <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                             <i data-icon="check" class="w-3 h-3"></i>
+                         </div>
+                         <span data-i18n="locations.benefits.support">Priority 24/7 support</span>
+                     </li>
+                 </ul>
+             
+                 <!-- Pricing -->
+                 <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 mb-4">
+                     <div class="flex items-baseline justify-center gap-1 mb-1">
+                         <span class="text-3xl font-bold" data-i18n="locations.pricingMonthly">$4.99/month</span>
+                     </div>
+                     <p class="text-xs text-center opacity-90" data-i18n="locations.guarantee">30-day money-back guarantee</p>
+                 </div>
+             
+                 <!-- CTA Button -->
+                 <button
+                     id="upgradeFromLocations"
+                     class="w-full bg-white hover:bg-gray-50 text-gray-900 font-bold py-3 px-4 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95 motion-reduce:active:scale-100"
+                     data-i18n="locations.upgradeCta"
+                 >
+                     Upgrade Now
+                 </button>
+             </div>            
+             <!-- Trust Indicators Block -->
+             <!-- Trust Detailed Variant -->
+             <div class="bg-white rounded-xl p-4 border border-gray-200 mb-4">
+             <h3 class="text-sm font-bold text-gray-800 mb-3" data-i18n="locations.trustTitle">Why Trust Us</h3>
+                 
+             <div class="space-y-3">
+                     <!-- Secure -->
+                     <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors motion-reduce:transition-none">
+             <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+             <i data-icon="shield-check" class="w-5 h-5 text-green-600"></i>
+             </div>
+                         <div>
+             <p class="text-sm font-semibold text-gray-800" data-i18n="locations.bankGradeSecurity">Bank-Grade Security</p>
+             <p class="text-xs text-gray-600" data-i18n="locations.bankGradeSecurityDesc">Military-level encryption</p>
+             </div>
+                     </div>
+                     
+                     <!-- Private -->
+                     <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors motion-reduce:transition-none">
+             <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+             <i data-icon="lock" class="w-5 h-5 text-blue-600"></i>
+                         </div>
+             <div>
+                             <p class="text-sm font-semibold text-gray-800" data-i18n="locations.zeroLog">Zero-Log Policy</p>
+             <p class="text-xs text-gray-600" data-i18n="locations.zeroLogDesc">Your privacy guaranteed</p>
+                         </div>
+             </div>
+                     
+                     <!-- Trusted -->
+                     <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors motion-reduce:transition-none">
+             <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                             <i data-icon="award" class="w-5 h-5 text-purple-600"></i>
+             </div>
+                         <div>
+             <p class="text-sm font-semibold text-gray-800" data-i18n="locations.trustedWorldwide">Trusted Worldwide</p>
+             <p class="text-xs text-gray-600" data-i18n="locations.trustedWorldwideDesc">Millions of users</p>
+             </div>
+                     </div>
+             </div>
+             </div>            
+         </div>
+ </div>
+ </div></div>
+ 
+ <!-- Account Tab -->
+<div 
+ id="accountTabContainer"
+ data-tab="account"
+ class="tab-container absolute inset-0 transition-all duration-300 ease-out opacity-0 rtl:opacity-0 rtl:translate-x-full translate-x-full rtl:-translate-x-full pointer-events-none" >
+ <!-- Account Tab Content -->
+ <div id="accountTabContainer" class="h-full flex flex-col overflow-hidden">
+ <div class="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+         <div class="p-4 space-y-4">
+ 
+             <!-- Header Block (Dynamic - loaded by account-controller.js) -->
+             <div id="accountHeaderContainer">
+                 <!-- Will be populated dynamically based on authentication state -->
+ <div
+                     class="bg-gray-100 rounded-lg p-4 text-center text-gray-500 animate-pulse"
+                     role="status"
+                     aria-live="polite"
+                 >
+                     <p class="text-sm" data-i18n="account.loading">Loading account information...</p>
+ </div>
+             </div>
+ 
+             <!--
+               Header templates (inline, no network fetch required).
+               These compile at build time via Handlebars and are cloned at runtime.
+             -->
+             <template id="accountHeaderTemplate-compact">
+                 <!-- Compact Header Variant (Premium Sign-In CTA) -->
+                 <section
+                     class="relative overflow-hidden bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg p-4 mb-4 text-white shadow-sm ring-1 ring-white/10"
+                     role="region"
+                     aria-label="Account summary"
+                 >
+                 <div class="flex items-center gap-3 mb-3">
+                 <div
+                             class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0"
+                             aria-hidden="true"
+                         >
+                             <i data-icon="user" class="w-6 h-6 text-white" aria-hidden="true"></i>
+                         </div>
+                 
+                         <div class="flex-1 min-w-0">
+                             <h3 id="accountUserName" class="font-semibold text-base mb-0.5" data-i18n="account.compactHeaderTitle">Free User</h3>
+                 
+                 <div class="flex items-center gap-1.5 flex-wrap">
+                                 <span id="accountUserPlan" class="text-xs bg-white/20 px-2 py-0.5 rounded-full" data-i18n="account.freePlan">
+                                     Free Plan
+                 </span>
+                 
+                 <button
+                                     id="upgradeFromAccount"
+                                     type="button"
+                                     class="min-h-[32px] text-xs bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-medium px-2 py-0.5 rounded-full transition-colors motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700"
+                                     aria-label="Upgrade to Premium"
+                                     data-i18n-attr="aria-label" data-i18n="account.upgrade"
+                                 >
+                                    <span data-i18n="account.upgrade">Upgrade</span>
+                                 </button>
+                 </div>
+                         </div>
+                 </div>
+                 
+                     <!-- Premium Sign-In CTA -->
+                 <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                         <div class="flex items-center gap-3 mb-3">
+                             <div
+                                 class="w-10 h-10 bg-yellow-400/20 rounded-full flex items-center justify-center flex-shrink-0"
+                                 aria-hidden="true"
+                             >
+                                 <i data-icon="crown" class="w-5 h-5 text-yellow-400" aria-hidden="true"></i>
+                             </div>
+                 
+                             <div class="flex-1 min-w-0">
+                                 <h4 class="font-bold text-sm mb-0.5" data-i18n="account.compactCardTitle">Already Premium?</h4>
+                 <p class="text-xs opacity-90" data-i18n="account.compactCardText">Sign in to your account</p>
+                 </div>
+                         </div>
+                 
+                         <button
+                             id="compactSignInBtn"
+                             type="button"
+                             class="min-h-[44px] w-full py-2.5 px-4 bg-white hover:bg-gray-50 text-indigo-600 font-bold rounded-lg transition-all duration-200 motion-reduce:transition-none flex items-center justify-center gap-2 active:scale-[0.98] motion-reduce:active:scale-100 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700"
+                             aria-label="Sign in to your account"
+                             data-i18n-attr="aria-label" data-i18n="account.compactSignIn"
+                         >
+                             <i data-icon="log-in" class="w-4 h-4" aria-hidden="true"></i>
+                 <span data-i18n="account.compactSignIn">Sign In</span>
+                         </button>
+                 </div>
+                 </section></template>
+ 
+ <template id="accountHeaderTemplate-auth-free">
+                 <!-- Authenticated Free User Header -->
+                 <section
+                     class="relative overflow-hidden bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg p-4 mb-4 text-white shadow-sm ring-1 ring-white/10"
+                     role="region"
+                     aria-label="Account summary"
+                 >
+                 <div class="flex items-center gap-3 mb-3">
+                 <div
+                             class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0"
+                             aria-hidden="true"
+                         >
+                 <i data-icon="user" class="w-6 h-6 text-white" aria-hidden="true"></i>
+                 </div>
+                 
+                 <div class="flex-1 min-w-0">
+                 <h3 id="accountUserName" class="font-semibold text-base mb-0.5 truncate" aria-live="polite">
+                                 Loading...
+                 </h3>
+                 
+                 <div class="flex items-center gap-1.5 flex-wrap">
+                 <span id="accountUserPlan" class="text-xs bg-white/20 px-2 py-0.5 rounded-full" data-i18n="account.freePlan">
+                                     Free Plan
+                 </span>
+                 
+                 <button
+                                     id="upgradeFromAccount"
+                                     type="button"
+                                     class="min-h-[32px] text-xs bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-medium px-2 py-0.5 rounded-full transition-colors motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700"
+                                     aria-label="Upgrade to Premium"
+                                     data-i18n-attr="aria-label" data-i18n="account.upgrade"
+                                 >
+                                     <span data-i18n="account.upgrade">Upgrade</span>
+                 </button>
+                 </div>
+                         </div>
+                 </div>
+                 
+                     <!-- Account Actions -->
+                 <div class="flex gap-2">
+                 <button
+                             id="accountSettingsBtn"
+                             type="button"
+                             data-modal-trigger="settings"
+                             class="min-h-[44px] flex-1 py-2.5 px-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-medium rounded-lg transition-all duration-200 motion-reduce:transition-none flex items-center justify-center gap-2 active:scale-[0.98] motion-reduce:active:scale-100 border border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 disabled:opacity-70 disabled:cursor-not-allowed"
+                             aria-label="Open Settings"
+                  data-i18n-attr="aria-label" data-i18n="account.settings"
+                         >
+                             <i data-icon="settings" class="w-4 h-4" aria-hidden="true"></i>
+                             <span data-i18n="account.settings">Settings</span>
+                         </button>
+                 
+                         <button
+                             id="signOutBtn"
+                             type="button"
+                             class="min-h-[44px] flex-1 py-2.5 px-4 bg-white/10 hover:bg-red-500/80 backdrop-blur-sm text-white font-medium rounded-lg transition-all duration-200 motion-reduce:transition-none flex items-center justify-center gap-2 active:scale-[0.98] motion-reduce:active:scale-100 border border-white/20 hover:border-red-500/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 disabled:opacity-70 disabled:cursor-not-allowed"
+                             aria-label="Sign Out"
+                             data-i18n-attr="aria-label" data-i18n="account.signOut"
+                         >
+                 <span data-signout-icon aria-hidden="true" class="inline-flex">
+                 <i data-icon="log-out" class="w-4 h-4" aria-hidden="true"></i>
+                             </span>
+                 
+                             <span data-signout-spinner aria-hidden="true" class="hidden w-4 h-4 rounded-full border-2 border-white/50 border-t-white animate-spin"></span>
+                 
+                 <span data-signout-label data-i18n="account.signOut">Sign Out</span>
+                         </button>
+                 </div>
+                 </section>            </template>
+ 
+             <template id="accountHeaderTemplate-auth-premium">
+                 <!-- Authenticated Premium User Header -->
+                 <section
+                     class="relative overflow-hidden bg-gradient-to-br from-amber-500 via-yellow-500 to-orange-500 rounded-lg p-4 mb-4 text-white shadow-lg ring-1 ring-white/20"
+                     role="region"
+                     aria-label="Account summary"
+                 >
+                     <!-- Decorative sparkles -->
+                 <div class="absolute top-2 right-2 w-8 h-8 opacity-20 pointer-events-none">
+                         <i data-icon="sparkles" class="w-full h-full" aria-hidden="true"></i>
+                     </div>
+                 
+                     <div class="flex items-center gap-3 mb-3">
+                         <div
+                             class="w-12 h-12 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0 ring-2 ring-white/40"
+                             aria-hidden="true"
+                         >
+                             <i data-icon="crown" class="w-6 h-6 text-white" aria-hidden="true"></i>
+                 </div>
+                 
+                 <div class="flex-1 min-w-0">
+                 <h3 id="accountUserName" class="font-bold text-base mb-0.5 truncate" aria-live="polite">
+                                 Loading...
+                 </h3>
+                 
+                             <div class="flex items-center gap-1.5">
+                 <span
+                                     id="accountUserPlan"
+                                     class="text-xs bg-white/30 backdrop-blur-sm px-2.5 py-0.5 rounded-full font-semibold inline-flex items-center gap-1"
+                                 >
+                 <i data-icon="star" class="w-3 h-3" aria-hidden="true"></i>
+                 <span data-i18n="account.premium">Premium</span>
+                                 </span>
+                 </div>
+                         </div>
+                 </div>
+                 
+                     <!-- Premium status -->
+                     <div class="bg-white/20 backdrop-blur-sm rounded-lg p-2.5 mb-3 border border-white/30">
+                         <div class="flex items-center gap-2 text-xs">
+                 <i data-icon="check-circle" class="w-4 h-4 flex-shrink-0" aria-hidden="true"></i>
+                             <span class="font-medium" data-i18n="account.allPremiumUnlocked">All Premium features unlocked</span>
+                         </div>
+                 </div>
+                 
+                     <!-- Account Actions -->
+                     <div class="flex gap-2">
+                 <button
+                             id="accountSettingsBtn"
+                             type="button"
+                             data-modal-trigger="settings"
+                             class="min-h-[44px] flex-1 py-2.5 px-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold rounded-lg transition-all duration-200 motion-reduce:transition-none flex items-center justify-center gap-2 active:scale-[0.98] motion-reduce:active:scale-100 border border-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-600 disabled:opacity-70 disabled:cursor-not-allowed"
+                             aria-label="Open Settings"
+                             data-i18n-attr="aria-label" data-i18n="account.settings"
+                         >
+                 <i data-icon="settings" class="w-4 h-4" aria-hidden="true"></i>
+                 <span data-i18n="account.settings">Settings</span>
+                 </button>
+                 
+                 <button
+                             id="signOutBtn"
+                             type="button"
+                             class="min-h-[44px] flex-1 py-2.5 px-4 bg-white/20 hover:bg-red-500/80 backdrop-blur-sm text-white font-semibold rounded-lg transition-all duration-200 motion-reduce:transition-none flex items-center justify-center gap-2 active:scale-[0.98] motion-reduce:active:scale-100 border border-white/30 hover:border-red-500/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-600 disabled:opacity-70 disabled:cursor-not-allowed"
+                             aria-label="Sign Out"
+                             data-i18n-attr="aria-label" data-i18n="account.signOut"
+                         >
+                             <span data-signout-icon aria-hidden="true" class="inline-flex">
+                                 <i data-icon="log-out" class="w-4 h-4" aria-hidden="true"></i>
+                 </span>
+                 
+                 <span data-signout-spinner aria-hidden="true" class="hidden w-4 h-4 rounded-full border-2 border-white/60 border-t-white animate-spin"></span>
+                 
+                             <span data-signout-label data-i18n="account.signOut">Sign Out</span>
+                 </button>
+                     </div>
+                 </section></template>
+ 
+             <!-- Status Block -->
+             <!-- Detailed Status Variant -->
+             <div class="account-status-detailed bg-white rounded-xl border border-indigo-100 overflow-hidden mb-4">
+                 <!-- Header -->
+                 <div class="px-4 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-gray-100">
+             <h3 class="text-sm font-bold text-gray-800" data-i18n="account.accountOverview">Account Overview</h3>
+             </div>
+             
+                 <!-- Stats Grid -->
+                 <div class="p-4 grid grid-cols-2 gap-3">
+                     <!-- Total Data Usage -->
+             <div class="text-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                         <div id="accountDataUsage" class="text-xl font-bold text-gray-800 mb-1" aria-live="polite">—</div>
+                         <div class="text-xs text-gray-600" data-i18n="account.totalUsage">Total Usage</div>
+                     </div>
+             
+                     <!-- Protected Sites Count -->
+                     <div class="text-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+             <div id="accountProtectedSites" class="text-xl font-bold text-gray-800 mb-1" aria-live="polite">—</div>
+                         <div class="text-xs text-gray-600" data-i18n="account.protectedSites">Protected Sites</div>
+                     </div>
+             
+                     <!-- Member Since -->
+             <div class="col-span-2 text-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                         <div class="text-sm font-semibold text-gray-800 mb-1" data-i18n="account.memberSince">Member Since</div>
+                         <div id="accountMemberSince" class="text-xs text-gray-600" aria-live="polite">—</div>
+             </div>
+                 </div>
+             </div>
+             <!-- Settings Block -->
+             <!-- Elegant Settings Variant (from old4) -->
+             <div class="account-settings-elegant bg-white rounded-xl divide-y divide-gray-100 mb-4 overflow-hidden border border-gray-200">
+             <button
+              type="button"
+              data-modal-trigger="settings"
+              class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors group active:bg-gray-100 motion-reduce:transition-none"
+              >
+             <div class="flex items-center gap-3">
+             <div class="w-8 h-8 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center group-hover:from-indigo-100 group-hover:to-indigo-200 transition-all duration-200 motion-reduce:transition-none">
+             <i data-icon="settings" class="w-4 h-4 text-gray-600 group-hover:text-indigo-600 transition-colors motion-reduce:transition-none"></i>
+             </div>
+             <span class="text-sm font-medium text-gray-800" data-i18n="account.settings">Settings</span>
+             </div>
+             <i data-icon="chevron-right" class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors motion-reduce:transition-none ltr:rotate-0 rtl:rotate-180"></i>
+             </button>
+             
+             <button
+              type="button"
+              data-modal-trigger="about"
+              class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors group active:bg-gray-100 motion-reduce:transition-none"
+              >
+             <div class="flex items-center gap-3">
+             <div class="w-8 h-8 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center group-hover:from-purple-100 group-hover:to-purple-200 transition-all duration-200 motion-reduce:transition-none">
+             <i data-icon="info" class="w-4 h-4 text-gray-600 group-hover:text-purple-600 transition-colors motion-reduce:transition-none"></i>
+             </div>
+             <span class="text-sm font-medium text-gray-800" data-i18n="account.about">About</span>
+             </div>
+             <i data-icon="chevron-right" class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors motion-reduce:transition-none ltr:rotate-0 rtl:rotate-180"></i>
+             </button>
+             </div>
+             
+             
+             
+             
+ 
+             <!-- Support Block -->
+             <!-- Gradient Support Variant -->
+             <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100 mb-4">
+             <div class="flex items-start gap-3">
+                     <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                         <i data-icon="help-circle" class="w-5 h-5 text-blue-600"></i>
+                     </div>
+             <div class="flex-1">
+             <h4 class="text-sm font-semibold text-gray-800 mb-2" data-i18n="account.needHelp">Need Help?</h4>
+             <p class="text-xs text-gray-600 mb-3 leading-relaxed" data-i18n="account.supportDescription">
+                             Our support team is here to help you with any questions or issues.
+                         </p>
+             <button
+                             type="button"
+                             data-modal-trigger="support"
+                             class="w-full bg-white hover:bg-gray-50 text-indigo-600 font-semibold py-2 px-4 rounded-lg transition-all shadow-sm hover:shadow active:scale-95 motion-reduce:active:scale-100 text-sm flex items-center justify-center gap-2"
+                         >
+             <i data-icon="message-circle" class="w-4 h-4"></i>
+             <span data-i18n="account.contactSupport">Contact Support</span>
+             </button>
+                     </div>
+             </div>
+             </div>
+             <!-- Features Block (Hidden for authenticated users via controller) -->
+ <div id="accountFeaturesContainer">
+                 <!-- Premium Features Variant (Current Design) -->
+                 <div class="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl p-5 shadow-lg text-white mb-4">
+                     <!-- Header -->
+                     <div class="flex items-center gap-2 mb-4">
+                         <i data-icon="star" class="w-5 h-5"></i>
+                         <h3 class="text-base font-bold" data-i18n="account.upgradeToPremium">Upgrade to Premium</h3>
+                     </div>
+                 
+                     <!-- Features List -->
+                     <ul class="space-y-2.5 mb-4">
+                         <li class="flex items-center gap-2.5 text-sm">
+                             <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                 <i data-icon="check" class="w-3 h-3"></i>
+                             </div>
+                             <span data-i18n="account.features.70countries">70+ countries worldwide</span>
+                         </li>
+                         <li class="flex items-center gap-2.5 text-sm">
+                             <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                 <i data-icon="check" class="w-3 h-3"></i>
+                             </div>
+                             <span data-i18n="account.features.unlimited">Unlimited bandwidth</span>
+                         </li>
+                         <li class="flex items-center gap-2.5 text-sm">
+                             <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                 <i data-icon="check" class="w-3 h-3"></i>
+                             </div>
+                             <span data-i18n="account.features.ads">Ad-free experience</span>
+                         </li>
+                         <li class="flex items-center gap-2.5 text-sm">
+                             <div class="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                 <i data-icon="check" class="w-3 h-3"></i>
+                             </div>
+                             <span data-i18n="account.features.support">Priority support</span>
+                         </li>
+                     </ul>
+                 
+                     <!-- Pricing -->
+                     <div class="bg-white/20 backdrop-blur-sm rounded-lg p-3 mb-4">
+                         <div class="flex items-baseline justify-center gap-1 mb-1">
+                             <span class="text-3xl font-bold" data-i18n="account.pricingMonthly">$4.99/month</span>
+                         </div>
+                     </div>
+                 
+                     <!-- CTA Button -->
+                     <button
+                         id="upgradeFromAccount"
+                         type="button"
+                         class="w-full bg-white hover:bg-gray-50 text-gray-900 font-bold py-3 px-4 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95 motion-reduce:active:scale-100"
+                         data-i18n="account.upgradeNow"
+                     >
+                         Upgrade Now
+                     </button>
+                 </div>            </div>
+ 
+         </div>
+ </div>
+ </div></div>
+</main>
+ 
+ <footer class="relative z-10 border-t border-gray-100 bg-gradient-to-b from-gray-50 to-white px-3">
+ <nav class="mx-auto flex max-w-md items-center justify-around gap-2" role="navigation">
+  <!-- Per-Site Button -->
+ <div
+  id="tab-perSite"
+  class="footer-tab-btn group active min-w-0 flex-1 rounded-2xl transition-all duration-300 ease-out cursor-pointer"
+  data-tab="perSite"
+  role="button"
+  >
+ <div class="footer-tab-content flex flex-col items-center gap-1 rounded-2xl bg-transparent px-4 py-1.5">
+ <div class="footer-tab-icon-wrapper relative flex items-center justify-center">
+ <div class="footer-tab-icon flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-100 shadow-sm transition-all duration-300 group-hover:bg-gray-200 group-hover:shadow group-[.active]:bg-gradient-to-br group-[.active]:from-indigo-500 group-[.active]:via-indigo-600 group-[.active]:to-purple-600 group-[.active]:shadow-md group-[.active]:shadow-indigo-200">
+ <i data-icon="toggle-right" class="h-5 w-5 text-gray-600 transition-colors duration-300 group-hover:text-indigo-600 group-[.active]:text-white ltr:rotate-0 rtl:rotate-180"></i>
+ </div>
+ </div>
+ <span class="footer-tab-label truncate text-[11px] font-semibold tracking-tight text-gray-600 transition-colors duration-300 group-hover:text-gray-900 group-[.active]:text-indigo-700" data-i18n="footer.perSite">Per-Site</span>
+ </div>
+ </div>
+ 
+  <!-- Locations Button -->
+ <div
+  id="tab-vpnLocations"
+  class="footer-tab-btn group min-w-0 flex-1 rounded-2xl transition-all duration-300 ease-out cursor-pointer"
+  data-tab="vpnLocations"
+  role="button"
+  >
+ <div class="footer-tab-content flex flex-col items-center gap-1 rounded-2xl bg-transparent px-4 py-1.5">
+ <div class="footer-tab-icon-wrapper relative flex items-center justify-center">
+ <div class="footer-tab-icon flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-100 shadow-sm transition-all duration-300 group-hover:bg-gray-200 group-hover:shadow group-[.active]:bg-gradient-to-br group-[.active]:from-indigo-500 group-[.active]:via-indigo-600 group-[.active]:to-purple-600 group-[.active]:shadow-md group-[.active]:shadow-indigo-200">
+ <i data-icon="globe" class="h-5 w-5 text-gray-600 transition-colors duration-300 group-hover:text-indigo-600 group-[.active]:text-white"></i>
+ </div>
+  <!-- Premium Crown Badge -->
+ <div class="absolute -right-1 -top-1 rtl:right-auto rtl:-left-1 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 shadow-sm shadow-amber-500/50 ring-2 ring-white transition-all duration-300 group-hover:scale-110 group-hover:shadow-md group-[.active]:from-yellow-300 group-[.active]:to-amber-400 group-[.active]:shadow-amber-400/60">
+ <i data-icon="crown" class="h-2.5 w-2.5 text-white drop-shadow-sm"></i>
+ </div>
+ </div>
+ <span class="footer-tab-label truncate text-[11px] font-semibold tracking-tight text-gray-600 transition-colors duration-300 group-hover:text-gray-900 group-[.active]:text-indigo-700" data-i18n="footer.locations">Locations</span>
+ </div>
+ </div>
+ 
+  <!-- Account Button -->
+ <div
+  id="tab-account"
+  class="footer-tab-btn group min-w-0 flex-1 rounded-2xl transition-all duration-300 ease-out cursor-pointer"
+  data-tab="account"
+  role="button"
+  >
+ <div class="footer-tab-content flex flex-col items-center gap-1 rounded-2xl bg-transparent px-4 py-1.5">
+ <div class="footer-tab-icon-wrapper relative flex items-center justify-center">
+ <div class="footer-tab-icon flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-100 shadow-sm transition-all duration-300 group-hover:bg-gray-200 group-hover:shadow group-[.active]:bg-gradient-to-br group-[.active]:from-indigo-500 group-[.active]:via-indigo-600 group-[.active]:to-purple-600 group-[.active]:shadow-md group-[.active]:shadow-indigo-200">
+ <i data-icon="user" class="h-5 w-5 text-gray-600 transition-colors duration-300 group-hover:text-indigo-600 group-[.active]:text-white"></i>
+ </div>
+ </div>
+ <span class="footer-tab-label truncate text-[11px] font-semibold tracking-tight text-gray-600 transition-colors duration-300 group-hover:text-gray-900 group-[.active]:text-indigo-700" data-i18n="footer.account">Account</span>
+ </div>
+ </div>
+ </nav>
+ </footer> 
+ <!-- Modals -->
+ <!-- About Modal - Elegant Variant -->
+ <div 
+     data-modal="about" 
+     class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="aboutModalTitle"
+ >
+     <!-- Modal Content Card -->
+ <div class="bg-white w-full h-full flex flex-col">
+         <!-- Modal Header -->
+ <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+ <div class="flex items-center gap-3">
+ <div class="w-8 h-8 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center shadow-sm shadow-purple-200">
+ <i data-icon="info" class="w-5 h-5 text-purple-600"></i>
+ </div>
+                 <div>
+ <h2 id="aboutModalTitle" class="font-bold text-gray-800" data-i18n="about.title">About DotVPN</h2>
+ </div>
+ </div>
+ <button 
+                 data-modal-close 
+                 class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+                 aria-label="Close about"
+             >
+                 <i data-icon="x" class="w-5 h-5"></i>
+ </button>
+ </div>
+ 
+         <!-- Modal Content -->
+ <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+             
+             <!-- App Logo & Info -->
+ <div class="text-center mb-6 pt-2">
+ <div class="w-20 h-20 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+ <img src="assets/logo.png" class="w-10 h-10" alt="DotVPN Logo" />
+ </div>
+                 <h3 class="text-xl font-bold text-gray-800 mb-1" data-i18n="app.name">DotVPN</h3>
+                 <p class="text-sm text-gray-600 mb-2" data-i18n="app.tagline">Free Per-Site VPN Protection</p>
+ <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-100 rounded-full">
+                     <span id="aboutAppVersion" data-i18n="about.version" class="text-xs font-semibold text-indigo-700">Version 0.0.0</span>
+                     <span class="w-1 h-1 bg-indigo-400 rounded-full"></span>
+ <span class="text-xs text-indigo-600" data-i18n="about.latest">Latest</span>
+ </div>
+ </div>
+ 
+             <!-- Description -->
+ <div class="mb-6 pb-6 border-b border-gray-100">
+ <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide">
+                     <i data-icon="file-text" class="w-4 h-4"></i>
+                     <span data-i18n="about.descriptionTitle">Description</span>
+ </h4>
+ <p class="text-sm text-gray-600 leading-relaxed" data-i18n="about.description">
+                     DotVPN provides per-site VPN protection, allowing you to secure specific websites while browsing normally on others. Protect your privacy, bypass restrictions, and stay secure online.
+                 </p>
+ </div>
+ 
+             <!-- Features -->
+ <div class="mb-6 pb-6 border-b border-gray-100">
+ <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide">
+ <i data-icon="star" class="w-4 h-4"></i>
+ <span data-i18n="about.keyFeatures">Key Features</span>
+ </h4>
+ <ul class="space-y-2">
+ <li class="flex items-start gap-2 text-sm text-gray-600">
+ <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+ <span data-i18n="about.features[0]">Unlimited per-site VPN protection</span>
+ </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+ <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+ <span data-i18n="about.features[1]">Military-grade encryption (AES-256)</span>
+                     </li>
+ <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+                         <span data-i18n="about.features[2]">No-logs policy - complete privacy</span>
+                     </li>
+ <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+                         <span data-i18n="about.features[3]">Easy-to-use interface</span>
+ </li>
+ </ul>
+ </div>
+ 
+             <!-- Links -->
+ <div class="mb-6 pb-6 border-b border-gray-100">
+                 <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide">
+                     <i data-icon="external-link" class="w-4 h-4"></i>
+                     <span data-i18n="about.links">Links</span>
+                 </h4>
+                 <div class="space-y-2">
+ <a href="https://dotvpn.com/en/legal/privacy-policy/" class="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 no-underline text-inherit">
+                         <span class="text-sm font-medium text-gray-700" data-i18n="about.privacyPolicy">Privacy Policy</span>
+ <i data-icon="external-link" class="w-3.5 h-3.5 text-gray-400"></i>
+ </a>
+ <a href="https://dotvpn.com/en/legal/tos/" class="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 no-underline text-inherit">
+ <span class="text-sm font-medium text-gray-700" data-i18n="about.termsOfService">Terms of Service</span>
+ <i data-icon="external-link" class="w-3.5 h-3.5 text-gray-400"></i>
+ </a>
+ </div>
+             </div>
+ 
+             <!-- Copyright -->
+             <div class="text-center pt-3 pb-1">
+ <p class="text-xs text-gray-500" data-i18n="about.copyright">© 2025 DotVPN. All rights reserved.</p>
+ </div>
+ 
+ </div>
+ 
+ </div>
+ </div><!-- Help & Support Modal - Elegant Variant -->
+ <div 
+     data-modal="helpSupport" 
+     class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="helpSupportModalTitle"
+ >
+     <!-- Modal Content Card -->
+ <div class="bg-white w-full h-full flex flex-col">
+         <!-- Modal Header -->
+         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+             <div class="flex items-center gap-3">
+ <div class="w-8 h-8 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl flex items-center justify-center shadow-sm shadow-blue-200">
+ <i data-icon="help-circle" class="w-5 h-5 text-blue-600"></i>
+ </div>
+                 <div>
+ <h2 id="helpSupportModalTitle" class="font-bold text-gray-800" data-i18n="helpSupport.title">Help & Support</h2>
+ </div>
+             </div>
+ <button 
+                 data-modal-close 
+                 class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+                 aria-label="Close help"
+             >
+                 <i data-icon="x" class="w-5 h-5"></i>
+ </button>
+         </div>
+ 
+         <!-- Modal Content -->
+ <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+             
+             <!-- Search Help -->
+ <div class="mb-4">
+ <div class="relative">
+ <i data-icon="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                     <input 
+                         type="text" 
+                         id="helpSearchInput"
+                         placeholder="Search help articles..."
+                         class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm"
+                         aria-label="Search help articles"
+                         data-i18n-attr="placeholder" data-i18n="helpSupport.searchPlaceholder"
+                     >
+                 </div>
+ </div>
+ 
+             <!-- Quick Help Cards -->
+ <div class="grid grid-cols-2 gap-2 mb-4">
+                 <button class="flex flex-col items-center p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 cursor-pointer" aria-label="Getting started guide" data-i18n-attr="aria-label" data-i18n="helpSupport.gettingStarted">
+ <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mb-2">
+                         <i data-icon="play-circle" class="w-4 h-4 text-green-600"></i>
+                     </div>
+ <span class="text-xs font-semibold text-gray-800" data-i18n="helpSupport.gettingStarted">Getting Started</span>
+ </button>
+                 <button class="flex flex-col items-center p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 cursor-pointer" aria-label="Troubleshooting guide" data-i18n-attr="aria-label" data-i18n="helpSupport.troubleshooting">
+                     <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mb-2">
+                         <i data-icon="zap" class="w-4 h-4 text-purple-600"></i>
+ </div>
+                     <span class="text-xs font-semibold text-gray-800" data-i18n="helpSupport.troubleshooting">Troubleshooting</span>
+ </button>
+             </div>
+ 
+             <!-- FAQ Section -->
+ <div class="mb-6 pb-6 border-b border-gray-100">
+                 <h3 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="helpSupport.faq">
+                     <i data-icon="message-circle" class="w-4 h-4"></i>
+                     Frequently Asked Questions
+ </h3>
+                 
+                 <div class="space-y-2">
+                     <!-- FAQ Item 1 -->
+                     <details class="border border-gray-200 rounded-lg overflow-hidden">
+                         <summary class="flex items-center justify-between px-4 py-3 cursor-pointer select-none text-sm font-semibold text-gray-800 bg-white hover:bg-gray-50 transition-colors">
+ <span data-i18n="helpSupport.faqItems[0].question">How does per-site VPN protection work?</span>
+ <i data-icon="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                         </summary>
+ <div class="px-4 pb-4 text-sm leading-relaxed text-gray-600">
+                             <p data-i18n="helpSupport.faqItems[0].answer">Per-site VPN protection routes traffic from specific websites through our secure VPN servers. Add a site to your protected list, and all requests to that domain will be encrypted and routed through our network.</p>
+                         </div>
+ </details>
+ 
+                     <!-- FAQ Item 2 -->
+                     <details class="border border-gray-200 rounded-lg overflow-hidden">
+                         <summary class="flex items-center justify-between px-4 py-3 cursor-pointer select-none text-sm font-semibold text-gray-800 bg-white hover:bg-gray-50 transition-colors">
+ <span data-i18n="helpSupport.faqItems[1].question">What's the difference between Free and Premium?</span>
+                             <i data-icon="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
+ </summary>
+                         <div class="px-4 pb-4 text-sm leading-relaxed text-gray-600">
+ <p data-i18n="helpSupport.faqItems[1].answer"><strong>Free Plan:</strong> Unlimited per-site VPN protection for any website you choose.</p>
+ <p class="mt-2"><strong>Premium Plan:</strong> Adds global VPN for all traffic, 70+ countries, faster speeds, and priority support.</p>
+ </div>
+                     </details>
+ 
+                     <!-- FAQ Item 3 -->
+ <details class="border border-gray-200 rounded-lg overflow-hidden">
+ <summary class="flex items-center justify-between px-4 py-3 cursor-pointer select-none text-sm font-semibold text-gray-800 bg-white hover:bg-gray-50 transition-colors">
+                             <span data-i18n="helpSupport.faqItems[2].question">Is my browsing data logged?</span>
+                             <i data-icon="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
+ </summary>
+                         <div class="px-4 pb-4 text-sm leading-relaxed text-gray-600">
+ <p data-i18n="helpSupport.faqItems[2].answer">We have a strict no-logs policy. We don't track, collect, or store your browsing activity, connection logs, or IP addresses. Your privacy is our top priority.</p>
+ </div>
+                     </details>
+ 
+                     <!-- FAQ Item 4 -->
+ <details class="border border-gray-200 rounded-lg overflow-hidden">
+ <summary class="flex items-center justify-between px-4 py-3 cursor-pointer select-none text-sm font-semibold text-gray-800 bg-white hover:bg-gray-50 transition-colors">
+                             <span data-i18n="helpSupport.faqItems[3].question">Can I use this on multiple devices?</span>
+                             <i data-icon="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"></i>
+ </summary>
+                         <div class="px-4 pb-4 text-sm leading-relaxed text-gray-600">
+ <p data-i18n="helpSupport.faqItems[3].answer">Yes! Install the extension on any browser that supports Chrome extensions. Your account syncs across all devices.</p>
+                         </div>
+ </details>
+                 </div>
+ </div>
+ 
+             <!-- Contact Support Section -->
+ <div class="mb-6 pb-6 border-b border-gray-100">
+                 <h3 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="helpSupport.contactSupport">
+ <i data-icon="mail" class="w-4 h-4"></i>
+                     Contact Support
+                 </h3>
+                 
+ <div class="space-y-2">
+                     <a href="mailto:support@securevpn.com" class="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 hover:-translate-y-px transition-all duration-200 no-underline text-inherit">
+                         <div class="flex items-center gap-3">
+ <div class="w-9 h-9 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
+                                 <i data-icon="mail" class="w-4 h-4 text-blue-600"></i>
+ </div>
+                             <div class="text-left">
+ <div class="text-sm font-semibold text-gray-800" data-i18n="helpSupport.emailSupport">Email Support</div>
+                                 <div class="text-xs text-gray-500" data-i18n="helpSupport.emailAddress">support@securevpn.com</div>
+ </div>
+                         </div>
+ <i data-icon="external-link" class="w-4 h-4 text-gray-400"></i>
+ </a>
+ 
+ <a href="#" class="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 hover:-translate-y-px transition-all duration-200 no-underline text-inherit">
+ <div class="flex items-center gap-3">
+                             <div class="w-9 h-9 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center">
+ <i data-icon="message-circle" class="w-4 h-4 text-green-600"></i>
+ </div>
+                             <div class="text-left">
+ <div class="text-sm font-semibold text-gray-800" data-i18n="helpSupport.liveChat">Live Chat</div>
+ <div class="text-xs text-gray-500" data-i18n="helpSupport.liveChatHours">Available 9am-5pm EST</div>
+                             </div>
+ </div>
+                         <i data-icon="external-link" class="w-4 h-4 text-gray-400"></i>
+                     </a>
+ </div>
+             </div>
+ 
+         </div>
+ 
+     </div>
+ </div><!-- No Internet Modal - Elegant Variant -->
+ <div 
+     data-modal="noInternet" 
+     class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="noInternetModalTitle"
+     aria-describedby="noInternetModalDescription"
+ >
+     <!-- Modal Content Card -->
+     <div class="bg-white w-full h-full flex flex-col">
+         <!-- Modal Header -->
+ <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+ <div class="flex items-center gap-3">
+                 <div class="w-8 h-8 bg-gradient-to-br from-red-100 to-orange-100 rounded-xl flex items-center justify-center shadow-sm shadow-red-200">
+                     <i data-icon="wifi-off" class="w-5 h-5 text-red-600" aria-hidden="true"></i>
+                 </div>
+ <div>
+                     <h2 id="noInternetModalTitle" class="font-bold text-gray-800" data-i18n="noInternet.title">No Internet Connection</h2>
+                 </div>
+ </div>
+             <button 
+                 data-modal-close 
+                 class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+                 aria-label="Close no internet dialog"
+             >
+ <i data-icon="x" class="w-5 h-5" aria-hidden="true"></i>
+ </button>
+         </div>
+ 
+         <!-- Modal Content -->
+ <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+             
+             <!-- Warning Icon -->
+ <div class="text-center mb-6 pt-2">
+                 <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-red-200">
+ <i data-icon="wifi-off" class="w-10 h-10 text-white" aria-hidden="true"></i>
+ </div>
+                 <h3 class="text-xl font-bold text-gray-800 mb-2" data-i18n="noInternet.connectionIssue">Connection Issue Detected</h3>
+ </div>
+ 
+             <!-- Connection Status -->
+             <div class="mb-6 pb-6 border-b border-gray-100">
+ <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                     <p class="text-center text-xs text-red-800 mb-2 font-semibold uppercase tracking-wide" data-i18n="noInternet.networkStatus">
+                         Network Status
+                     </p>
+ <p 
+                         id="connectionStatus"
+                         data-connection-status
+                         role="status"
+                         aria-live="polite"
+                         aria-atomic="true"
+                         class="text-center text-lg font-bold text-red-900 mb-3"
+                         data-i18n="noInternet.noInternetAccess"
+                     >
+                         No Internet Access
+                     </p>
+ <div class="flex items-center justify-center gap-2 text-xs text-red-700">
+                         <i data-icon="alert-circle" class="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true"></i>
+ <span data-i18n="noInternet.browserCannotConnect">Chrome browser cannot connect to the internet</span>
+ </div>
+                 </div>
+ </div>
+ 
+             <!-- Problem Description -->
+             <div class="mb-6 pb-6 border-b border-gray-100">
+ <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="noInternet.whatIsHappening">
+ <i data-icon="info" class="w-4 h-4" aria-hidden="true"></i>
+                     What's Happening?
+                 </h4>
+                 <div id="noInternetModalDescription" class="space-y-3 text-sm text-gray-600">
+                     <!--
+                         NOTE: no nested [data-i18n] here.
+                         The translated string owns the app name through the global
+                         {appName} placeholder, e.g. "{appName} cannot establish...".
+                         A nested <strong data-i18n="app.name"> would be destroyed as
+                         soon as the parent's textContent is written.
+                     -->
+                     <p class="leading-relaxed" data-i18n="noInternet.descriptionLine1">
+                         DotVPN cannot establish a connection because your browser is unable to access the internet.
+                     </p>
+ <p class="leading-relaxed" data-i18n="noInternet.descriptionLine2">
+                         This is typically a local network issue and not related to DotVPN's service. Please check your internet connection and try again.
+                     </p>
+ </div>
+             </div>
+ 
+             <!-- Troubleshooting Steps -->
+             <div class="mb-6">
+                 <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="noInternet.troubleshooting">
+                     <i data-icon="wrench" class="w-4 h-4" aria-hidden="true"></i>
+                     Troubleshooting Steps
+                 </h4>
+                 <ul class="space-y-2" role="list">
+ <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check-circle" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+                         <span data-i18n="noInternet.steps[0]">Check if your device is connected to Wi-Fi or Ethernet</span>
+ </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+ <i data-icon="check-circle" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+ <span data-i18n="noInternet.steps[1]">Verify that other devices can access the internet</span>
+ </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+ <i data-icon="check-circle" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+ <span data-i18n="noInternet.steps[2]">Restart your router or modem</span>
+ </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+ <i data-icon="check-circle" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+ <span data-i18n="noInternet.steps[3]">Disable other VPN or proxy extensions temporarily</span>
+ </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+ <i data-icon="check-circle" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+ <span data-i18n="noInternet.steps[4]">Check if your firewall is blocking Chrome</span>
+                     </li>
+ <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check-circle" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+                         <span data-i18n="noInternet.steps[5]">Try visiting other websites to confirm connectivity</span>
+ </li>
+                 </ul>
+ </div>
+ 
+             <!-- Technical Note -->
+             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4" role="note">
+ <div class="flex items-start gap-3">
+                     <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                         <i data-icon="help-circle" class="w-4 h-4 text-blue-600" aria-hidden="true"></i>
+ </div>
+                     <div>
+ <p class="text-xs font-semibold text-blue-900 mb-1" data-i18n="noInternet.automaticDetection">Automatic Detection</p>
+ <p class="text-xs text-blue-700 leading-relaxed" data-i18n="noInternet.automaticDetectionDesc">
+                             This modal will close automatically once your internet connection is restored. You don't need to take any action.
+ </p>
+                     </div>
+ </div>
+             </div>
+ 
+         </div>
+ </div>
+ </div><!-- Proxy Access Modal - Elegant Variant -->
+ <div 
+     data-modal="proxyControl" 
+     class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="proxyAccessModalTitle"
+ >
+     <!-- Modal Content Card -->
+     <div class="bg-white w-full h-full flex flex-col">
+         <!-- Modal Header -->
+         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+             <div class="flex items-center gap-3">
+                 <div class="w-8 h-8 bg-gradient-to-br from-orange-100 to-red-100 rounded-xl flex items-center justify-center shadow-sm shadow-orange-200">
+                     <i data-icon="alert-triangle" class="w-5 h-5 text-orange-600"></i>
+                 </div>
+                 <div>
+                     <h2 id="proxyAccessModalTitle" class="font-bold text-gray-800" data-i18n="proxyAccess.title">Permission Required</h2>
+                 </div>
+             </div>
+             <button 
+                 data-modal-close 
+                 type="button"
+                 class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+                 aria-label="Close proxy access"
+             >
+                 <i data-icon="x" class="w-5 h-5"></i>
+             </button>
+         </div>
+ 
+         <!-- Modal Content -->
+         <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+             
+             <!-- Warning Icon -->
+             <div class="text-center mb-6 pt-2">
+                 <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200">
+                     <i data-icon="shield-alert" class="w-10 h-10 text-white"></i>
+                 </div>
+                 <h3 class="text-xl font-bold text-gray-800 mb-2" data-i18n="proxyAccess.title">Permission Required</h3>
+             </div>
+ 
+             <!-- Conflicting Extension Warning -->
+             <div class="mb-6 pb-6 border-b border-gray-100">
+                 <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                     <p class="text-center text-xs text-orange-800 mb-2 font-semibold uppercase tracking-wide" data-i18n="proxyAccess.conflictingExtension">
+                         Conflicting Extension Detected
+                     </p>
+                     <!--
+                         NOTE: this element intentionally has NO data-i18n.
+                         ProxyAccessController owns its text content (real extension name,
+                         or the translated `proxyAccess.extensionName` fallback). Keeping a
+                         data-i18n key here would let the translator's mutation observer
+                         overwrite a detected extension name with the generic fallback.
+                         The inline text below is the static English fallback.
+                     -->
+                     <p 
+                         class="text-center text-lg font-bold text-orange-900 mb-3" 
+                         id="conflictingExtensionName"
+                         data-conflicting-extension-name
+                         aria-live="polite"
+                         aria-atomic="true"
+                     >
+                         Another Extension
+                     </p>
+                     <div class="flex items-center justify-center gap-2 text-xs text-orange-700">
+                         <i data-icon="info" class="w-3.5 h-3.5 flex-shrink-0"></i>
+                         <span data-i18n="proxyAccess.bothExtensionsWarning">Both extensions are trying to control your proxy settings</span>
+                     </div>
+                 </div>
+             </div>
+ 
+             <!-- Information -->
+             <div class="mb-6 pb-6 border-b border-gray-100">
+                 <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="proxyAccess.whyPermission">
+                     <i data-icon="info" class="w-4 h-4"></i>
+                     Why This Permission?
+                 </h4>
+                 <div class="space-y-3 text-sm text-gray-600">
+                     <!--
+                         NOTE: no nested [data-i18n] here.
+                         The translated string owns the app name through the global
+                         {appName} placeholder, e.g. "{appName} requires permission...".
+                         A nested <strong data-i18n="app.name"> would be destroyed as
+                         soon as the parent's textContent is written.
+                     -->
+                     <p class="leading-relaxed" data-i18n="proxyAccess.descriptionLine1">
+                         DotVPN requires permission to manage your proxy settings in order to establish secure, encrypted connections.
+                     </p>
+                     <p class="leading-relaxed" data-i18n="proxyAccess.descriptionLine2">
+                         Granting access will allow DotVPN to take control of proxy settings, ensuring your internet traffic is properly routed through our secure servers.
+                     </p>
+                 </div>
+             </div>
+ 
+             <!-- What Happens Next -->
+             <div class="mb-6">
+                 <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="proxyAccess.whatHappensNext">
+                     <i data-icon="check-circle" class="w-4 h-4"></i>
+                     What Happens Next
+                 </h4>
+                 <ul class="space-y-2">
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+                         <span data-i18n="proxyAccess.nextSteps[0]">DotVPN will manage proxy settings for protected sites</span>
+                     </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+                         <span data-i18n="proxyAccess.nextSteps[1]">Other extensions will release proxy control</span>
+                     </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+                         <span data-i18n="proxyAccess.nextSteps[2]">Your connection will be encrypted and secure</span>
+                     </li>
+                     <li class="flex items-start gap-2 text-sm text-gray-600">
+                         <i data-icon="check" class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"></i>
+                         <span data-i18n="proxyAccess.nextSteps[3]">You can revoke this permission at any time</span>
+                     </li>
+                 </ul>
+             </div>
+ 
+             <!-- Security Note -->
+             <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+                 <div class="flex items-start gap-3">
+                     <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                         <i data-icon="shield" class="w-4 h-4 text-indigo-600"></i>
+                     </div>
+                     <div>
+                         <p class="text-xs font-semibold text-indigo-900 mb-1" data-i18n="proxyAccess.securityNote">Security &amp; Privacy</p>
+                         <p class="text-xs text-indigo-700 leading-relaxed" data-i18n="proxyAccess.securityNoteDesc">
+                             DotVPN never logs your browsing activity and uses military-grade encryption to protect your data.
+                         </p>
+                     </div>
+                 </div>
+             </div>
+ 
+         </div>
+ 
+         <!-- Modal Footer -->
+         <div class="flex gap-3 px-5 py-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+             <button 
+                 id="btnGrantProxyAccess" 
+                 class="flex items-center justify-center gap-2 flex-1 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg text-base font-semibold border-0 cursor-pointer hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-600/40 active:translate-y-0 transition-all duration-200" 
+                 aria-label="Allow proxy access"
+                 data-i18n-attr="aria-label" data-i18n="proxyAccess.allowAccess"
+             >
+                 <i data-icon="shield-check" class="w-4 h-4"></i>
+                 <span data-i18n="proxyAccess.allowAccess">Allow Access</span>
+             </button>
+         </div>
+     </div>
+ </div><!-- Rate Modal - Elegant Variant -->
+ <div 
+     data-modal="rate" 
+     class="hidden fixed inset-0 z-[1000] bg-white/60 backdrop-blur-sm flex items-center justify-center p-0 opacity-0 transition-all duration-[350ms] ease-out pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="rateModalTitle"
+ >
+     <div class="bg-white rounded-none w-full h-full flex flex-col transform scale-95 opacity-0 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+         <!-- Modal Header -->
+         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 flex-shrink-0">
+             <div class="flex items-center gap-3">
+                 <div class="w-8 h-8 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-xl flex items-center justify-center shadow-sm shadow-yellow-200">
+                     <i data-icon="star" class="w-5 h-5 text-yellow-600"></i>
+                 </div>
+                 <div>
+                     <h2 id="rateModalTitle" class="font-bold text-gray-800" data-i18n="rate.title">Rate Our Service</h2>
+                 </div>
+             </div>
+             <button 
+                 data-modal-close 
+                 class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+                 aria-label="Close rate"
+             >
+                 <i data-icon="x" class="w-5 h-5"></i>
+             </button>
+         </div>
+ 
+         <!-- Modal Content -->
+         <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4">
+             
+             <!-- Rating Icon -->
+             <div class="text-center mb-6 pt-2">
+                 <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                     <i data-icon="star" class="w-10 h-10 text-white"></i>
+                 </div>
+                 <h3 class="text-xl font-bold text-gray-800 mb-2" data-i18n="rate.reviewUs">Please, Review Us!</h3>
+             </div>
+ 
+             <!-- Description -->
+             <div class="space-y-4 text-sm text-gray-600 leading-relaxed">
+                 <p class="text-center" data-i18n="rate.descriptionLine1">
+                     Leave a comment about our application for people who are not yet with us.
+                 </p>
+                 <p class="text-center" data-i18n="rate.descriptionLine2">
+                     They will also be able to take advantage of the free Internet without limits with the highest encryption.
+                 </p>
+             </div>
+ 
+         </div>
+ 
+         <!-- Modal Footer -->
+         <!--
+             NOTE: `rate.reviewInBrowser` contains a {browser} placeholder, so both the
+             aria-label and the visible label declare data-i18n-vars. RateController
+             rewrites data-i18n-vars with the detected browser, and the translator
+             re-renders both targets (including after a language switch).
+         -->
+         <div class="flex gap-3 px-5 py-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+             <button 
+                 id="btnRateNow" 
+                 class="flex items-center justify-center gap-2 flex-1 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg text-base font-semibold border-0 cursor-pointer hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-600/40 active:translate-y-0 transition-all duration-200" 
+                 aria-label="Review in Chrome"
+                 data-i18n-attr="aria-label" 
+                 data-i18n="rate.reviewInBrowser"
+                 data-i18n-vars='{"browser":"Chrome"}'
+             >
+                 <i data-icon="external-link" class="w-4 h-4"></i>
+                 <span 
+                     id="rateButtonText" 
+                     data-i18n="rate.reviewInBrowser" 
+                     data-i18n-vars='{"browser":"Chrome"}'
+                 >Review in Chrome</span>
+             </button>
+         </div>
+     </div>
+ </div><!-- Select Country Modal - Compact Variant -->
+ <div
+  id="selectCountryModal"
+  data-modal="selectCountry"
+  class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+ >
+  <!-- Modal Content Card -->
+ <div
+  data-modal-dialog
+  aria-labelledby="selectCountryModalTitle"
+  class="bg-white w-full h-full flex flex-col"
+  >
+  <!-- Enhanced Header -->
+ <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+ <div class="flex items-center gap-3">
+ <div class="w-8 h-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center shadow-sm shadow-indigo-200">
+ <i data-icon="map-pin" class="w-5 h-5 text-indigo-600"></i>
+ </div>
+ <div>
+ <h2 id="selectCountryModalTitle" class="font-bold text-gray-800" data-i18n="selectCountry.title">Select Location</h2>
+ </div>
+ </div>
+ <button
+  type="button"
+  data-modal-close
+  class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+  aria-label="Close modal"
+  >
+ <i data-icon="x" class="w-5 h-5"></i>
+ </button>
+ </div>
+ 
+  <!-- Search Bar -->
+ <div class="px-4 pt-4 pb-2 flex-shrink-0">
+ <div class="relative">
+ <input
+  type="text"
+  id="countrySearchInputCompact"
+  data-modal-initial-focus
+  placeholder="Search countries..."
+  class="w-full pl-12 rtl:pl-4 rtl:pr-12 pr-12 py-3.5 bg-white border-2 border-gray-200 rounded-xl text-sm placeholder:text-gray-400"
+  aria-label="Search countries"
+  autocomplete="off"
+  spellcheck="false"
+  inputmode="search"
+  enterkeyhint="search"
+  data-i18n-attr="placeholder" data-i18n="selectCountry.searchPlaceholder"
+  />
+ <i data-icon="search" class="w-5 h-5 text-gray-400 absolute left-4 rtl:left-auto rtl:right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+ <button
+  type="button"
+  id="clearSearchBtnCompact"
+  class="hidden absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 w-7 h-7 bg-gray-100 hover:bg-gray-200 rounded-full items-center justify-center transition-all duration-200 active:scale-95"
+  aria-label="Clear search"
+  >
+ <i data-icon="x" class="w-4 h-4 text-gray-600"></i>
+ </button>
+ </div>
+ </div>
+ 
+  <!-- Quick Filters -->
+ <div class="px-4 py-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-shrink-0">
+ <div class="flex gap-2 min-w-max">
+ <button class="flex items-center gap-1.5 px-3.5 py-2 bg-white border-2 border-gray-200 rounded-xl text-xs font-semibold text-gray-600 transition-all duration-200 whitespace-nowrap cursor-pointer select-none hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 data-[active=true]:bg-gradient-to-r data-[active=true]:from-indigo-500 data-[active=true]:to-indigo-600 data-[active=true]:border-indigo-500 data-[active=true]:text-white data-[active=true]:shadow-md data-[active=true]:shadow-indigo-200"
+  data-region="all"
+  data-active="true"
+  aria-label="Show all locations"
+  type="button"
+  data-i18n-attr="aria-label" data-i18n="selectCountry.filterAll">
+ <i data-icon="globe-2" class="w-3.5 h-3.5"></i>
+ <span data-i18n="selectCountry.filterAll">All</span>
+ </button>
+ <button class="flex items-center gap-1.5 px-3.5 py-2 bg-white border-2 border-gray-200 rounded-xl text-xs font-semibold text-gray-600 transition-all duration-200 whitespace-nowrap cursor-pointer select-none hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 data-[active=true]:bg-gradient-to-r data-[active=true]:from-indigo-500 data-[active=true]:to-indigo-600 data-[active=true]:border-indigo-500 data-[active=true]:text-white data-[active=true]:shadow-md data-[active=true]:shadow-indigo-200"
+  data-region="top"
+  aria-label="Show top locations"
+  type="button"
+  data-i18n-attr="aria-label" data-i18n="selectCountry.filterPopular">
+ <i data-icon="star" class="w-3.5 h-3.5"></i>
+ <span data-i18n="selectCountry.filterPopular">Popular</span>
+ </button>
+ <button class="flex items-center gap-1.5 px-3.5 py-2 bg-white border-2 border-gray-200 rounded-xl text-xs font-semibold text-gray-600 transition-all duration-200 whitespace-nowrap cursor-pointer select-none hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 data-[active=true]:bg-gradient-to-r data-[active=true]:from-indigo-500 data-[active=true]:to-indigo-600 data-[active=true]:border-indigo-500 data-[active=true]:text-white data-[active=true]:shadow-md data-[active=true]:shadow-indigo-200"
+  data-region="europe"
+  aria-label="Show Europe locations"
+  type="button"
+  data-i18n-attr="aria-label" data-i18n="selectCountry.filterEurope">
+ <i data-icon="landmark" class="w-3.5 h-3.5"></i>
+ <span data-i18n="selectCountry.filterEurope">Europe</span>
+ </button>
+ <button class="flex items-center gap-1.5 px-3.5 py-2 bg-white border-2 border-gray-200 rounded-xl text-xs font-semibold text-gray-600 transition-all duration-200 whitespace-nowrap cursor-pointer select-none hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 data-[active=true]:bg-gradient-to-r data-[active=true]:from-indigo-500 data-[active=true]:to-indigo-600 data-[active=true]:border-indigo-500 data-[active=true]:text-white data-[active=true]:shadow-md data-[active=true]:shadow-indigo-200"
+  data-region="americas"
+  aria-label="Show Americas locations"
+  type="button"
+  data-i18n-attr="aria-label" data-i18n="selectCountry.filterAmericas">
+ <i data-icon="mountain" class="w-3.5 h-3.5"></i>
+ <span data-i18n="selectCountry.filterAmericas">Americas</span>
+ </button>
+ <button class="flex items-center gap-1.5 px-3.5 py-2 bg-white border-2 border-gray-200 rounded-xl text-xs font-semibold text-gray-600 transition-all duration-200 whitespace-nowrap cursor-pointer select-none hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 data-[active=true]:bg-gradient-to-r data-[active=true]:from-indigo-500 data-[active=true]:to-indigo-600 data-[active=true]:border-indigo-500 data-[active=true]:text-white data-[active=true]:shadow-md data-[active=true]:shadow-indigo-200"
+  data-region="asia"
+  aria-label="Show Asia locations"
+  type="button"
+  data-i18n-attr="aria-label" data-i18n="selectCountry.filterAsia">
+ <i data-icon="building-2" class="w-3.5 h-3.5"></i>
+ <span data-i18n="selectCountry.filterAsia">Asia</span>
+ </button>
+ <button class="flex items-center gap-1.5 px-3.5 py-2 bg-white border-2 border-gray-200 rounded-xl text-xs font-semibold text-gray-600 transition-all duration-200 whitespace-nowrap cursor-pointer select-none hover:bg-gray-50 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 data-[active=true]:bg-gradient-to-r data-[active=true]:from-indigo-500 data-[active=true]:to-indigo-600 data-[active=true]:border-indigo-500 data-[active=true]:text-white data-[active=true]:shadow-md data-[active=true]:shadow-indigo-200"
+  data-region="oceania"
+  aria-label="Show Oceania locations"
+  type="button"
+  data-i18n-attr="aria-label" data-i18n="selectCountry.filterOceania">
+ <i data-icon="palmtree" class="w-3.5 h-3.5"></i>
+ <span data-i18n="selectCountry.filterOceania">Oceania</span>
+ </button>
+ </div>
+ </div>
+ 
+  <!-- Country List -->
+ <div class="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-4 pb-4">
+ <div id="countryListCompact" class="flex flex-col gap-2">
+  <!-- Countries will be dynamically rendered here by LocationsController -->
+ </div>
+ 
+  <!-- Empty State -->
+ <div id="emptyStateCompact" class="hidden flex-col items-center justify-center py-16 px-6">
+ <div class="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center mb-4 shadow-sm">
+ <i data-icon="search-x" class="w-10 h-10 text-gray-400"></i>
+ </div>
+ <h3 class="text-base font-bold text-gray-900 mb-1.5" data-i18n="selectCountry.emptyTitle">No locations found</h3>
+ <p class="text-sm text-gray-500 text-center max-w-xs" data-i18n="selectCountry.emptyDescription">Try adjusting your search or filter criteria</p>
+ </div>
+ 
+  <!-- Loading State -->
+ <div id="loadingStateCompact" class="hidden flex-col items-center justify-center py-16 px-6">
+ <div class="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
+ <p class="text-sm text-gray-500" data-i18n="selectCountry.loading">Loading locations...</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Country Item Template -->
+ <template id="countryItemTemplate">
+ <div
+  data-country-item
+  class="flex items-center justify-between p-3.5 bg-white border-2 border-gray-200 rounded-xl hover:border-indigo-300 hover:shadow-md transition-all duration-200 cursor-pointer group active:scale-[0.98]"
+  role="button"
+  tabindex="0"
+  >
+  <!-- Left: Flag + Country Info -->
+ <div class="flex items-center gap-3 flex-1 min-w-0">
+  <!-- Flag -->
+ <span
+  data-flag
+  class="flag-icon flex-shrink-0 select-none"
+  style="width:32px; height:24px; font-size:32px;"
+  ></span>
+ 
+  <!-- Country Details -->
+ <div class="flex-1 min-w-0">
+ <div class="flex items-center gap-2 mb-0.5">
+ <span data-country-name class="font-semibold truncate text-gray-900"></span>
+ </div>
+ <div data-city-region class="text-xs text-gray-500"></div>
+ </div>
+ </div>
+ 
+  <!-- Right: Ping Info + Chevron -->
+ <div class="flex items-center gap-3 flex-shrink-0">
+ <div class="text-right rtl:text-left">
+ <div class="flex items-center gap-1.5">
+ <div data-ping-dot class="w-2 h-2 rounded-full"></div>
+ <span data-ping-value class="font-bold text-sm"></span>
+ </div>
+ <div data-ping-label class="text-[10px] text-gray-500 font-medium mt-0.5"></div>
+ </div>
+ </div>
+ </div>
+ </template><!-- Settings Modal - Elegant Variant -->
+ <style>
+   /* ------------------------------------------------------------------
+      Self-contained styles for the Settings modal controls.
+      Kept as plain CSS (not Tailwind direction variants) so the switch
+      works whether or not a `dir` attribute is present on an ancestor.
+      ------------------------------------------------------------------ */
+ 
+   /* Toggle switch ---------------------------------------------------- */
+   .dn-switch {
+     position: relative;
+     display: inline-flex;
+     align-items: center;
+     flex: 0 0 auto;
+     width: 44px;
+     height: 24px;
+     cursor: pointer;
+     -webkit-tap-highlight-color: transparent;
+   }
+ 
+   /* Transparent, full-size native checkbox on top: clicks + keyboard
+      focus always reach a real form control. */
+   .dn-switch__input {
+     position: absolute;
+     inset: 0;
+     width: 100%;
+     height: 100%;
+     margin: 0;
+     padding: 0;
+     opacity: 0;
+     appearance: none;
+     -webkit-appearance: none;
+     cursor: pointer;
+     z-index: 1;
+   }
+ 
+   .dn-switch__track {
+     position: absolute;
+     inset: 0;
+     border-radius: 9999px;
+     background-color: #d1d5db; /* gray-300 */
+     transition: background-color 200ms ease, box-shadow 200ms ease;
+     pointer-events: none;
+   }
+ 
+   .dn-switch__thumb {
+     position: absolute;
+     top: 2px;
+     inset-inline-start: 2px;
+     width: 20px;
+     height: 20px;
+     border-radius: 9999px;
+     background-color: #ffffff;
+     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.2);
+     transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+     pointer-events: none;
+     will-change: transform;
+   }
+ 
+   .dn-switch:hover .dn-switch__input:not(:disabled):not(:checked) ~ .dn-switch__track {
+     background-color: #9ca3af; /* gray-400 */
+   }
+ 
+   .dn-switch__input:checked ~ .dn-switch__track {
+     background-color: #4f46e5; /* indigo-600 */
+   }
+ 
+   .dn-switch:hover .dn-switch__input:not(:disabled):checked ~ .dn-switch__track {
+     background-color: #4338ca; /* indigo-700 */
+   }
+ 
+   .dn-switch__input:checked ~ .dn-switch__thumb {
+     transform: translateX(20px);
+   }
+ 
+   /* RTL: mirror the travel direction (covers dir on an ancestor or on the modal itself). */
+   [dir="rtl"] .dn-switch__input:checked ~ .dn-switch__thumb,
+   [dir="rtl"].dn-switch .dn-switch__input:checked ~ .dn-switch__thumb {
+     transform: translateX(-20px);
+   }
+ 
+   .dn-switch__input:focus-visible ~ .dn-switch__track {
+     box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #6366f1; /* indigo-500 ring */
+   }
+ 
+   .dn-switch__input:disabled {
+     cursor: not-allowed;
+   }
+ 
+   .dn-switch__input:disabled ~ .dn-switch__track {
+     opacity: 0.5;
+   }
+ 
+   .dn-switch__input:disabled ~ .dn-switch__thumb {
+     opacity: 0.75;
+     box-shadow: none;
+   }
+ 
+   @media (prefers-reduced-motion: reduce) {
+     .dn-switch__track,
+     .dn-switch__thumb {
+       transition: none;
+     }
+   }
+ 
+   /* Language select -------------------------------------------------- */
+   .dn-select-field {
+     position: relative;
+     display: block;
+   }
+ 
+   .dn-select-field__icon,
+   .dn-select-field__chevron {
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     display: flex;
+     align-items: center;
+     pointer-events: none;
+     transition: color 200ms ease;
+   }
+ 
+   .dn-select-field__icon {
+     inset-inline-start: 14px;
+     color: #6366f1; /* indigo-500 */
+   }
+ 
+   .dn-select-field__chevron {
+     inset-inline-end: 14px;
+     color: #9ca3af; /* gray-400 */
+   }
+ 
+   .dn-select-field:focus-within .dn-select-field__icon {
+     color: #4f46e5; /* indigo-600 */
+   }
+ 
+   .dn-select-field:focus-within .dn-select-field__chevron {
+     color: #6366f1;
+   }
+ 
+   .dn-select {
+     appearance: none;
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     display: block;
+     width: 100%;
+     margin: 0;
+     padding-block: 10px;
+     padding-inline-start: 40px;
+     padding-inline-end: 40px;
+     border: 1px solid #e5e7eb; /* gray-200 */
+     border-radius: 12px;
+     background-color: #ffffff;
+     background-image: linear-gradient(to bottom right, #f9fafb, #ffffff);
+     font-family: inherit;
+     font-size: 14px;
+     line-height: 20px;
+     font-weight: 500;
+     color: #1f2937; /* gray-800 */
+     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+     cursor: pointer;
+     transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+   }
+ 
+   .dn-select::-ms-expand {
+     display: none;
+   }
+ 
+   .dn-select:hover:not(:disabled) {
+     border-color: #a5b4fc; /* indigo-300 */
+     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
+   }
+ 
+   .dn-select:focus {
+     outline: none;
+     border-color: #6366f1;
+     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+   }
+ 
+   .dn-select:focus-visible {
+     outline: none;
+   }
+ 
+   .dn-select:disabled {
+     opacity: 0.6;
+     cursor: not-allowed;
+   }
+ 
+   /* Native dropdown list: keep it readable on all platforms. */
+   .dn-select option {
+     background-color: #ffffff;
+     color: #1f2937;
+     font-weight: 500;
+   }
+ </style>
+ 
+ <div
+   data-modal="settings"
+   class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+   role="dialog"
+   aria-modal="true"
+   aria-labelledby="settingsModalTitle"
+ >
+   <!-- Modal Content Card -->
+   <div class="bg-white w-full h-full flex flex-col">
+     <!-- Modal Header -->
+     <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+       <div class="flex items-center gap-3">
+         <div class="w-8 h-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center shadow-sm shadow-indigo-200">
+           <i data-icon="settings" class="w-5 h-5 text-indigo-600"></i>
+         </div>
+         <div>
+           <h2 id="settingsModalTitle" class="font-bold text-gray-800" data-i18n="settings.title">Settings</h2>
+         </div>
+       </div>
+       <button
+         data-modal-close
+         class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+         aria-label="Close settings"
+       >
+         <i data-icon="x" class="w-5 h-5"></i>
+       </button>
+     </div>
+ 
+     <!-- Modal Content -->
+     <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+ 
+       <!-- Connection Options Section -->
+       <div class="mb-6 pb-6 border-b border-gray-100">
+         <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="settings.connectionOptions">
+           <i data-icon="wifi" class="w-4 h-4"></i>
+           Connection Options
+         </h4>
+ 
+         <div class="space-y-4">
+           <!-- Auto-connect on Start -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="auto-start-switch" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.autoConnect">Connect on Start</label>
+               <p id="auto-start-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.autoConnectDesc">Automatically connect to VPN when browser starts</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="auto-start-switch"
+                 class="dn-switch__input"
+                 aria-label="Toggle auto-connect on start"
+                 aria-describedby="auto-start-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+ 
+           <!-- Bandwidth Saver -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="bandwidth-saver-switch" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.bandwidthSaver">Save Bandwidth</label>
+               <p id="bandwidth-saver-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.bandwidthSaverDesc">Optimize data usage for faster browsing on limited connections</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="bandwidth-saver-switch"
+                 class="dn-switch__input"
+                 aria-label="Toggle bandwidth saver"
+                 aria-describedby="bandwidth-saver-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+ 
+           <!-- DNS Leak Protection -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="dns-leak-protection-switch" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.dnsLeakProtection">DNS Leak Protection</label>
+               <p id="dns-leak-protection-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.dnsLeakProtectionDesc">Prevent DNS queries from bypassing the VPN tunnel</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="dns-leak-protection-switch"
+                 class="dn-switch__input"
+                 aria-label="Toggle DNS leak protection"
+                 aria-describedby="dns-leak-protection-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+         </div>
+       </div>
+ 
+       <!-- Privacy & Security Section -->
+       <div class="mb-6 pb-6 border-b border-gray-100">
+         <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="settings.privacySecurity">
+           <i data-icon="shield" class="w-4 h-4"></i>
+           Privacy &amp; Security
+         </h4>
+ 
+         <div class="space-y-4">
+           <!-- Ad Block -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="adblock-switch" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.blockAds">Block Ads</label>
+               <p id="adblock-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.blockAdsDesc">Block intrusive advertisements and pop-ups</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="adblock-switch"
+                 class="dn-switch__input"
+                 aria-label="Toggle ad blocking"
+                 aria-describedby="adblock-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+ 
+           <!-- Tracking Protection -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="tracking-protection-switch" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.trackingProtection">Protect from Tracking</label>
+               <p id="tracking-protection-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.trackingProtectionDesc">Block third-party trackers and cookies</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="tracking-protection-switch"
+                 class="dn-switch__input"
+                 aria-label="Toggle tracking protection"
+                 aria-describedby="tracking-protection-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+ 
+           <!-- Block Analytics -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="block-analytics-switch" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.blockAnalytics">Block Analytics</label>
+               <p id="block-analytics-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.blockAnalyticsDesc">Prevent analytics services from tracking your behavior</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="block-analytics-switch"
+                 class="dn-switch__input"
+                 aria-label="Toggle analytics blocking"
+                 aria-describedby="block-analytics-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+ 
+           <!-- WebRTC IP Protection -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="block-webrtc-switch" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.webrtcHideIP">WebRTC Hide IP</label>
+               <p id="block-webrtc-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.webrtcHideIPDesc">Prevent WebRTC from leaking your real IP address</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="block-webrtc-switch"
+                 class="dn-switch__input"
+                 aria-label="Toggle WebRTC IP hiding"
+                 aria-describedby="block-webrtc-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+         </div>
+       </div>
+ 
+       <!-- Language Section -->
+       <div class="mb-6 pb-6 border-b border-gray-100">
+         <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="settings.language">
+           <i data-icon="globe" class="w-4 h-4"></i>
+           Language
+         </h4>
+         <div class="space-y-3">
+           <div>
+             <label for="language-select" class="block text-sm font-semibold text-gray-800 mb-2 cursor-pointer" data-i18n="settings.selectLanguage">Select Language</label>
+             <div class="dn-select-field">
+               <!-- Leading globe icon -->
+               <span class="dn-select-field__icon" aria-hidden="true">
+                 <i data-icon="globe" class="w-4 h-4"></i>
+               </span>
+               <select
+                 id="language-select"
+                 class="dn-select"
+                 aria-label="Select interface language"
+                 data-setting-key="language"
+               ></select>
+               <!-- Trailing chevron icon -->
+               <span class="dn-select-field__chevron" aria-hidden="true">
+                 <i data-icon="chevron-down" class="w-4 h-4"></i>
+               </span>
+             </div>
+           </div>
+         </div>
+       </div>
+ 
+       <!-- Other Options Section -->
+       <div class="mb-6">
+         <h4 class="flex items-center gap-2 text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide" data-i18n="settings.otherOptions">
+           <i data-icon="sliders" class="w-4 h-4"></i>
+           Other Options
+         </h4>
+ 
+         <div class="space-y-4">
+           <!-- Hide App Icon -->
+           <div class="flex items-center justify-between gap-4">
+             <div class="flex-1">
+               <label for="hide-app-icon" class="block text-sm font-semibold text-gray-800 mb-1 cursor-pointer" data-i18n="settings.hideAppIcon">Hide Application Icon</label>
+               <p id="hide-app-icon-desc" class="text-xs text-gray-600 leading-snug" data-i18n="settings.hideAppIconDesc">Hide the VPN icon from your browser toolbar</p>
+             </div>
+             <span class="dn-switch">
+               <input
+                 type="checkbox"
+                 id="hide-app-icon"
+                 class="dn-switch__input"
+                 aria-label="Toggle hide application icon"
+                 aria-describedby="hide-app-icon-desc"
+               >
+               <span class="dn-switch__track" aria-hidden="true"></span>
+               <span class="dn-switch__thumb" aria-hidden="true"></span>
+             </span>
+           </div>
+         </div>
+       </div>
+ 
+     </div>
+   </div>
+ </div><!-- Sign In Modal - Elegant Variant (Three-Step Flow) -->
+ <div 
+     data-modal="signIn" 
+     class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="signInModalTitle"
+ >
+     <!-- Modal Content Card -->
+ <div class="bg-white w-full h-full flex flex-col" data-modal-dialog>
+         
+         <!-- Step 1: Email Entry -->
+         <div id="signinElegantEmailStep" class="flex flex-col w-full h-full">
+             <!-- Modal Header -->
+ <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+ <div class="flex items-center gap-3">
+         <div class="w-8 h-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center shadow-sm shadow-indigo-200">
+                         <i data-icon="log-in" class="w-5 h-5 text-indigo-600"></i>
+ </div>
+                     <div>
+ <h2 id="signInModalTitle" class="font-bold text-gray-800" data-i18n="signIn.title">Sign In</h2>
+          </div>
+ </div>
+                 <button 
+                     data-modal-close 
+                     type="button"
+                     class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+                     aria-label="Close sign in"
+                 >
+ <i data-icon="x" class="w-5 h-5"></i>
+                 </button>
+ </div>
+ 
+             <!-- Modal Content -->
+             <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+                 <!-- Welcome Section -->
+ <div class="text-center mb-6 pt-2">
+                     <div class="w-20 h-20 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-200">
+ <i data-icon="shield" class="w-10 h-10 text-white"></i>
+                     </div>
+ <h3 class="text-xl font-bold text-gray-800 mb-2" data-i18n="signIn.welcomeBack">Welcome Back!</h3>
+                     <p class="text-sm text-gray-600" data-i18n="signIn.description">Sign in to access your Premium account</p>
+ </div>
+ 
+                 <!-- Email Form -->
+    <form id="signinElegantEmailForm">
+                     <div>
+ <label for="signinElegantEmail" class="block text-sm font-semibold text-gray-700 mb-1.5" data-i18n="signIn.emailLabel">
+           Email Address
+ </label>
+ 
+ <input 
+                             type="email" 
+                             id="signinElegantEmail" 
+                             class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm"
+                             placeholder="your.email@example.com"
+                             required
+                             autocomplete="email"
+                             aria-describedby="signinElegantEmailHelp signinElegantEmailError"
+                             data-i18n-attr="placeholder" data-i18n="signIn.emailPlaceholder"
+                         />
+ 
+      <p id="signinElegantEmailHelp" class="mt-2 text-xs text-gray-500" data-i18n="signIn.emailHelp">
+                 We’ll email you a 4-digit verification code.
+                         </p>
+ 
+                         <!-- Inline retry hint for Bridge state: email-retry -->
+ <p
+                             id="signinElegantEmailError"
+                             class="hidden mt-2 text-xs text-red-600"
+                             role="alert"
+                             aria-live="polite"
+                             data-i18n="signIn.emailRetry"
+                         >
+                             We couldn’t send the verification code. Please check the email and try again.
+                         </p>
+ </div>
+                 </form>
+ </div>
+ 
+             <!-- Modal Footer -->
+             <div class="flex gap-3 px-5 py-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+ <button 
+                     type="button"
+                     class="flex items-center justify-center gap-2 flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold border-0 cursor-pointer hover:-translate-y-px transition-all duration-200 active:translate-y-0" 
+                     data-modal-close
+                     data-i18n="signIn.cancel"
+                 >
+                     Cancel
+                 </button>
+ <button 
+           id="btnElegantSubmitEmail"
+                     type="button"
+                     class="flex items-center justify-center gap-2 flex-1 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg text-base font-semibold border-0 cursor-pointer hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-600/40 active:translate-y-0 transition-all duration-200"
+                     aria-label="Continue to verification"
+                 >
+ <i data-icon="arrow-right" class="w-4 h-4 ltr:rotate-0 rtl:rotate-180"></i>
+ <span data-i18n="signIn.continue">Continue</span>
+                 </button>
+ </div>
+         </div>
+ 
+         <!-- Step 2: OTP Verification -->
+         <div id="signinElegantOtpStep" class="hidden flex flex-col w-full h-full">
+             <!-- Modal Header with Back Button -->
+             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+                 <button 
+                     id="btnElegantBackToEmail"
+                     type="button"
+                     class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200" 
+                     aria-label="Back to email"
+                 >
+ <i data-icon="arrow-left" class="w-5 h-5 ltr:rotate-0 rtl:rotate-180"></i>
+ </button>
+                 <h2 class="font-bold text-gray-800 flex-1 text-center mr-8" data-i18n="signIn.verifyCode">Verify Code</h2>
+             </div>
+ 
+             <!-- Modal Content -->
+ <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+                 <!-- Verification Section -->
+                 <div class="text-center mb-6 pt-2">
+ <div class="w-20 h-20 bg-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+ <i data-icon="mail" class="w-10 h-10 text-indigo-600"></i>
+ </div>
+                     <h3 class="text-xl font-bold text-gray-800 mb-2" data-i18n="signIn.checkEmail">Check your email</h3>
+ <p class="text-sm text-gray-600 mb-2" data-i18n="signIn.codeSent">We sent a 4-digit code to</p>
+ <p class="text-sm font-semibold text-gray-800" id="elegantDisplayEmail">email@example.com</p>
+                 </div>
+ 
+                 <!-- OTP Form -->
+                 <form id="signinElegantOtpForm" class="mb-6">
+ <div>
+                         <label for="signinElegantOtp" class="block text-sm font-semibold text-gray-700 mb-1.5 text-center" data-i18n="signIn.codeLabel">
+                             Verification Code
+ </label>
+                         <input 
+                             type="text" 
+                             id="signinElegantOtp" 
+                 class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-center text-lg tracking-widest"
+                             placeholder="0000"
+                             maxlength="4"
+                             inputmode="numeric"
+                    pattern="[0-9]{4}"
+                             required
+                             autocomplete="off"
+                             aria-describedby="signinElegantOtpHelp signinElegantOtpError"
+                   data-i18n-attr="placeholder" data-i18n="signIn.codePlaceholder"
+         />
+ 
+ <p id="signinElegantOtpHelp" class="mt-2 text-xs text-gray-500 text-center" data-i18n="signIn.codeHelp">
+                             Enter the 4-digit code from your email.
+                         </p>
+ 
+                         <!-- Inline retry hint for Bridge state: code-retry -->
+ <p
+                             id="signinElegantOtpError"
+                             class="hidden mt-2 text-xs text-red-600 text-center"
+                             role="alert"
+                             aria-live="polite"
+                       style="overflow-anchor: none;"
+                             data-i18n="signIn.codeRetry"
+                         >
+                             The verification code is invalid or expired. Please try again.
+                         </p>
+ </div>
+                 </form>
+ 
+                 <!-- Resend Link -->
+                 <div class="text-center">
+ <button 
+               id="btnElegantResendCode"
+                         type="button"
+                         class="text-sm text-indigo-600 hover:text-indigo-700 font-medium transition-colors"
+                         data-i18n="signIn.resendCode"
+                     >
+                         Didn't receive the code? Resend
+                     </button>
+ </div>
+             </div>
+ 
+             <!-- Modal Footer -->
+ <div class="flex gap-3 px-5 py-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+                 <button 
+                     type="button"
+                     class="flex items-center justify-center gap-2 flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold border-0 cursor-pointer hover:-translate-y-px transition-all duration-200 active:translate-y-0" 
+                     id="btnElegantCancelOtp"
+                     data-i18n="signIn.cancel"
+                 >
+                     Cancel
+       </button>
+ <button 
+                     id="btnElegantVerifyOtp"
+                     type="button"
+                     class="flex items-center justify-center gap-2 flex-1 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg text-base font-semibold border-0 cursor-pointer hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-600/40 active:translate-y-0 transition-all duration-200"
+                     aria-label="Verify code"
+                 >
+ <i data-icon="check" class="w-4 h-4"></i>
+                     <span data-i18n="signIn.verifyCode">Verify</span>
+                 </button>
+ </div>
+         </div>
+ 
+         <!-- Step 3: Success & Redirect -->
+         <div id="signinElegantSuccessStep" class="hidden flex flex-col w-full h-full">
+             <!-- Modal Content -->
+             <div class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+                 <div class="flex flex-col items-center justify-center py-12">
+ <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 animate-bounce motion-reduce:animate-none">
+ <i data-icon="check-circle" class="w-10 h-10 text-green-600"></i>
+ </div>
+                     <h3 class="text-xl font-bold text-gray-800 mb-2" data-i18n="signIn.successTitle">Congratulations!</h3>
+ <p class="text-sm text-gray-600 text-center px-4 mb-6" data-i18n="signIn.successText">
+                         You're now signed in to your Premium account
+ </p>
+                     
+ <div class="text-center">
+                         <p class="text-sm text-gray-600 mb-2" data-i18n="signIn.redirecting">Redirecting to Premium in</p>
+                         <div class="text-4xl font-bold text-indigo-600 tabular-nums" id="elegantCountdown">3</div>
+ </div>
+                 </div>
+ </div>
+         </div>
+ 
+     </div>
+ </div><!-- SignupView Modal - Elegant Variant -->
+ <!-- Silent auto-registration screen: centered animated logo with status text -->
+ <div
+     data-modal="signupView"
+     class="hidden absolute inset-0 z-[1000] bg-white flex items-center justify-center opacity-0 transition-all duration-500 ease-out pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="signupViewTitle"
+     aria-describedby="signupViewStatus"
+ >
+ <div class="bg-white w-full h-full flex flex-col items-center justify-center relative overflow-hidden">
+ 
+         <!-- Subtle radial background glow -->
+ <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+ <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-radial from-indigo-50/60 via-purple-50/30 to-transparent rounded-full blur-2xl"></div>
+ </div>
+ 
+         <!-- Logo Container with Animations -->
+ <div class="relative z-10 flex flex-col items-center gap-8">
+ 
+             <!-- Animated Logo -->
+ <div class="relative">
+                 <!-- Outer pulse ring -->
+ <div class="absolute inset-0 -m-4 rounded-full bg-indigo-100/40 animate-signup-ring" aria-hidden="true"></div>
+                 <!-- Second pulse ring (delayed) -->
+ <div class="absolute inset-0 -m-8 rounded-full bg-indigo-50/30 animate-signup-ring-delayed" aria-hidden="true"></div>
+ 
+                 <!-- Logo wrapper -->
+ <div class="relative w-24 h-24 animate-signup-breathe">
+                     <!-- Shimmer overlay -->
+ <div class="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none" aria-hidden="true">
+ <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-signup-shimmer"></div>
+                     </div>
+ 
+                     <!-- Actual logo image -->
+                     <img
+                         src="assets/logo.png"
+                         alt="DotVPN Logo"
+                         class="w-24 h-24 object-contain relative z-10 drop-shadow-lg"
+                     />
+                 </div>
+ </div>
+ 
+             <!-- Title (hidden visually but available for a11y) -->
+ <h2 id="signupViewTitle" class="sr-only" data-i18n="signupView.title">Initializing DotVPN</h2>
+ 
+             <!-- Brand Name -->
+ <div class="flex flex-col items-center gap-1">
+                 <span class="text-2xl font-bold text-gray-900 tracking-tight" data-i18n="app.name">DotVPN</span>
+                 <span class="text-xs font-medium text-gray-400 tracking-widest uppercase" data-i18n="app.tagline">Free &amp; Secure VPN</span>
+ </div>
+ 
+             <!-- Status Text -->
+             <div class="flex flex-col items-center gap-3 mt-2">
+                 <!-- Minimal spinner -->
+ <div class="flex items-center gap-1.5" aria-hidden="true">
+ <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-signup-dot1"></span>
+                     <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-signup-dot2"></span>
+ <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-signup-dot3"></span>
+                 </div>
+ 
+                 <p
+                     id="signupViewStatus"
+                     data-signup-status
+                     class="text-sm text-gray-400 font-medium transition-opacity duration-300"
+                     role="status"
+                     aria-live="polite"
+                     aria-atomic="true"
+                     data-i18n="signupView.statusDefault"
+                 >
+                     Setting things up&hellip;
+ </p>
+             </div>
+ </div>
+ 
+ </div>
+ </div><!-- Support Modal - Elegant Variant -->
+ <div 
+     data-modal="support" 
+     class="hidden absolute inset-0 z-[1000] bg-white/80 flex items-center justify-center opacity-0 translate-y-4 transition-all duration-[350ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="supportModalTitle"
+ >
+     <!-- Modal Content Card -->
+     <div class="bg-white w-full h-full flex flex-col">
+         <!-- Modal Header -->
+ <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 flex-shrink-0">
+ <div class="flex items-center gap-3">
+                 <div class="w-8 h-8 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl flex items-center justify-center shadow-sm shadow-blue-200">
+                     <i data-icon="headphones" class="w-5 h-5 text-blue-600"></i>
+                 </div>
+ <div>
+                     <h2 id="supportModalTitle" class="font-bold text-gray-800" data-i18n="support.title">Customer Support</h2>
+ </div>
+             </div>
+ <button 
+                 data-modal-close 
+                 class="flex items-center justify-center w-8 h-8 rounded-lg text-gray-600 bg-transparent hover:bg-gray-100 hover:text-gray-700 transition-all duration-200"
+                 aria-label="Close support"
+             >
+                 <i data-icon="x" class="w-5 h-5"></i>
+ </button>
+         </div>
+ 
+         <!-- Form Content (Initial State) -->
+ <div id="supportFormContent" class="flex-1 overflow-y-auto overflow-x-hidden px-5 py-6 custom-scrollbar">
+             
+             <!-- Support Form -->
+ <form id="supportForm" class="space-y-5 max-w-md mx-auto">
+                 <!-- Email Input -->
+ <div>
+                     <label for="supportEmail" class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="support.emailLabel">
+                         Your Email
+ </label>
+                     <input 
+                         type="email" 
+                         id="supportEmail" 
+                         class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm transition-shadow"
+                         placeholder="your.email@example.com"
+                         required
+                         autocomplete="email"
+                         aria-label="Your email address"
+                         data-i18n-attr="placeholder" data-i18n="support.emailPlaceholder"
+                     />
+ </div>
+ 
+                 <!-- Subject Input -->
+                 <div>
+ <label for="supportSubject" class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="support.subjectLabel">
+                         Subject
+ </label>
+                     <input 
+                         type="text" 
+                         id="supportSubject" 
+                         class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm transition-shadow"
+                         placeholder="What can we help you with?"
+                         required
+                         minlength="3"
+                         aria-label="Subject of your question"
+                         data-i18n-attr="placeholder" data-i18n="support.subjectPlaceholder"
+                     />
+                 </div>
+ 
+                 <!-- Message Textarea -->
+                 <div>
+ <label for="supportMessage" class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="support.messageLabel">
+                         Message
+ </label>
+                     <textarea 
+                         id="supportMessage" 
+                         rows="6"
+                         class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm resize-none transition-shadow"
+                         placeholder="Please describe your issue in detail..."
+                         required
+                         minlength="10"
+                         maxlength="5000"
+                         aria-label="Your message"
+                         data-i18n-attr="placeholder" data-i18n="support.messagePlaceholder"
+                     ></textarea>
+ </div>
+             </form>
+ 
+         </div>
+ 
+         <!-- Loading State -->
+ <div id="supportLoadingContent" class="hidden flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+             <div class="flex flex-col items-center justify-center py-16">
+ <div class="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
+ <p class="text-sm text-gray-600 font-medium" data-i18n="support.sending">Sending your message...</p>
+ </div>
+         </div>
+ 
+         <!-- Success State -->
+ <div id="supportSuccessContent" class="hidden flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+             <div class="flex flex-col items-center justify-center py-16">
+ <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-5 shadow-sm shadow-green-200">
+                     <i data-icon="check-circle" class="w-11 h-11 text-green-600"></i>
+                 </div>
+ <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="support.successTitle">Message Sent!</h3>
+                 <p class="text-sm text-gray-600 text-center px-4 leading-relaxed max-w-xs" data-i18n="support.successDescription">
+                     We will get back to you soon.<br />Thank you for contacting us.
+                 </p>
+ </div>
+         </div>
+ 
+         <!-- Error State -->
+ <div id="supportErrorContent" class="hidden flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 custom-scrollbar">
+             <div class="flex flex-col items-center justify-center py-16">
+ <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-5 shadow-sm shadow-red-200">
+                     <i data-icon="alert-circle" class="w-11 h-11 text-red-600"></i>
+                 </div>
+ <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="support.errorTitle">Send Failed</h3>
+                 <p id="supportErrorMessage" class="text-sm text-gray-600 text-center px-4 leading-relaxed max-w-xs" data-i18n="support.errorDescription">
+                     Failed to send message. Please try again.
+                 </p>
+ </div>
+         </div>
+ 
+         <!-- Modal Footer -->
+ <div class="flex gap-3 px-5 py-4 border-t border-gray-200 bg-gray-50 flex-shrink-0" id="supportModalFooter">
+             <!-- Send Button (Initial State) -->
+ <button 
+                 id="btnSupportSend" 
+                 type="submit"
+                 form="supportForm"
+                 class="flex items-center justify-center gap-2 flex-1 px-4 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg text-base font-semibold border-0 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-600/40 active:translate-y-0 transition-all duration-200" 
+                 aria-label="Send message"
+                 data-i18n="support.send"
+             >
+                 <i data-icon="send" class="w-4 h-4"></i>
+                 Send
+             </button>
+             <!-- Close Button (Hidden by default) -->
+ <button 
+                 id="btnSupportClose" 
+                 class="hidden flex items-center justify-center gap-2 flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold border-0 cursor-pointer hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0" 
+                 aria-label="Close modal"
+                 data-modal-close
+                 data-i18n="support.close"
+             >
+ <i data-icon="x" class="w-4 h-4"></i>
+                 Close
+ </button>
+         </div>
+ </div>
+ </div></div>
+</body>
+</html>

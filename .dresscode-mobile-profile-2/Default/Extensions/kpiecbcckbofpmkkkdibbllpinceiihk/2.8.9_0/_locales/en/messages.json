@@ -1,0 +1,326 @@
+{
+   "appDesc": {
+      "message": "DotVPN improves your browsing, bringing VPN with privacy and lightning-fast access to any website."
+   },
+   "appName": {
+      "message": "DotVPN: Fast & Private VPN"
+   },
+   "appShortName": {
+      "message": "DotVPN - VPN"
+   },
+   "locationAfrica": {
+      "message": "Africa"
+   },
+   "locationAmericas": {
+      "message": "Americas"
+   },
+   "locationAsia": {
+      "message": "Asia"
+   },
+   "locationEurope": {
+      "message": "Europe"
+   },
+   "locationOceania": {
+      "message": "Oceania"
+   },
+   "locationTopLocations": {
+      "message": "Top Locations"
+   },
+   "mainButtonGoPremium": {
+      "message": "Go Premium"
+   },
+   "mainConnectedCity": {
+      "message": "City:"
+   },
+   "mainConnectedConnectedTo": {
+      "message": "You are currently"
+   },
+   "mainConnectedDisconnect": {
+      "message": "Disconnect"
+   },
+   "mainConnectedDownloadSpeed": {
+      "message": "Download speed:"
+   },
+   "mainConnectedDuration": {
+      "message": "You've been connected for:"
+   },
+   "mainConnectedHours": {
+      "message": "hours"
+   },
+   "mainConnectedLocalTime": {
+      "message": "Local time:"
+   },
+   "mainConnectedMbps": {
+      "message": "Mbps"
+   },
+   "mainConnectedMinutes": {
+      "message": "minutes"
+   },
+   "mainConnectedMs": {
+      "message": "ms"
+   },
+   "mainConnectedOnline": {
+      "message": "Online"
+   },
+   "mainConnectedPingStatus": {
+      "message": "Internet response time:"
+   },
+   "mainConnectedSeconds": {
+      "message": "seconds"
+   },
+   "mainConnectedWebsiteAccessIssue": {
+      "message": "Need Support?"
+   },
+   "mainConnectedWithIp": {
+      "message": "Your current IP:"
+   },
+   "mainConnectingLocalTime": {
+      "message": "Local time"
+   },
+   "mainConnectingStatus": {
+      "message": "Connecting to"
+   },
+   "mainDisconnectingLocalTime": {
+      "message": "Local time"
+   },
+   "mainDisconnectingStatus": {
+      "message": "Disconnecting from"
+   },
+   "mainLabelFree": {
+      "message": "Free"
+   },
+   "mainLabelPremium": {
+      "message": "Premium"
+   },
+   "mainLocationMs": {
+      "message": "ms"
+   },
+   "mainLocationPing": {
+      "message": "Ping"
+   },
+   "mainPromoClickAway": {
+      "message": "is a Click Away"
+   },
+   "mainPromoGlobalAccess": {
+      "message": "Global Access"
+   },
+   "mainPromoGoPremium": {
+      "message": "Go Premium."
+   },
+   "mainPromoUnlock": {
+      "message": "Unlock the world."
+   },
+   "mainPromoUpgrade": {
+      "message": "Upgrade"
+   },
+   "overlayConnectionCheckProcess": {
+      "message": "Verifying your connection"
+   },
+   "overlayConnectionCheckRequirements": {
+      "message": "For DotVPN to function correctly, it requires an active internet connection"
+   },
+   "overlayConnectionCheckStatus": {
+      "message": "Oops! Looks like you aren't connected to the Internet right now."
+   },
+   "overlayProxyAccessChangeRequest": {
+      "message": "DotVPN needs to change your proxy settings for a successful connection."
+   },
+   "overlayProxyAccessControlledBy": {
+      "message": "Connections are blocked by"
+   },
+   "overlayProxyAccessGrantPermissionButton": {
+      "message": "Allow changes"
+   },
+   "overlayProxyAccessRequestTitle": {
+      "message": "Settings Update"
+   },
+   "overlaySubscriptionUpdateButton": {
+      "message": "Renew"
+   },
+   "overlaySubscriptionUpdateDetail": {
+      "message": "Please renew your subscription to continue using DotVPN"
+   },
+   "overlaySubscriptionUpdateGoToSettings": {
+      "message": "Go to settings"
+   },
+   "overlaySubscriptionUpdateTitle": {
+      "message": "Your subscription has ended"
+   },
+   "overlaySupportDescribe": {
+      "message": "Tell us more about your problem, the more details you provide, the better we can help:"
+   },
+   "overlaySupportEmail": {
+      "message": "Your Email:"
+   },
+   "overlaySupportMessage": {
+      "message": "Message"
+   },
+   "overlaySupportSend": {
+      "message": "Send"
+   },
+   "overlaySupportSubject": {
+      "message": "Subject"
+   },
+   "overlaySupportSuccessClose": {
+      "message": "Close"
+   },
+   "overlaySupportSuccessText": {
+      "message": "We will get back to you soon. Thank you for contacting us."
+   },
+   "overlaySupportSuccessTitle": {
+      "message": "Your message has been sent"
+   },
+   "overlaySupportTitle": {
+      "message": "Need help?"
+   },
+   "settingsAdBlockOption": {
+      "message": "Block Ads"
+   },
+   "settingsAutoConnectOption": {
+      "message": "Connect on Start"
+   },
+   "settingsBandwidthSaverOption": {
+      "message": "Save Bandwidth"
+   },
+   "settingsBlockAnalyticsOption": {
+      "message": "Block Analytics"
+   },
+   "settingsBlockWebRTCOption": {
+      "message": "WebRTC Hide IP"
+   },
+   "settingsConnectionTitle": {
+      "message": "Connection Options"
+   },
+   "settingsCustomerSupportOption": {
+      "message": "Contact Customer Support"
+   },
+   "settingsGetPremiumButton": {
+      "message": "Upgrade Now"
+   },
+   "settingsHideAppIconOption": {
+      "message": "Hide Application Icon"
+   },
+   "settingsLogoutOption": {
+      "message": "Logout"
+   },
+   "settingsManagePremiumButton": {
+      "message": "Manage Your Premium"
+   },
+   "settingsOtherOptionsTitle": {
+      "message": "Other Options"
+   },
+   "settingsPremiumAccountTitle": {
+      "message": "Your Premium Account"
+   },
+   "settingsPremiumOfferTitle": {
+      "message": "Get Faster Speeds with Premium"
+   },
+   "settingsPrivacyPolicyOption": {
+      "message": "View Privacy Policy"
+   },
+   "settingsRateOurServiceOption": {
+      "message": "Rate Our Service"
+   },
+   "settingsTitle": {
+      "message": "Settings"
+   },
+   "settingsTrackingProtectionOption": {
+      "message": "Protect from Tracking"
+   },
+   "settingsVersionOption": {
+      "message": "Application Version"
+   },
+   "topPromoDefaultChoose": {
+      "message": "Choose"
+   },
+   "topPromoDefaultChooseLocation": {
+      "message": "a location"
+   },
+   "topPromoDefaultConnect": {
+      "message": "and you're all set!"
+   },
+   "topPromoDefaultTitle": {
+      "message": "Welcome to DotVPN!"
+   },
+   "topPromoTrialConnectInfo": {
+      "message": "Pick your desired location:"
+   },
+   "topPromoTrialConnectToAny": {
+      "message": "Connect to any website."
+   },
+   "topPromoTrialEndMsg": {
+      "message": "An exclusive 42% discount awaits you with an upgrade!"
+   },
+   "topPromoTrialEndSubscribeBtn": {
+      "message": "Stay Connected"
+   },
+   "topPromoTrialEndTitle1": {
+      "message": "Your free trial of DotVPN has reached its end."
+   },
+   "topPromoTrialEndTitle2": {
+      "message": "To continue enjoying unrestricted access to worldwide content and exclusive features, we invite you to subscribe and unlock the full potential of our VPN extension."
+   },
+   "topPromoTrialEnjoy": {
+      "message": "Enjoy fast and safe browsing."
+   },
+   "topPromoTrialStartGlobal": {
+      "message": "Global and Secure access."
+   },
+   "topPromoTrialStartTimeLeft": {
+      "message": "Trial time left:"
+   },
+   "topPromoTrialStartTitle": {
+      "message": "Welcome to DotVPN!"
+   },
+   "welcomeSignNewUserBtn": {
+      "message": "Never registered before?"
+   },
+   "welcomeSigninActionBtn": {
+      "message": "Sign In"
+   },
+   "welcomeSigninBtn": {
+      "message": "Returning User? Log In"
+   },
+   "welcomeSigninCodeActionBtn": {
+      "message": "Confirm"
+   },
+   "welcomeSigninCodeBackBtn": {
+      "message": "Back to sign in"
+   },
+   "welcomeSigninCodeErrorText": {
+      "message": "Please try again"
+   },
+   "welcomeSigninCodeErrorTitle": {
+      "message": "Incorrect code"
+   },
+   "welcomeSigninCodeText": {
+      "message": "We have sent a code to your email address"
+   },
+   "welcomeSigninCodeTitle": {
+      "message": "Look in your email"
+   },
+   "welcomeSigninErrorText": {
+      "message": "Please check your email address and try again"
+   },
+   "welcomeSigninErrorTitle": {
+      "message": "We can't find your account"
+   },
+   "welcomeSigninText": {
+      "message": "Please sign in to continue using DotVPN"
+   },
+   "welcomeSigninTitle": {
+      "message": "Welcome back!"
+   },
+   "welcomeSignupBtn": {
+      "message": "New to DotVPN? Join!"
+   },
+   "welcomeSubtitleAccess": {
+      "message": "Access worldwide content,"
+   },
+   "welcomeSubtitlePrivacy": {
+      "message": "protect your privacy."
+   },
+   "welcomeTitle": {
+      "message": "Welcome to DotVPN!"
+   }
+}

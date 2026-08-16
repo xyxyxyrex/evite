@@ -1,0 +1,53 @@
+{
+   "all_bookmark": {
+      "message": "Сва страница са обележивачима"
+   },
+   "allow_access": {
+      "message": "Омогућити приступ датотекама УРЛ-ова"
+   },
+   "allow_location": {
+      "message": "прво у страници за подешавање проширења"
+   },
+   "application_description": {
+      "message": "Лакши начин за промену ознаке ЕДГЕ обележивача"
+   },
+   "application_title": {
+      "message": "Фавицон Цхангер маркера"
+   },
+   "cancel": {
+      "message": "Отказати"
+   },
+   "cant_change": {
+      "message": "Не можете да промените овај УРЛ"
+   },
+   "choose_new": {
+      "message": "Изаберите нову фавицон:"
+   },
+   "clear": {
+      "message": "Јасно"
+   },
+   "click_action": {
+      "message": "Кликните овде да бисте то дозволили"
+   },
+   "confirm": {
+      "message": "Промена"
+   },
+   "current": {
+      "message": "Цуррент фавицон:"
+   },
+   "last_change": {
+      "message": "Последња промена фавицон-а"
+   },
+   "not_bookmark": {
+      "message": "Ова страница још није обележена"
+   },
+   "preview": {
+      "message": "Превиев фавицон:"
+   },
+   "success": {
+      "message": "Успешно сачувано!"
+   },
+   "you_need": {
+      "message": "Морате да"
+   }
+}
